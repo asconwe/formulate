@@ -1,0 +1,20 @@
+{
+  "name": "formulate",
+  "version": "1.0.0",
+  "description": "Formulate is a streamlined form-builder and response-manager, designed to make the process of sharing surveys or soliciting applications a breeze for everyone involved. Organizations can easily build custom forms and view, manage, and analyze responses, while, on the other end, users just fill out and click submit. Gone are the days of the emailed PDF that the user forgot to save before they sent it back.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asconwe/formulate.git"
+  },
+  "author": "August Conwell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asconwe/formulate/issues"
+  },
+  "homepage": "https://github.com/asconwe/formulate#readme"
+}
