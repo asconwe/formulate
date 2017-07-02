@@ -8,10 +8,9 @@ module.exports = {
       {
         test: /\.js?$/,
         include: /app/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
-          presets: ["react", "es2015", "stage-0"],
-          plugins: ["transform-decorators-legacy"],
+          presets: ["react", "es2015"]
         }
       }
     ]
