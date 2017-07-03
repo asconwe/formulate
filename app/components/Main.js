@@ -5,6 +5,7 @@ import { HashRouter, Route, Link } from 'react-router-dom'
 // Import components
 import Login from './children/Login'
 import SignUp from './children/SignUp'
+import Home from './children/home'
 
 // Create Main component
 class Main extends React.Component {
@@ -18,11 +19,17 @@ class Main extends React.Component {
     render() {
         return (
             <HashRouter>
-                <div className="container">
-                    <Link to='/login'><button>Log in</button></Link>
-                    <Link to='/signup'><button>Sign up</button></Link>
-                    <Route path='/login' component={Login} />
-                    <Route path='/signup' component={SignUp} />
+                <div>
+                    <header>
+                        <div className="container">
+                            <a href="#" className="logo">Formulate</a>
+                        </div>
+                    </header>
+                    <div className="container">
+                        <Route exact path='/' component={Home} />
+                        <Route path='/login' component={Login} />
+                        <Route path='/signup' component={SignUp} />
+                    </div>
                 </div>
             </HashRouter>
         )

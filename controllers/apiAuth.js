@@ -16,8 +16,16 @@ passport.deserializeUser(function (id, done) {
 });
 
 module.exports = (app) => {
-    app.post('/auth/login',
-        passport.authenticate('local-login', (err, user) => {
+    app.post('/auth/login', (req, res, next) => {
+        const validationResult = validateLoginForm(req.body);
+        if (!validationResult.success) {
+            return res.status(400).json({
+                success: false,
+                message: validationResult.message,
+                errors: validationResult.errors
+            });
+        }
+        return passport.authenticate('local-login', (err, user) => {
             if (err) {
                 return res.status(400).json({
                     success: false,
@@ -29,7 +37,7 @@ module.exports = (app) => {
                 success: true,
                 message: 'You are logged in'
             })
-        }
-    ));
+        })
+    });
 }
 

@@ -23,7 +23,7 @@ module.exports = (app) => {
                         success: false,
                         message: 'Check the form for errors.',
                         errors: {
-                            email: 'This email is already in use.'
+                            username: 'This username is already in use.'
                         }
                     });
                 }
