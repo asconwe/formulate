@@ -15,6 +15,7 @@ class Home extends React.Component {
     render() {
         return (
             <div className="center">
+               
                 <br />
                 <Link to='/login'><button className="home-button">Log in</button></Link><br />
                 <Link to='/signup'><button className="home-button">Sign up</button></Link>

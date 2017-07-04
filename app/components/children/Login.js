@@ -9,15 +9,19 @@ class Login extends React.Component {
         this.sate = {
             error: false
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleResponse = this.handleResponse.bind(this);
     }
 
     handleSubmit(event) {
         event.preventDefault()
         const username = event.target.username.value
         const password = event.target.password.value
-        axios.post('/auth/login', { username, password }).then((data) => {
-            console.log('here', data);
-        })
+        axios.post('/auth/login', { username, password }).then(this.handleResponse)
+    }
+
+    handleResponse(response) {
+        this.props.handleResponse(response.data.success);
     }
 
     render() {

@@ -1,15 +1,18 @@
 // Modules
 const express = require('express');
 const path = require('path');
-const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
-
+const session = require('express-session');
 
 // Controllers
 const htmlRoot = require('./controllers/htmlRoot');
-const apiSignup = require('./controllers/apiSignup')
+const apiSignup = require('./controllers/apiSignup');
 const apiAuth = require('./controllers/apiAuth');
+const apiData = require('./controllers/apiData');
+const apiLogOut = require('./controllers/apiLogOut');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -22,33 +25,40 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+app.use(cookieParser('striped-shirt'));
+app.use(session({
+    secret: 'striped-shirt',
+    resave: false,
+    saveUninitialized: true
+}))
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Database configuration
 if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI)
+    mongoose.connect(process.env.MONGODB_URI)
 } else {
-  mongoose.connect("mongodb://localhost/formulate")
+    mongoose.connect("mongodb://localhost/formulate")
 }
 const db = mongoose.connection;
 
 //=== Show any mongoose errors
-db.on("error", function(error) {
-  console.log("Mongoose Error: ", error);
+db.on("error", function (error) {
+    console.log("Mongoose Error: ", error);
 });
 
 //==== Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
-  console.log("Mongoose connection successful.");
+db.once("open", function () {
+    console.log("Mongoose connection successful.");
 });
 
 //==== Call controllers
-htmlRoot(app);
 apiAuth(app);
 apiSignup(app);
+apiLogOut(app);
+apiData(app);
 
 // Connection to PORT
 app.listen(PORT, function () {
-  console.log(`Listening On Port: ${PORT}`);
+    console.log(`Listening On Port: ${PORT}`);
 });

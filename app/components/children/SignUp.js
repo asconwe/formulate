@@ -6,15 +6,18 @@ class SignUp extends React.Component {
     constructor() {
         super()
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleResponse = this.handleResponse.bind(this);
     }
 
     handleSubmit(event) {
         event.preventDefault()
         const username = event.target.username.value
         const password = event.target.password.value
-        axios.post('/auth/signup', { username, password }).then((data) => {
-            console.log(data);
-        })
+        axios.post('/auth/signup', { username, password }).then(this.handleResponse)
+    }
+
+    handleResponse(response) {
+        this.props.handleResponse(response.data.success);
     }
 
     render() {

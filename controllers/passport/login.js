@@ -9,11 +9,14 @@ module.exports = new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
         console.log('in find one callback');
         if (err) { return done(err); }
+        if (!user) {
+            return done(null, false, { message: 'Incorrect username or password.' });
+        }
         user.validatePassword(password, (isValid) => {
-            if (!user || !isValid) {
+            if (!isValid) {
                 return done(null, false, { message: 'Incorrect username or password.' });
             }
-            return done(null, user);
+            return done(null, user); // Success
         })
     })
 });

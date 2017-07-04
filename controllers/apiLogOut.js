@@ -1,6 +1,5 @@
 module.exports = (app) => {
-    app.post('/api/logout', (req, res) => {
-
+    app.get('/auth/logout', (req, res) => {
         req.logout();
         res.json({ logout: success });
     });

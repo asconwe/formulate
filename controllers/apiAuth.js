@@ -3,22 +3,24 @@ const passport = require('passport');
 const LocalLoginStrategy = require('./passport/login');
 const validateLoginForm = require('./passport/validateLogin')
 
-console.log(LocalLoginStrategy._verify.toString());
+// Model
+const User = require('../models/User')
+
+const localLogin = 'local-login';
 
 passport.serializeUser(function (user, done) {
-    done(null, user.id);
+    console.log('in serialize', user);
+    done(null, user._id);
 });
 
 passport.deserializeUser(function (id, done) {
+    console.log('in deserialize', id);
     User.findById(id, function (err, user) {
         done(err, user);
     });
 });
 
-const localLogin = 'something';
-
 passport.use(localLogin, LocalLoginStrategy);
-
 
 module.exports = (app) => {
     app.post('/auth/login', (req, res, next) => {
@@ -49,9 +51,11 @@ module.exports = (app) => {
                 })
             }
             console.log('supposed success');
-            return res.status(200).json({
-                success: true,
-                message: 'You are logged in'
+            req.login(user, {}, (data) => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'You are logged in'
+                });
             });
         })(req, res, next);
     });
