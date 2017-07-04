@@ -8,8 +8,8 @@ const mongoose = require('mongoose');
 
 // Controllers
 const htmlRoot = require('./controllers/htmlRoot');
-const apiAuth = require('./controllers/apiAuth');
 const apiSignup = require('./controllers/apiSignup')
+const apiAuth = require('./controllers/apiAuth');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;

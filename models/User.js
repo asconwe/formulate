@@ -9,8 +9,9 @@ const userSchema = mongoose.Schema({
     password: String,
 });
 
-userSchema.methods.isValidPassword = function comparePassword(password) {
-  bcrypt.compareSync(password, this.password);
+userSchema.methods.validatePassword = function comparePassword(password, callback) {
+  console.log(this.username, this.password);
+  bcrypt.compare(password, this.password).then(callback)
 };
 
 userSchema.pre('save', function saveHook(next) {

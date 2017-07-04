@@ -1,12 +1,19 @@
+// Modules
 const passport = require('passport');
 const localSignupStrategy = require('./passport/signup');
 const validateSignupForm = require('./passport/validateSignup');
 
-passport.use('local-signup', localSignupStrategy);
+console.log(localSignupStrategy._verify.toString());
+
+const localSignup = 'local-signup'
+
+passport.use(localSignup, localSignupStrategy);
 
 module.exports = (app) => {
     app.post('/auth/signup', (req, res, next) => {
+        console.log(req.body);
         const validationResult = validateSignupForm(req.body);
+        console.log(validationResult);
         if (!validationResult.success) {
             return res.status(400).json({
                 success: false,
@@ -14,7 +21,8 @@ module.exports = (app) => {
                 errors: validationResult.errors
             });
         }
-        return passport.authenticate('local-signup', (err) => {
+
+        return passport.authenticate(localSignup, (err) => {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
                     // the 11000 Mongo code is for a duplication email error
