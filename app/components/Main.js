@@ -7,22 +7,34 @@ import axios from 'axios'
 import Login from './children/Login'
 import SignUp from './children/SignUp'
 import Home from './children/home'
+import Dashboard from './children/Dashboard'
 
 // Create Main component
 class Main extends React.Component {
     constructor() {
         super();
         this.state = {
-            signedUp: false,
-            loggedIn: false
+            ready: false,
+            signedUp: undefined,
+            loggedIn: undefined
         }
         this.handleSignup = this.handleSignup.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
-    componentWillMount() { 
-        axios.get('/api/data').then((data) => {
-            console.log(data);
+    componentDidMount() { 
+        axios.get('/api/data').then((response) => {
+            console.log(response);
+            this.setState({
+                loggedIn: response.data.success,
+                ready: true
+            });
+        }).catch((err) => {
+            this.setState({
+                loggedIn: false,
+                ready: true
+            });
         })
     }
 
@@ -38,7 +50,7 @@ class Main extends React.Component {
 
     handleLogout() {
         axios.get('/auth/logout').then((response) => {
-            this.setState({ loggedIn: !response.data.success })
+            this.setState({ loggedIn: false });
         })
     }
 
@@ -49,23 +61,33 @@ class Main extends React.Component {
                     <header>
                         <div className="container">
                             <a href="#" className="logo">Formulate</a>
-                            <a href="#" onClick={this.handleLogout}>Log out</a>
+                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a>: <div/>}
                         </div>
                     </header>
-                    <div className="container">
+                    {console.log(this.state.ready)}
+                    {/*Once we have checked to see if the user is authenticated already*/}
+                    {this.state.ready ? (<div className="container">
+                        {/*If they are looged in, redirect to dashboard. Else, show home page*/}
                         <Route exact path='/' component={(props) => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <Home />
                         )} />
+                        {/*If logged in, redirect to dashboard, else show login page*/}
                         <Route path='/login' component={(props) => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <Login handleResponse={this.handleLogin} />
                         )} />
+                        {/*If logged in, redirect to dashboard, else show signup page*/}
                         <Route path='/signup' component={(props) => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <SignUp handleResponse={this.handleSignup} />
                         )} />
-                    </div>
+                        {/*If logged in, go to dashboard, else return to home page*/}
+                        <Route path='/dashboard' component={(props) => (this.state.loggedIn ?
+                            <Dashboard /> :
+                            <Redirect to='/' />
+                        )} />
+                    </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
                 </div>
             </HashRouter>
         )

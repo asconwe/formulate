@@ -8,10 +8,16 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <h1>Dashboard</h1>
-                <p>You made it!</p>
-                <p>{token}</p>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <h1>Dashboard</h1>
+                        <button>+ New Form</button>
+                    </div>
+                </div>
+
             </div>
         )
     }
 }
+
+export default Dashboard

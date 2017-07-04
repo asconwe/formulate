@@ -9,10 +9,10 @@ const session = require('express-session');
 
 // Controllers
 const htmlRoot = require('./controllers/htmlRoot');
-const apiSignup = require('./controllers/apiSignup');
-const apiAuth = require('./controllers/apiAuth');
+const authSignup = require('./controllers/authSignup');
+const authLogin = require('./controllers/authLogin');
+const authLogout = require('./controllers/authLogout');
 const apiData = require('./controllers/apiData');
-const apiLogOut = require('./controllers/apiLogOut');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -53,9 +53,9 @@ db.once("open", function () {
 });
 
 //==== Call controllers
-apiAuth(app);
-apiSignup(app);
-apiLogOut(app);
+authLogin(app);
+authSignup(app);
+authLogout(app);
 apiData(app);
 
 // Connection to PORT
