@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
         index: { unique: true }
     },
     password: String,
-    Forms: [formSchema]
+    forms: [formSchema]
 });
 
 userSchema.methods.validatePassword = function comparePassword(password, callback) {

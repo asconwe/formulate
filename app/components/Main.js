@@ -6,7 +6,7 @@ import axios from 'axios'
 // Import components
 import Login from './children/Login'
 import SignUp from './children/SignUp'
-import Home from './children/home'
+import Home from './children/Home'
 import Dashboard from './children/Dashboard'
 import FormBuilder from './children/FormBuilder'
 
