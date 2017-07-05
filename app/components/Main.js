@@ -8,6 +8,7 @@ import Login from './children/Login'
 import SignUp from './children/SignUp'
 import Home from './children/home'
 import Dashboard from './children/Dashboard'
+import FormBuilder from './children/FormBuilder'
 
 // Create Main component
 class Main extends React.Component {
@@ -85,6 +86,10 @@ class Main extends React.Component {
                         {/*If logged in, go to dashboard, else return to home page*/}
                         <Route path='/dashboard' component={(props) => (this.state.loggedIn ?
                             <Dashboard /> :
+                            <Redirect to='/' />
+                        )} />
+                        <Route path='/form-builder' component={(props) => (this.state.loggedIn ?
+                            <FormBuilder /> :
                             <Redirect to='/' />
                         )} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
