@@ -4,10 +4,10 @@
 Formulate is a streamlined form-builder and response-manager, designed to make the process of sharing surveys or soliciting applications a breeze for everyone involved. Organizations can easily build custom forms and view, manage, and analyze responses, while, on the other end, users just fill out and click submit. Gone are the days of the emailed PDF that the user forgot to save before they sent it back.
 
 * A set of DETAILED screen-by-screen design layouts with annotations describing all UI/UX components and all data relevant to the screen.
-![alt text](https://github.com/asconwe/formulate/mockups/home.png "Home page mockup")
-![alt text](https://github.com/asconwe/formulate/mockups/dashboard.png "Dashboard page mockup")
-![alt text](https://github.com/asconwe/formulate/mockups/formbuilder.png "FormBuilder page mockup")
-![alt text](https://github.com/asconwe/formulate/mockups/published.png "Published page mockup")
+![alt text](https://raw.githubusercontent.com/asconwe/formulate/mockups/home.png "Home page mockup")
+![alt text](https://raw.githubusercontent.com/asconwe/formulate/mockups/dashboard.png "Dashboard page mockup")
+![alt text](https://raw.githubusercontent.com/asconwe/formulate/mockups/formbuilder.png "FormBuilder page mockup")
+![alt text](https://raw.githubusercontent.com/asconwe/formulate/mockups/published.png "Published page mockup")
 
 * A schedule for completion of various tasks. 
 
