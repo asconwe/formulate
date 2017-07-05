@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const formSchema = mongoose.Schema({
-    formName: String,
-    formElements: Array
+    formTitle: String,
+    elements: Array
 });
 
-const Form = mongoose.Model('Form', formSchema);
+const Form = mongoose.model('Form', formSchema);
 
-module.exports = Form;
+module.exports = formSchema;

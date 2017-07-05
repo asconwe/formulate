@@ -1,5 +1,7 @@
 import React from 'react'
 
+import axios from 'axios'
+
 import FormElement from './formBuilder-children/FormElement'
 import NewElementButton from './formBuilder-children/NewElementButton'
 
@@ -28,6 +30,7 @@ class FormBuilder extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.newElementInPlace = this.newElementInPlace.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     handleChange(event) {
@@ -49,22 +52,34 @@ class FormBuilder extends React.Component {
         })
     }
 
+    handlePencilClick(event) {
+        console.log(event.target.children[0]);
+        event.target.children[0].focus();
+    }
+
+    handleSave() {
+        axios.post('/api/new/form', this.state).then((response) => { 
+            console.log(response)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         return (
             <div>
                 <div className="row">
                     <div className="col-xs-12 col-md-10 col-md-offset-1">
                         <h1>FormBuilder</h1>
+                        <button onClick={this.handleSave} >Save form</button>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-xs-12 col-md-10 col-md-offset-1 bordered rounded" style={whiteBackground}>
                         <div>
-                            <h1><input style={titleInput} type="text" name="form-title" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.formTitle} /></h1>
+                            <h1 onClick={this.handlePencilClick} >&#x270e;<input style={titleInput} type="text" name="form-title" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.formTitle} /></h1>
                             <form style={formBody}>
-                                {console.log(this.state.elements)}
                                 {this.state.elements.map((data, index) => {
-                                    console.log('here', index);
                                     return <FormElement elementType={data.elementType} index={index} newElementInPlace={this.newElementInPlace} content={data.elementContent} key={index} />
                                 })}
                                 <div className="row">
