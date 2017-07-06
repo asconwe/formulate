@@ -88,8 +88,8 @@ class Main extends React.Component {
                             <Dashboard /> :
                             <Redirect to='/' />
                         )} />
-                        <Route path='/form-builder' component={(props) => (this.state.loggedIn ?
-                            <FormBuilder /> :
+                        <Route path='/form-builder/:status/:target' component={({ match, history }) => (this.state.loggedIn ?
+                            <FormBuilder match={match} history={history}/> :
                             <Redirect to='/' />
                         )} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}

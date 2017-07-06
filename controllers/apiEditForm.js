@@ -2,7 +2,7 @@ const User = require('../models/User');
 const SavedForm = require('../models/SavedForm');
 
 module.exports = (app) => {
-    app.post('/api/new/form', (req, res) => {
+    app.post('/api/edit/:refId', (req, res) => {
         if (!req.user) {
             console.log('no req.user');
             return res.status(401).json({ success: false });
@@ -12,20 +12,18 @@ module.exports = (app) => {
                 success: false,
                 message: 'There was an issue saving your form, please try again.'
             });
-            thisUser.forms.push(req.body);
+            const id = mongoose.Types.ObjectId(req.params.refId);
+            const thisForm = thisUser.forms.id(id);
+            thisUser.forms.id(id).remove;
+            const newForm = req.body;
+            newForm._id = id;
+            thisUser.forms.push(newForm);
             thisUser.save((err) => {
                 if (err) return res.status(500).json({
                     success: false,
                     message: 'There was an issue saving your form, please try again.'
                 });
-                const refId = thisUser.forms[thisUser.forms.length - 1]._id;
-                const user = thisUser.username;
-                const thisForm = new SavedForm({ refId, user });
-                thisForm.save((err) => {
-                    if (err) return res.status(500).json({
-                        success: false,
-                        message: 'There was an issue saving your form, please try again.'
-                    });
+                const refId = req.params.refId
                     return res.status(200).json({
                         success: true,
                         message: 'Form saved',
