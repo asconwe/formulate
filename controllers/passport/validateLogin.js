@@ -1,3 +1,5 @@
+'use strict'
+
 const validateLoginForm = (payload) => {
     const errors = {};
     let isFormValid = true;
