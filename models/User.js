@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const formSchema = require('./formSchema');
 
 const userSchema = mongoose.Schema({
     username: {
@@ -7,6 +8,7 @@ const userSchema = mongoose.Schema({
         index: { unique: true }
     },
     password: String,
+    forms: [formSchema]
 });
 
 userSchema.methods.validatePassword = function comparePassword(password, callback) {

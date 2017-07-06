@@ -1,3 +1,5 @@
+'use strict'
+
 function validateSignupForm(payload) {
     const errors = {};
     let isFormValid = true;
