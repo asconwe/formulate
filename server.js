@@ -14,6 +14,7 @@ const authLogin = require('./controllers/authLogin');
 const authLogout = require('./controllers/authLogout');
 const apiData = require('./controllers/apiData');
 const apiNewForm = require('./controllers/apiNewForm');
+const apiEditForm = require('./controllers/apiEditForm');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -59,6 +60,7 @@ authSignup(app);
 authLogout(app);
 apiData(app);
 apiNewForm(app);
+apiEditForm(app);
 
 // Connection to PORT
 app.listen(PORT, function () {
