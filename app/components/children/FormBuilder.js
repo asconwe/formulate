@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Router, Redirect } from 'react-router'
+
 import axios from 'axios'
 
 import FormElement from './formBuilder-children/FormElement'
@@ -66,9 +68,14 @@ class FormBuilder extends React.Component {
         }
     }
 
-    handleSave() {
-        axios.post('/api/new/form', this.state).then((response) => {
-            console.log(response)
+    handleSave(event) {
+        event.preventDefault();
+        console.log('handle save props', this);
+        const { status, target } = this.props.match.params;
+        const url = `/api/${status}/${target}`;
+        console.log(url);
+        axios.post(url, this.state).then((response) => {
+            this.props.history.push(`/form-builder/edit/${response.data.refId}`);
         }).catch((error) => {
             console.log(error)
         })
