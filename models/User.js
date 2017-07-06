@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const formSchema = require('./Form');
+const formSchema = require('./formSchema');
 
 const userSchema = mongoose.Schema({
     username: {

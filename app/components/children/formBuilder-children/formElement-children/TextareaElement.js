@@ -4,7 +4,11 @@ const textareaSytle = {
     marginRight: "5px",
     marginLeft: "5px",
     display: "block",
-    clear: "both"
+    clear: "both",
+    WebkitBoxSizing: "border-box",
+    MozBoxSizing: "border-box",
+    boxSizing: "border-box",
+    width: "100%"
 }
 
 class TextAreaElement extends React.Component {

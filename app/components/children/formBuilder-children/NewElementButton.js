@@ -10,7 +10,7 @@ class NewElementButton extends React.Component {
     }
 
     handleSelect(event) {
-        console.log(event.target.dataset.index);
+        event.preventDefault();
         this.props.newElementInPlace(event.target.dataset.index, event.target.dataset.element);
     }
 
@@ -24,7 +24,7 @@ class NewElementButton extends React.Component {
                 <p>new element:</p>
                 <div className="button-group">
                     {this.getFormElementNames().map((element, index) => {
-                        return <button onClick={this.handleSelect} data-type="options" data-index={this.props.index} data-element={element} key={index}>{element} +</button>
+                        return <button onClick={this.handleSelect} data-type="options" data-index={this.props.index} data-element={element} key={index}>New {element} +</button>
                     })}
                 </div>
             </div>

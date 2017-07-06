@@ -5,6 +5,4 @@ const formSchema = new mongoose.Schema({
     elements: Array
 });
 
-const Form = mongoose.model('Form', formSchema);
-
 module.exports = formSchema;

@@ -18,7 +18,7 @@ const whiteBackground = {
 }
 
 const formBody = {
-
+    background: 'white'
 }
 
 class FormBuilder extends React.Component {
@@ -26,10 +26,11 @@ class FormBuilder extends React.Component {
         super();
         this.state = {
             formTitle: "My form title",
-            elements: [{ elementType: 'textarea' }]
+            elements: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.newElementInPlace = this.newElementInPlace.bind(this);
+        this.editElementInPlace = this.editElementInPlace.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
 
@@ -43,22 +44,30 @@ class FormBuilder extends React.Component {
         event.target.select();
     }
 
-    newElementInPlace(index, element) { 
-        console.log('this.state.elements', this.state.elements);
+    newElementInPlace(index, element) {
         const newElementsArray = this.state.elements.slice(0, index).concat({ elementType: element }).concat(this.state.elements.slice(index));
-        console.log('newElementsArray', newElementsArray)
         this.setState({
             elements: newElementsArray
         })
     }
 
+    editElementInPlace(index, element) {
+        console.log(element);
+        const newElementsArray = this.state.elements.slice(0, index).concat(element).concat(this.state.elements.slice(index + 1));
+        this.setState({
+            elements: newElementsArray
+        })
+        console.log('after edit', console.log(this.state));
+    }
+
     handlePencilClick(event) {
-        console.log(event.target.children[0]);
-        event.target.children[0].focus();
+        if (event.target.children.length > 0) {
+            event.target.children[0].focus();
+        }
     }
 
     handleSave() {
-        axios.post('/api/new/form', this.state).then((response) => { 
+        axios.post('/api/new/form', this.state).then((response) => {
             console.log(response)
         }).catch((error) => {
             console.log(error)
@@ -80,7 +89,17 @@ class FormBuilder extends React.Component {
                             <h1 onClick={this.handlePencilClick} >&#x270e;<input style={titleInput} type="text" name="form-title" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.formTitle} /></h1>
                             <form style={formBody}>
                                 {this.state.elements.map((data, index) => {
-                                    return <FormElement elementType={data.elementType} index={index} newElementInPlace={this.newElementInPlace} content={data.elementContent} key={index} />
+                                    {console.log(data.elementType)}    
+                                    return (
+                                        <FormElement
+                                            elementType={data.elementType}
+                                            index={index}
+                                            newElementInPlace={this.newElementInPlace}
+                                            editElementInPlace={this.editElementInPlace}
+                                            content={data.elementContent}
+                                            key={index}
+                                        />
+                                    )
                                 })}
                                 <div className="row">
                                     <NewElementButton index={this.state.elements.length} newElementInPlace={this.newElementInPlace} />
