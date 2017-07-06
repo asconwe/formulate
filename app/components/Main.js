@@ -23,6 +23,7 @@ class Main extends React.Component {
         this.handleSignup = this.handleSignup.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.getFormToEdit = this.getFormToEdit.bind(this);
     }
 
     componentDidMount() { 
@@ -54,6 +55,10 @@ class Main extends React.Component {
         axios.get('/auth/logout').then((response) => {
             this.setState({ loggedIn: false });
         });
+    }
+
+    getFormToEdit(index) { 
+        return this.state.forms[index]
     }
 
     render() {
@@ -88,8 +93,8 @@ class Main extends React.Component {
                             <Dashboard forms={this.state.forms} /> :
                             <Redirect to='/' />
                         )} />
-                        <Route path='/form-builder/:status/:target' component={({ match, history }) => (this.state.loggedIn ?
-                            <FormBuilder match={match} history={history}/> :
+                        <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
+                            <FormBuilder getFormToEdit={this.getFormToEdit} match={match} history={history}/> :
                             <Redirect to='/' />
                         )} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}

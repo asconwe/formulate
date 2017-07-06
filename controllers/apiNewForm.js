@@ -4,7 +4,6 @@ const SavedForm = require('../models/SavedForm');
 module.exports = (app) => {
     app.post('/api/new/form', (req, res) => {
         if (!req.user) {
-            console.log('no req.user');
             return res.status(401).json({ success: false });
         }
         User.findOne({ username: req.user.username }, (err, thisUser) => {

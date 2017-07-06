@@ -3,17 +3,13 @@ const passport = require('passport');
 const localSignupStrategy = require('./passport/signup');
 const validateSignupForm = require('./passport/validateSignup');
 
-console.log(localSignupStrategy._verify.toString());
-
 const localSignup = 'local-signup'
 
 passport.use(localSignup, localSignupStrategy);
 
 module.exports = (app) => {
     app.post('/auth/signup', (req, res, next) => {
-        console.log(req.body);
         const validationResult = validateSignupForm(req.body);
-        console.log(validationResult);
         if (!validationResult.success) {
             return res.status(400).json({
                 success: false,

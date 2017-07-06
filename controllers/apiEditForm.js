@@ -5,7 +5,6 @@ const User = require('../models/User');
 module.exports = (app) => {
     app.post('/api/edit/:refId', (req, res) => {
         if (!req.user) {
-            console.log('no req.user');
             return res.status(401).json({ success: false });
         }
         User.findOne({ username: req.user.username }, (err, thisUser) => {
@@ -13,8 +12,8 @@ module.exports = (app) => {
                 success: false,
                 message: 'There was an issue saving your form, please try again.'
             });
+            console.log('Length:', req.params.refId.length, '-- id:', req.params.refId);
             const id = mongoose.Types.ObjectId(req.params.refId);
-            console.log('id:', id, '-- forms:', thisUser.forms);
             thisUser.forms.id(id).remove();
             const newForm = req.body;
             newForm._id = id;
