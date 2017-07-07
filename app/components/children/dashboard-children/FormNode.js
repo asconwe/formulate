@@ -11,7 +11,7 @@ class FormNode extends React.Component {
     constructor() {
         super();
         this.state = {
-            toDelete: 'something else'
+            primeDelete: false
         }
         this.primeDelete = this.primeDelete.bind(this);
         this.cancelDelete = this.cancelDelete.bind(this);
@@ -19,13 +19,13 @@ class FormNode extends React.Component {
 
     primeDelete(event) {
         this.setState({
-            toDelete: event.target.dataset._id
+            primeDelete: true
         })
     }
 
     cancelDelete(event) {
         this.setState({
-            toDelete: "something else"
+            primeDelete: false
         })
     }
 
@@ -51,7 +51,7 @@ class FormNode extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-12">
-                            {this.state.toDelete === this.props_id ? (<DeleteForm _id={this.props.id} cancelDelete={this.cancelDelete}/>) : (<div></div>) }
+                            {this.state.primeDelete ? (<DeleteForm _id={this.props._id} cancelDelete={this.cancelDelete} getUserForms={this.props.getUserForms}/> ) : (<div></div>) }
                         </div>
                     </div>
                 </div>

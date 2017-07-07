@@ -1,18 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-import { HashRouter, Route, Link } from 'react-router-dom'
+import axios from 'axios';
 
 class DeleteForm extends React.Component {
     constructor() {
-        super()
+        super();
 
         this.handleCancel = this.handleCancel.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
 
-
     handleClick() { 
-        axios.delete('api/delete', { data: { _id: this.props._id } });
+        axios.delete(`api/delete/${this.props._id}`).then((response) => {
+            this.props.getUserForms();
+        }).catch((err) => {
+            console.log(err);
+        });
     }    
 
     handleCancel() { 
