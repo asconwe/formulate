@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
                         _id={form._id}    
                         formTitle={form.formTitle}
                         index={index}
+                        getUserForms={this.props.getUserForms}
                         key={index}
                     />))}
                 </div>

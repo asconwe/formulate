@@ -11,7 +11,6 @@ module.exports = (app) => {
                 success: false,
                 message: 'There was an issue saving your form, please try again.'
             });
-            console.log(thisUser.forms);
             thisUser.forms.unshift(req.body);
             thisUser.save((err) => {
                 if (err) {

@@ -1,9 +1,17 @@
-/*.center {*/
-/*    margin-right: auto;*/
-/*    margin-left: auto;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.home-button {*/
-/*    width: 100px;*/
-/*}*/
+.button-group>a {
+    margin: 0;
+    -webkit-box-flex: 1;
+    max-width: 100%;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    text-align: center;
+    border: 0;
+    border-radius: 0;
+    display: inline-block;
+    background: rgba(220,220,220,0.75);
+    color: #212121;
+    border: 0;
+    border-radius: .125rem;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+}

@@ -111,7 +111,7 @@ class Main extends React.Component {
                         )} />
                         {/*If logged in, go to dashboard, else return to home page*/}
                         <Route path='/dashboard' component={(props) => (this.state.loggedIn ?
-                            <Dashboard forms={this.state.forms} /> :
+                            <Dashboard getUserForms={this.getUserForms} forms={this.state.forms} /> :
                             <Redirect to='/' />
                         )} />
                         <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
