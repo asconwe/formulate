@@ -23,7 +23,7 @@ module.exports = (app) => {
                     success: false,
                     message: 'There was an issue saving your form, please try again.'
                 });
-                const refId = req.params.refId;
+                const refId = req.params.id;
                 return res.status(200).json({
                     success: true,
                     message: 'Form saved',
