@@ -17,7 +17,7 @@ module.exports = (app) => {
             thisUser.forms.id(id).remove();
             const newForm = req.body;
             newForm._id = id;
-            thisUser.forms.push(newForm);
+            thisUser.forms.unshift(newForm);
             thisUser.save((err) => {
                 if (err) return res.status(500).json({
                     success: false,

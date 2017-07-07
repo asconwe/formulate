@@ -24,14 +24,35 @@ class Main extends React.Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.getFormToEdit = this.getFormToEdit.bind(this);
+        this.getUserData = this.getUserData.bind(this);
+        this.getUserForms = this.getUserForms.bind(this);
     }
 
-    componentDidMount() { 
+    componentDidMount() {
+        this.getUserData();
+    }
+
+    getUserData() {
         axios.get('/api/data').then((response) => {
             console.log(response);
             this.setState({
                 loggedIn: response.data.success,
-                ready: true,
+                forms: response.data.forms,
+                ready: true
+            });
+        }).catch((err) => {
+            if (err) console.log(err);
+            this.setState({
+                loggedIn: false,
+                ready: true
+            });
+        });
+    }
+
+    getUserForms() {
+        axios.get('/api/data').then((response) => {
+            console.log(response);
+            this.setState({
                 forms: response.data.forms
             });
         }).catch((err) => {
@@ -57,7 +78,7 @@ class Main extends React.Component {
         });
     }
 
-    getFormToEdit(index) { 
+    getFormToEdit(index) {
         return this.state.forms[index]
     }
 
@@ -68,7 +89,7 @@ class Main extends React.Component {
                     <header>
                         <div className="container">
                             <a href="#" className="logo">Formulate</a>
-                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a>: <div/>}
+                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a> : <div />}
                         </div>
                     </header>
                     {/*Once we have checked to see if the user is authenticated*/}
@@ -94,7 +115,7 @@ class Main extends React.Component {
                             <Redirect to='/' />
                         )} />
                         <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
-                            <FormBuilder getFormToEdit={this.getFormToEdit} match={match} history={history}/> :
+                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getFormToEdit} match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}

@@ -7,11 +7,6 @@ class Dashboard extends React.Component {
     constructor() {
         super();
 
-        this.handleClick = this.handleClick.bind(this);
-    }
-    
-    handleClick() {
-        
     }
     
     render() {
@@ -28,7 +23,6 @@ class Dashboard extends React.Component {
                         index={index}
                         key={index}
                     />))}
-                    
                 </div>
             </div>
         )

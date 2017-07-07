@@ -82,19 +82,19 @@ class FormBuilder extends React.Component {
 
     handleSave(event) {
         event.preventDefault();
-        console.log('handle save props', this);
         const { status, target } = this.props.match.params;
         const url = `/api/${status}/${target}`;
-        console.log(url);
         const formToPost = this.state;
+        console.log(target !== 'form');
         if (target !== 'form') {
             formToPost.refId = target;
         }
         axios.post(url, formToPost).then((response) => {
-            this.props.history.push(`/form-builder/edit/${response.data.refId}`);
+            this.props.getUserForms();   
+            this.props.history.push(`/form-builder/edit/${response.data.refId}/0`);
         }).catch((error) => {
             console.log(error)
-        })
+        });
     }
 
     render() {
