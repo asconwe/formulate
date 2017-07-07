@@ -1,14 +1,14 @@
 // Include React and React-Router
-import React from 'react'
-import { HashRouter, Route, Link, Redirect } from 'react-router-dom'
-import axios from 'axios'
+import React from 'react';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 // Import components
-import Login from './children/Login'
-import SignUp from './children/SignUp'
-import Home from './children/Home'
-import Dashboard from './children/Dashboard'
-import FormBuilder from './children/FormBuilder'
+import Login from './children/Login';
+import SignUp from './children/SignUp';
+import Home from './children/Home';
+import Dashboard from './children/Dashboard';
+import FormBuilder from './children/FormBuilder';
 
 // Create Main component
 class Main extends React.Component {
@@ -17,42 +17,69 @@ class Main extends React.Component {
         this.state = {
             ready: false,
             signedUp: undefined,
-            loggedIn: undefined
-        }
+            loggedIn: undefined,
+            forms: []
+        };
         this.handleSignup = this.handleSignup.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.getFormToEdit = this.getFormToEdit.bind(this);
+        this.getUserData = this.getUserData.bind(this);
+        this.getUserForms = this.getUserForms.bind(this);
     }
 
-    componentDidMount() { 
+    componentDidMount() {
+        this.getUserData();
+    }
+
+    getUserData() {
         axios.get('/api/data').then((response) => {
             console.log(response);
             this.setState({
                 loggedIn: response.data.success,
+                forms: response.data.forms,
                 ready: true
             });
         }).catch((err) => {
+            if (err) console.log(err);
             this.setState({
                 loggedIn: false,
                 ready: true
             });
-        })
+        });
+    }
+
+    getUserForms() {
+        axios.get('/api/data').then((response) => {
+            console.log(response);
+            this.setState({
+                forms: response.data.forms
+            });
+        }).catch((err) => {
+            if (err) console.log(err);
+            this.setState({
+                loggedIn: false,
+                ready: true
+            });
+        });
     }
 
     handleSignup(isSignUpSuccess) {
         this.setState({ signedUp: isSignUpSuccess });
-        console.log(this.state);
     }
 
     handleLogin(isLogInSuccess) {
         this.setState({ loggedIn: isLogInSuccess });
-        console.log(this.state);
     }
 
     handleLogout() {
         axios.get('/auth/logout').then((response) => {
             this.setState({ loggedIn: false });
-        })
+        });
+    }
+
+    getFormToEdit(index) {
+        return this.state.forms[index]
     }
 
     render() {
@@ -62,11 +89,10 @@ class Main extends React.Component {
                     <header>
                         <div className="container">
                             <a href="#" className="logo">Formulate</a>
-                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a>: <div/>}
+                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a> : <div />}
                         </div>
                     </header>
-                    {console.log(this.state.ready)}
-                    {/*Once we have checked to see if the user is authenticated already*/}
+                    {/*Once we have checked to see if the user is authenticated*/}
                     {this.state.ready ? (<div className="container">
                         {/*If they are looged in, redirect to dashboard. Else, show home page*/}
                         <Route exact path='/' component={(props) => (this.state.loggedIn ?
@@ -85,19 +111,19 @@ class Main extends React.Component {
                         )} />
                         {/*If logged in, go to dashboard, else return to home page*/}
                         <Route path='/dashboard' component={(props) => (this.state.loggedIn ?
-                            <Dashboard /> :
+                            <Dashboard forms={this.state.forms} /> :
                             <Redirect to='/' />
                         )} />
-                        <Route path='/form-builder/:status/:target' component={({ match, history }) => (this.state.loggedIn ?
-                            <FormBuilder match={match} history={history}/> :
+                        <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
+                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getFormToEdit} match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
                 </div>
             </HashRouter>
-        )
+        );
     }
 }
 
 // Export the component back for use in other files
-export default Main
+export default Main;

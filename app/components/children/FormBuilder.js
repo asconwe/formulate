@@ -23,17 +23,29 @@ const formBody = {
     background: 'white'
 }
 
+const startingTitle = "My Form Title"
+
 class FormBuilder extends React.Component {
     constructor() {
         super();
         this.state = {
-            formTitle: "My form title",
+            formTitle: startingTitle,
             elements: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.newElementInPlace = this.newElementInPlace.bind(this);
         this.editElementInPlace = this.editElementInPlace.bind(this);
         this.handleSave = this.handleSave.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.match.params.index) {
+            const { formTitle, elements } = this.props.getFormToEdit(this.props.match.params.index);
+            this.setState({
+                formTitle,
+                elements
+            })
+        }
     }
 
     handleChange(event) {
@@ -70,15 +82,19 @@ class FormBuilder extends React.Component {
 
     handleSave(event) {
         event.preventDefault();
-        console.log('handle save props', this);
         const { status, target } = this.props.match.params;
         const url = `/api/${status}/${target}`;
-        console.log(url);
-        axios.post(url, this.state).then((response) => {
-            this.props.history.push(`/form-builder/edit/${response.data.refId}`);
+        const formToPost = this.state;
+        console.log(target !== 'form');
+        if (target !== 'form') {
+            formToPost.refId = target;
+        }
+        axios.post(url, formToPost).then((response) => {
+            this.props.getUserForms();   
+            this.props.history.push(`/form-builder/edit/${response.data.refId}/0`);
         }).catch((error) => {
             console.log(error)
-        })
+        });
     }
 
     render() {
