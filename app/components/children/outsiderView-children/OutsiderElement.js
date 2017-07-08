@@ -20,6 +20,7 @@ class OutsiderElement extends React.Component {
     }
 
     getComponent(elementType) {
+        console.log(elementType);
         return outsiderElementLibrary[elementType].getter(this.props.form);
     }
 
@@ -27,15 +28,16 @@ class OutsiderElement extends React.Component {
         return (
             <div>
                 <div>
+                    {console.log(this.props.form)}
                     <h3>{this.props.form.elementTitle}</h3>
                 </div>
                 <p>{this.props.form.elementPrompt}</p>
                 <div className="row">
-                    {this.getComponent(this.props.elementType)}
+                    {this.getComponent(this.props.form.elementType)}
                 </div>
             </div>
         )
     }
 }
 
-export default FormElement
+export default OutsiderElement;

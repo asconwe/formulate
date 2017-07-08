@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import OutsiderElement from './outsiderView-children/OutsiderElement'
+
 class OutsiderView extends Component {
     constructor() {
         super();
@@ -32,7 +34,7 @@ class OutsiderView extends Component {
                 <div className="row">
                     <div className="col-sm-12">
                         {this.state.elements.length > 0 ? 
-                            this.state.elements.map((element) => <OutsiderElement form={form} key={index}/>): <div></div> }
+                            this.state.elements.map((form, index) => <OutsiderElement form={form} key={index}/>): <div></div> }
                     </div>
                 </div>
             </div>
