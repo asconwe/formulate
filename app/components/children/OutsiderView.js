@@ -33,8 +33,13 @@ class OutsiderView extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        {this.state.elements.length > 0 ? 
-                            this.state.elements.map((form, index) => <OutsiderElement form={form} key={index}/>): <div></div> }
+                        {this.state.elements.length > 0 ?
+                            this.state.elements.map((form, index) => <OutsiderElement form={form} key={index} />) : <div></div>}
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <button>Submit!</button>
+                        </div>
                     </div>
                 </div>
             </div>
