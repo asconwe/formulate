@@ -13,6 +13,10 @@ class OutsiderView extends Component {
     componentDidMount() {
         axios.get(`/api/outsiderForm/${this.props.match.params.id}`).then((response) => {
             console.log(response);
+            this.setState({
+                formTitle: response.data.formTitle,
+                elements: response.data.elements
+            })
         }).catch((err) => {
             console.log(err);
         });
@@ -20,7 +24,17 @@ class OutsiderView extends Component {
     render() {
         return (
             <div>
-                {console.log(this.state)}
+                <div className="row">
+                    <div className="col-sm-12">
+                        <h2>{this.state.formTitle}</h2>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-12">
+                        {this.state.elements.length > 0 ? 
+                            this.state.elements.map((element) => <OutsiderElement form={form} key={index}/>): <div></div> }
+                    </div>
+                </div>
             </div>
         );
     }
