@@ -18,9 +18,6 @@ const input = {
 class FormElement extends React.Component {
     constructor() {
         super();
-        this.state = {
-
-        }
         this.getComponent = this.getComponent.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
