@@ -62,15 +62,19 @@ class FormBuilder extends React.Component {
         const newElementsArray = this.state.elements.slice(0, index).concat({ elementType: element }).concat(this.state.elements.slice(index));
         this.setState({
             elements: newElementsArray
-        })
+        });
     }
 
-    editElementInPlace(index, element) {
-        console.log(element);
-        const newElementsArray = this.state.elements.slice(0, index).concat(element).concat(this.state.elements.slice(index + 1));
+    editElementInPlace(index, elementContent) {
+        const newElement = this.state.elements[index];
+        const keys = Object.keys(elementContent);
+        keys.map((key) => { 
+            newElement[key] = elementContent[key];
+        })
+        const newElementsArray = this.state.elements.slice(0, index).concat(newElement).concat(this.state.elements.slice(index + 1));
         this.setState({
             elements: newElementsArray
-        })
+        });
         console.log('after edit', console.log(this.state));
     }
 
@@ -119,7 +123,8 @@ class FormBuilder extends React.Component {
                                             index={index}
                                             newElementInPlace={this.newElementInPlace}
                                             editElementInPlace={this.editElementInPlace}
-                                            content={data.elementContent}
+                                            elementTitle={data.elementTitle}
+                                            elementPrompt={data.elementPrompt}
                                             key={index}
                                         />
                                     )

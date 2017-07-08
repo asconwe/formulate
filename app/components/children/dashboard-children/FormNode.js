@@ -1,11 +1,9 @@
 import React from 'react'
 import { HashRouter, Route, Link } from 'react-router-dom'
+import axios from 'axios'
 
 import DeleteForm from './formNode-children/DeleteForm'
-
-const buttonFix = {
-
-};
+import PublishForm from './formNode-children/PublishForm'
 
 class FormNode extends React.Component {
     constructor() {
@@ -15,17 +13,40 @@ class FormNode extends React.Component {
         }
         this.primeDelete = this.primeDelete.bind(this);
         this.cancelDelete = this.cancelDelete.bind(this);
+        this.publish = this.publish.bind(this);
+        this.closePublished = this.closePublished.bind(this);
     }
 
-    primeDelete(event) {
+    primeDelete() {
         this.setState({
-            primeDelete: true
+            primeDelete: true,
+            publish: false
         })
     }
 
-    cancelDelete(event) {
+    cancelDelete() {
         this.setState({
             primeDelete: false
+        })
+    }
+
+    publish() {
+        // should check to see if a form is already published
+        axios.get(`/api/publish/${this.props._id}`).then((response) => {
+            console.log('in publish callback');
+            this.setState({
+                primeDelete: false,
+                publish: true
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    closePublished() {
+        console.log('in here')
+        this.setState({
+            publish: false
         })
     }
 
@@ -44,14 +65,18 @@ class FormNode extends React.Component {
                                 <Link to={`/form-builder/edit/${this.props._id}/${this.props.index}`}>
                                     <span>Edit</span>
                                 </Link>
-                                <button>Share</button>
+                                <button onClick={this.publish}>Share</button>
                                 <button onClick={this.primeDelete} data-_id={this.props._id}>
                                     <span>Delete</span>
                                 </button>
                             </div>
                         </div>
                         <div className="col-sm-12">
-                            {this.state.primeDelete ? (<DeleteForm _id={this.props._id} cancelDelete={this.cancelDelete} getUserForms={this.props.getUserForms}/> ) : (<div></div>) }
+                            {this.state.primeDelete ?
+                                (<DeleteForm _id={this.props._id} cancelDelete={this.cancelDelete} getUserForms={this.props.getUserForms} />) :
+                                this.state.publish ?
+                                    (<PublishForm _id={this.props._id} closePublished={this.closePublished} />) :
+                                    (<div></div>)}
                         </div>
                     </div>
                 </div>
