@@ -16,6 +16,8 @@ const apiData = require('./controllers/apiData');
 const apiNewForm = require('./controllers/apiNewForm');
 const apiEditForm = require('./controllers/apiEditForm');
 const apiDeleteForm = require('./controllers/apiDeleteForm');
+const apiPublishForm = require('./controllers/apiPublishForm');
+const apiOutsider = require('./controllers/apiOutsider');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -63,6 +65,8 @@ apiData(app);
 apiNewForm(app);
 apiEditForm(app);
 apiDeleteForm(app);
+apiPublishForm(app);
+apiOutsider(app);
 
 // Connection to PORT
 app.listen(PORT, function () {

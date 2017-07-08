@@ -9,6 +9,7 @@ import SignUp from './children/SignUp';
 import Home from './children/Home';
 import Dashboard from './children/Dashboard';
 import FormBuilder from './children/FormBuilder';
+import OutsiderView from './children/OutsiderView';
 
 // Create Main component
 class Main extends React.Component {
@@ -95,22 +96,22 @@ class Main extends React.Component {
                     {/*Once we have checked to see if the user is authenticated*/}
                     {this.state.ready ? (<div className="container">
                         {/*If they are looged in, redirect to dashboard. Else, show home page*/}
-                        <Route exact path='/' component={(props) => (this.state.loggedIn ?
+                        <Route exact path='/' component={() => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <Home />
                         )} />
                         {/*If logged in, redirect to dashboard, else show login page*/}
-                        <Route path='/login' component={(props) => (this.state.loggedIn ?
+                        <Route path='/login' component={() => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <Login handleResponse={this.handleLogin} />
                         )} />
                         {/*If logged in, redirect to dashboard, else show signup page*/}
-                        <Route path='/signup' component={(props) => (this.state.loggedIn ?
+                        <Route path='/signup' component={() => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
                             <SignUp handleResponse={this.handleSignup} />
                         )} />
                         {/*If logged in, go to dashboard, else return to home page*/}
-                        <Route path='/dashboard' component={(props) => (this.state.loggedIn ?
+                        <Route path='/dashboard' component={() => (this.state.loggedIn ?
                             <Dashboard getUserForms={this.getUserForms} forms={this.state.forms} /> :
                             <Redirect to='/' />
                         )} />
@@ -118,6 +119,7 @@ class Main extends React.Component {
                             <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getFormToEdit} match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
+                        <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
                 </div>
             </HashRouter>
