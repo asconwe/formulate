@@ -21,7 +21,7 @@ class OutsiderElement extends React.Component {
 
     getComponent(elementType) {
         console.log(elementType);
-        return outsiderElementLibrary[elementType].getter(this.props.form);
+        return outsiderElementLibrary[elementType].getter(this.props);
     }
 
     render() {
