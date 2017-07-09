@@ -4,6 +4,7 @@ const publishedFormSchema = new mongoose.Schema({
     formTitle: String,
     elements: Array,
     refId: String,
+    responses: Array,
 });
 
 const PublishedForm = mongoose.model('PublishedForm', publishedFormSchema);
