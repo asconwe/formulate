@@ -3,6 +3,31 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const PublishedForm = require('../models/PublishedForm')
 
+const saveForm = (thisPublishedForm, res, callback) => {
+    thisPublishedForm.save((saveErr) => {
+        if (saveErr) {
+            return res.status(500).json({
+                success: false,
+                message: 'There was an issue publishing your form, please try again.'
+            });
+        }
+        callback();
+    });
+}
+
+const saveUser = (thisUser, res) => {
+    thisUser.save((userSaveErr) => {
+        if (userSaveErr) res.status(500).json({
+            success: false,
+            message: 'There was an issue publishing your form, please try again.'
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Form published!'
+        });
+    })
+}
+
 module.exports = (app) => {
     app.get('/api/publish/:id', (req, res) => {
         if (!req.user) {
@@ -16,51 +41,24 @@ module.exports = (app) => {
 
             const id = mongoose.Types.ObjectId(req.params.id);
             const formToPublish = thisUser.forms.id(id);
-            console.log(formToPublish);
             formToPublish.refId = req.params.id;
-            console.log(req.params.id);
             const thisPublishedForm = new PublishedForm({
                 formTitle: formToPublish.formTitle,
                 elements: formToPublish.elements,
                 refId: formToPublish.refId
             });
-            console.log(thisPublishedForm);
+            thisUser.forms.id(id).published = true;
             PublishedForm.findOne({ refId: req.params.id }, (err, foundForm) => {
                 if (err) {
-                    thisPublishedForm.save((saveerr) => {
-                        if (saveerr) {
-                            console.log(saveerr);
-                            return res.status(500).json({
-                                success: false,
-                                message: 'There was an issue publishing your form, please try again'
-                            });
-                        }
-                        return res.status(200).json({
-                            success: true,
-                            message: 'Form published!'
-                        });
-
+                    saveForm(thisPublishedForm, res, () => {
+                        saveUser(thisUser, res);
                     });
                 } else if (!foundForm) {
-                    thisPublishedForm.save((saveerr) => {
-                        if (saveerr) {
-                            console.log(saveerr);
-                            return res.status(500).json({
-                                success: false,
-                                message: 'There was an issue publishing your form, please try again'
-                            });
-                        }
-                        return res.status(200).json({
-                            success: true,
-                            message: 'Form published!'
-                        });
-
+                    saveForm(thisPublishedForm, res, () => {
+                        saveUser(thisUser, res);
                     });
                 } else {
-                    return res.status(200).json({
-                        success: true,
-                        message: 'Form published!'
-                    });
+                    saveUser(thisUser, res);
                 }
             });
         });

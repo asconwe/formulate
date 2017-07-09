@@ -10,6 +10,7 @@ import Home from './children/Home';
 import Dashboard from './children/Dashboard';
 import FormBuilder from './children/FormBuilder';
 import OutsiderView from './children/OutsiderView';
+import ResponseViewer from './children/ResponseViewer';
 
 // Create Main component
 class Main extends React.Component {
@@ -24,7 +25,7 @@ class Main extends React.Component {
         this.handleSignup = this.handleSignup.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        this.getFormToEdit = this.getFormToEdit.bind(this);
+        this.getSpecificForm = this.getSpecificForm.bind(this);
         this.getUserData = this.getUserData.bind(this);
         this.getUserForms = this.getUserForms.bind(this);
     }
@@ -65,11 +66,18 @@ class Main extends React.Component {
     }
 
     handleSignup(isSignUpSuccess) {
-        this.setState({ signedUp: isSignUpSuccess });
+        this.setState({
+            signedUp: isSignUpSuccess,
+            ready: true
+        });
     }
 
     handleLogin(isLogInSuccess) {
-        this.setState({ loggedIn: isLogInSuccess });
+        this.setState({
+            loggedIn: isLogInSuccess,
+            ready: false
+        });
+        this.getUserData();
     }
 
     handleLogout() {
@@ -78,7 +86,7 @@ class Main extends React.Component {
         });
     }
 
-    getFormToEdit(index) {
+    getSpecificForm(index) {
         return this.state.forms[index]
     }
 
@@ -115,7 +123,11 @@ class Main extends React.Component {
                             <Redirect to='/' />
                         )} />
                         <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
-                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getFormToEdit} match={match} history={history} /> :
+                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getSpecificForm} match={match} history={history} /> :
+                            <Redirect to='/' />
+                        )} />
+                        <Route path='/responses/:id/:index' component={({ match, history }) => (this.state.loggedIn ?
+                            <ResponseViewer getForm={this.getSpecificForm} match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />

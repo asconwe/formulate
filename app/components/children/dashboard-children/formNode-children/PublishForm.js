@@ -13,7 +13,7 @@ class PublishForm extends React.Component {
             <div>
                 <div className="input-group vertical">
                     <input type="text" value={`http://localhost:3000/#/published/${this.props._id}`} />
-                    <button onClick={this.props.closePublished}>close</button>
+                    <button onClick={this.props.close}>close</button>
                 </div>
             </div>
         )
