@@ -36,11 +36,8 @@ class Main extends React.Component {
     getUserData() {
         axios.get('/api/data').then((response) => {
             console.log(response);
-            this.setState({
-                loggedIn: response.data.success,
-                forms: response.data.forms,
-                ready: true
-            });
+            this.getUserForms();
+            
         }).catch((err) => {
             if (err) console.log(err);
             this.setState({
@@ -54,7 +51,9 @@ class Main extends React.Component {
         axios.get('/api/data').then((response) => {
             console.log(response);
             this.setState({
-                forms: response.data.forms
+                loggedIn: response.data.success,
+                forms: response.data.forms,
+                ready: true
             });
         }).catch((err) => {
             if (err) console.log(err);
