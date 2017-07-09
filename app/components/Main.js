@@ -10,6 +10,7 @@ import Home from './children/Home';
 import Dashboard from './children/Dashboard';
 import FormBuilder from './children/FormBuilder';
 import OutsiderView from './children/OutsiderView';
+import ResponseViewer from './children/ResonseViewer'
 
 // Create Main component
 class Main extends React.Component {
@@ -117,6 +118,10 @@ class Main extends React.Component {
                         )} />
                         <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
                             <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getFormToEdit} match={match} history={history} /> :
+                            <Redirect to='/' />
+                        )} />
+                        <Route path='/responses/:form' component={({ match, history }) => (this.state.loggedIn ?
+                            <ResponseViewer match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />
