@@ -127,7 +127,7 @@ class Main extends React.Component {
                             <Redirect to='/' />
                         )} />
                         <Route path='/responses/:id/:index' component={({ match, history }) => (this.state.loggedIn ?
-                            <ResponseViewer getForm={getSpecificForm} match={match} history={history} /> :
+                            <ResponseViewer getForm={this.getSpecificForm} match={match} history={history} /> :
                             <Redirect to='/' />
                         )} />
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />

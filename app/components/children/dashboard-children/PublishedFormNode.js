@@ -9,12 +9,13 @@ class FormNode extends React.Component {
     constructor() {
         super();
         this.state = {
-            primeDelete: false
+            primeDelete: false,
+            share: false
         }
         this.primeDelete = this.primeDelete.bind(this);
         this.cancelDelete = this.cancelDelete.bind(this);
-        this.publish = this.publish.bind(this);
-        this.closePublished = this.closePublished.bind(this);
+        this.share = this.share.bind(this);
+        this.closeShare = this.closeShare.bind(this);
     }
 
     primeDelete() {
@@ -30,23 +31,18 @@ class FormNode extends React.Component {
         })
     }
 
-    publish() {
+    share() {
         // should check to see if a form is already published
-        axios.get(`/api/publish/${this.props._id}`).then((response) => {
-            console.log('in publish callback');
             this.setState({
                 primeDelete: false,
-                publish: true
+                share: true
             })
-        }).catch((err) => {
-            console.log(err);
-        });
     }
 
-    closePublished() {
+    closeShare() {
         console.log('in here')
         this.setState({
-            publish: false
+            share: false
         })
     }
 
@@ -62,10 +58,10 @@ class FormNode extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="button-group">
-                                <Link to={`/form-builder/edit/${this.props._id}/${this.props.index}`}>
-                                    <span>Edit</span>
+                                <Link to={`/responses/${this.props._id}/${this.props.index}`}>
+                                    <span>View Responses</span>
                                 </Link>
-                                <button onClick={this.publish}>Share</button>
+                                <button onClick={this.share}>Share</button>
                                 <button onClick={this.primeDelete} data-_id={this.props._id}>
                                     <span>Delete</span>
                                 </button>
@@ -73,10 +69,11 @@ class FormNode extends React.Component {
                         </div>
                         <div className="col-sm-12">
                             {this.state.primeDelete ?
-                                (<DeleteForm _id={this.props._id} cancelDelete={this.cancelDelete} getUserForms={this.props.getUserForms} />) :
-                                this.state.publish ?
-                                    (<PublishForm _id={this.props._id} close={this.closePublished} />) :
-                                    (<div></div>)}
+                                <DeleteForm _id={this.props._id} cancelDelete={this.cancelDelete} getUserForms={this.props.getUserForms} /> :
+                                this.state.share ?
+                                    <PublishForm _id={this.props._id} close={this.closeShare} /> :
+                                    <div></div>
+                            }
                         </div>
                     </div>
                 </div>

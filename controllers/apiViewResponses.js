@@ -1,7 +1,7 @@
 const PublishedForm = require('../models/PublishedForm');
 
-modules.export = (app) => {
-    app.get('api/responses/:id', (req, res) => {
+module.exports = (app) => {
+    app.get('/api/responses/:id', (req, res) => {
         if (!req.user) {
             return res.status(401).json({ success: false });
         }

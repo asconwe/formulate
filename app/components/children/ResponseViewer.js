@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 
+import axios from 'axios'
+
 class ResponseViewer extends Component {
     constructor() {
         super();
         this.state = {
             ready: false,
-            responses: responses,
+            responses: []
         }
         this.getFormResponses = this.getFormResponses.bind(this);
     }
-    
+
     componentDidMount() {
-        this.props.getForm(index);
         this.getFormResponses();
     }
-    
+
 
     getFormResponses() {
         axios.get(`/api/responses/${this.props.match.params.id}`).then((response) => {
             console.log(response);
             this.setState({
-                responses: response.data,
-                success: true,
+                title: response.data.outsiderResponses.formTitle,
+                elements: response.data.outsiderResponses.elements,
+                responses: response.data.outsiderResponses.responses,
                 ready: true
             })
         }).catch((err) => {
             if (err) console.log(err);
             this.setState({
-                success: false,
+                responses: null,
                 ready: true
             });
         });
@@ -37,33 +39,30 @@ class ResponseViewer extends Component {
     render() {
         return (
             <div>
-                <table>
-                    <caption>People</caption>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Alias</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Name">Chad</td>
-                            <td data-label="Surname">Wilberts</td>
-                            <td data-label="Alias">MrOne</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Name">Adam</td>
-                            <td data-label="Surname">Smith</td>
-                            <td data-label="Alias">TheSmith</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Name">Sophia</td>
-                            <td data-label="Surname">Canderson</td>
-                            <td data-label="Alias">Candee</td>
-                        </tr>
-                    </tbody>
-                </table>
+                {console.log(`Ready?${this.state.ready}`)}
+                {this.state.ready ?
+                    <table>
+                        <caption>{this.state.title}</caption>
+                        <thead>
+                            <tr>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.elements.map((element, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td data-label="prompt">{element.elementTitle}</td>
+                                        {this.state.responses.map((response, responseIndex) => {
+                                            return <td key={responseIndex}>{response[index]}</td>
+                                        })}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table> :
+                    <div></div>
+                }
             </div>
         );
     }

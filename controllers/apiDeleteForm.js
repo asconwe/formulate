@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const User = require('../models/User');
-const SavedForm = require('../models/SavedForm');
 
 module.exports = (app) => {
     app.delete('/api/delete/:id', (req, res) => {
@@ -21,25 +20,17 @@ module.exports = (app) => {
                     message: 'There was an issue deleting your form, please try again.'
                 });
             }
-            SavedForm.remove({ refId: id }, (err)=>{
+            thisUser.forms.id(id).remove();
+            thisUser.save((err) => {
                 if (err) {
                     return res.status(500).json({
                         success: false,
                         message: 'There was an issue deleting your form, please try again.'
                     });
                 }
-                thisUser.forms.id(id).remove();
-                thisUser.save((err) => {
-                    if (err) {
-                        return res.status(500).json({
-                            success: false,
-                            message: 'There was an issue deleting your form, please try again.'
-                        });
-                    }
-                    return res.status(200).json({
-                        success: true,
-                        message: 'Form deleted',
-                    });
+                return res.status(200).json({
+                    success: true,
+                    message: 'Form deleted',
                 });
             });
         });

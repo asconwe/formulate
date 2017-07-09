@@ -19,6 +19,7 @@ const apiDeleteForm = require('./controllers/apiDeleteForm');
 const apiPublishForm = require('./controllers/apiPublishForm');
 const apiOutsider = require('./controllers/apiOutsider');
 const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
+const apiViewResponses = require('./controllers/apiViewResponses');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -69,6 +70,7 @@ apiDeleteForm(app);
 apiPublishForm(app);
 apiOutsider(app);
 apiOutsiderSubmit(app);
+apiViewResponses(app);
 
 // Connection to PORT
 app.listen(PORT, function () {
