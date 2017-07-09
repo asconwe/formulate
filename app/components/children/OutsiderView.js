@@ -9,9 +9,13 @@ class OutsiderView extends Component {
         super();
         this.state = {
             formTitle: '',
-            elements: []
+            elements: [],
+            response: [],
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.setResponse = this.setResponse.bind(this);
     }
+
     componentDidMount() {
         axios.get(`/api/outsiderForm/${this.props.match.params.id}`).then((response) => {
             console.log(response);
@@ -20,9 +24,29 @@ class OutsiderView extends Component {
                 elements: response.data.elements
             })
         }).catch((err) => {
-            console.log(err);
+            console.log(err); 
         });
     }
+
+    setResponse(index, data) { 
+        const newResponse = this.state.response;
+        newResponse[index] = data;
+        this.setState({
+            response: newResponse
+        })
+        console.log(this.state.response);
+    }
+
+    handleSubmit(event) {
+        const url = `api/outsiderSubmit/${this.props.match.params.id}`;
+        const submittedResponse = this.state.response;
+        axios.post(url, submittedResponse).then((response) => {
+            console.log(response);
+        }).catch((err) => { 
+            console.log(err);
+        })
+    }    
+
     render() {
         return (
             <div>
@@ -34,11 +58,11 @@ class OutsiderView extends Component {
                 <div className="row">
                     <div className="col-sm-12">
                         {this.state.elements.length > 0 ?
-                            this.state.elements.map((form, index) => <OutsiderElement form={form} key={index} />) : <div></div>}
+                            this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index} />) : <div></div>}
                     </div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <button>Submit!</button>
+                            <button onClick={this.handleSubmit}>Submit!</button>
                         </div>
                     </div>
                 </div>
