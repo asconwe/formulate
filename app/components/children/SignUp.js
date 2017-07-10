@@ -18,18 +18,24 @@ class SignUp extends React.Component {
 
     handleResponse(response) {
         this.props.handleResponse(response.data.success);
+        this.props.history.push('/login');
     }
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" name="username" />
-                    <label htmlFor="password">Password</label>
-                    <input type="password" name="password" />
-                    <input type="submit" value="Sign up" />
-                </form>
+            <div className="row">
+                <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                    <form onSubmit={this.handleSubmit}>
+                        <h2>Sign up</h2>
+                        <div className="input-group vertical">
+                            <label htmlFor="username">Username</label>
+                            <input type="text" name="username" />
+                            <label htmlFor="password">Password</label>
+                            <input type="password" name="password" />
+                            <button type="submit">Sign up</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }
