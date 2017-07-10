@@ -113,9 +113,9 @@ class Main extends React.Component {
                             <Login handleResponse={this.handleLogin} />
                         )} />
                         {/*If logged in, redirect to dashboard, else show signup page*/}
-                        <Route path='/signup' component={() => (this.state.loggedIn ?
+                        <Route path='/signup' component={({ history }) => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
-                            <SignUp handleResponse={this.handleSignup} />
+                            <SignUp history={history} handleResponse={this.handleSignup} />
                         )} />
                         {/*If logged in, go to dashboard, else return to home page*/}
                         <Route path='/dashboard' component={() => (this.state.loggedIn ?
