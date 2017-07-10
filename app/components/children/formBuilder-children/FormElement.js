@@ -1,8 +1,9 @@
 import React from 'react'
 
-import formElementLibrary from './formElementLibrary'
+import formElementLibrary from './formElementLibrary';
 
-import NewElementButton from './NewElementButton'
+import NewElementButton from './NewElementButton';
+import CustomElementInput from './formElement-children/CustomElementInput';
 
 const input = {
     background: 'white',
@@ -18,15 +19,16 @@ const input = {
 class FormElement extends React.Component {
     constructor() {
         super();
-        this.getComponent = this.getComponent.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.getComponent = this.getComponent.bind(this);    
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
-    handleChange(event) {
+    handleBlur(event) {
+        console.log(event, 'here', event.target.textContent);
         const elementContent = {};
-        elementContent[event.target.name] = event.target.value;
+        elementContent[event.target.dataset.name] = event.target.value;
         elementContent.elementType = this.props.elementType;
-        console.log(elementContent);
+        console.log('element content', elementContent);
         this.props.editElementInPlace(this.props.index, elementContent);
     }
 
@@ -34,10 +36,6 @@ class FormElement extends React.Component {
         if (event.target.children.length > 0) {
             event.target.children[0].focus();
         }
-    }
-
-    handleFocus(event) {
-        event.target.select();
     }
 
     getComponent(elementType) {
@@ -51,9 +49,9 @@ class FormElement extends React.Component {
                     <NewElementButton index={this.props.index} newElementInPlace={this.props.newElementInPlace} />
                 </div>
                 <div>
-                    <h3 onClick={this.handlePencilClick}>&#x270e;<input style={input} type="text" name="elementTitle" onFocus={this.handleFocus} onChange={this.handleChange} value={this.props.elementTitle} /></h3>
+                    <h3><CustomElementInput name="elementTitle" handleBlur={this.handleBlur} customContent={this.props.elementTitle}/></h3>
                 </div>
-                    <p onClick={this.handlePencilClick}>&#x270e;<textarea style={input} type="text" name="elementPrompt" onFocus={this.handleFocus} onChange={this.handleChange} value={this.props.elementPrompt} /></p>
+                    <p><CustomElementInput name="elementPrompt" handleBlur={this.handleBlur} customContent={this.props.elementPrompt}/></p>
                     <div className="row">
                     {console.log('elementType in FormElement', this.props.elementType)}
                     {console.log('props in FormElement', this.props)}
