@@ -9,7 +9,7 @@ class TextAreaElement extends React.Component {
 
     render() {
         return (
-            <textarea className="col-sm-12" style={textareaSytle} name={this.props.props.name} cols="30" rows="10"></textarea>
+            <textarea className="col-sm-12" style={textareaSytle} disabled name={this.props.props.name} rows="10"></textarea>
         )
     }
 }

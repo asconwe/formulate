@@ -3,7 +3,7 @@ import React from 'react'
 class InputTextElement extends React.Component {
     render() {
         return (
-            <input name={this.props.props.name} type="text" />
+            <input name={this.props.props.name} disabled type="text" />
         )
     }
 }
