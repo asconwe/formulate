@@ -8,25 +8,22 @@ class SectionPrompt extends React.Component {
     handleBlur(event) {
         this.props.handleBlur(event);
     }
-    
-    handleFocus(event) {
-        event.target.select();
-    }
 
     render() {
         const style = {
-            resize: "none",
+            display: "inherit",
             width: "100%",
             background: "inherit",
             fontFamily: "inherit",
             fontSize: "inherit",
-            overflow: "hidden",
             padding: 0,
-            border: "none"
+            border: "none",
+            overflow: "hidden",
+            resize: "none",
         };
         return (
-            <span>
-                <textarea style={style} className="col-sm-12 col-md-4 col-lg-3" data-name={this.props.name} onFocus={this.handleFocus} onBlur={this.handleBlur}>{this.props.customContent}</textarea>
+            <span style={style}>
+                <span contentEditable="true" style={style} className="col-sm-12 col-md-4 col-lg-3" data-name={this.props.name} onFocus={this.handleFocus} onBlur={this.handleBlur}>{this.props.customContent}</span>
             </span>
         );
     }

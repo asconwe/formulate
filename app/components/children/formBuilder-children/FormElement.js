@@ -26,7 +26,7 @@ class FormElement extends React.Component {
     handleBlur(event) {
         console.log(event, 'here', event.target.textContent);
         const elementContent = {};
-        elementContent[event.target.dataset.name] = event.target.value;
+        elementContent[event.target.dataset.name] = event.target.textContent;
         elementContent.elementType = this.props.elementType;
         console.log('element content', elementContent);
         this.props.editElementInPlace(this.props.index, elementContent);
