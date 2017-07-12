@@ -9,15 +9,13 @@ const formElementLibrary = {
         getter: (props) => {
             return <TextareaElement props={props} />
         },
-        name: 'textarea',
-        nickName: "Big Text"
+        name: 'textarea'
     },
     text: {
         getter: (props) => {
             return <InputTextElement props={props} />
         },
-        name: 'text',
-        nickName: "Small Text"
+        name: 'text'
     }    
 }
 
