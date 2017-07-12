@@ -55,12 +55,14 @@ class FormElement extends Component {
             top: inactiveStyle,
             right: inactiveStyle,
             bottom: inactiveStyle,
-            left: inactiveStyle
+            left: inactiveStyle,
+            dragStart: undefined
         }
         this.hoverIn = this.hoverIn.bind(this);
         this.hoverOut = this.hoverOut.bind(this);
         this.enter = this.enter.bind(this);
         this.exit = this.exit.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +97,21 @@ class FormElement extends Component {
         newState[event.target.dataset.position] = inactiveStyle;
         this.setState( newState );
     }
+    
+    handleDrag(event) {
+        const oneTwelfth = window.innerWidth * 10 / 12 / 12
+        const currentSize = parseInt(this.state.size);
+        if (event.target.dataset.position === "right") {
+            if (event.type === "drag") {
+                const difference = event.pageX - this.state.dragStart;
+                if (difference > oneTwelfth) {
+                    this.setState({ size: currentSize - 1 })
+                }
+            } else if (event.type === "dragstart") {
+                this.setState({ dragStart: event.pageX})
+            }
+        }   
+    }
 
   
 
@@ -110,7 +127,7 @@ class FormElement extends Component {
                         <div style={middle}>
                             <div data-position="left" style={Object.assign({}, vertical, edge, this.state.left)} onMouseEnter={this.enter} onMouseLeave={this.exit}></div>
                             <div style={content}>content</div>
-                            <div data-position="right" style={Object.assign({}, vertical, edge, this.state.right)} onMouseEnter={this.enter} onMouseLeave={this.exit}></div>
+                            <div data-position="right" style={Object.assign({}, vertical, edge, this.state.right)} onMouseEnter={this.enter} onMouseLeave={this.exit} draggable="true" onDrag={this.handleDrag} onDragStart={this.handleDrag}></div>
                         </div>
                         <div data-position="bottom" style={Object.assign({}, horizontal, edge, this.state.bottom)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
                             <div data-position="bottom" style={Object.assign({}, vertical, edge, this.state.left)}></div>
