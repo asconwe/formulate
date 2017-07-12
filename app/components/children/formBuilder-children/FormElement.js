@@ -107,12 +107,12 @@ class FormElement extends Component {
                 const difference = event.pageX - this.state.dragStart;
                 console.log(difference, oneTwelfth);
                 if (Math.abs(difference) > oneTwelfth) {
-                    if (difference > 0.5) {
+                    if (difference > 0) {
                         this.setState({
                             size: currentSize + 1,
                             dragStart: event.pageX,
                         })
-                    } else if (difference < 0.5) {
+                    } else if (difference < 0) {
                         this.setState({
                             size: currentSize - 1,
                             dragStart: event.pageX
