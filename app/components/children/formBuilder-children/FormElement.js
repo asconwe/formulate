@@ -101,11 +101,23 @@ class FormElement extends Component {
     handleDrag(event) {
         const oneTwelfth = window.innerWidth * 10 / 12 / 12
         const currentSize = parseInt(this.state.size);
+        console.log(typeof currentSize, currentSize);
         if (event.target.dataset.position === "right") {
             if (event.type === "drag") {
                 const difference = event.pageX - this.state.dragStart;
-                if (difference > oneTwelfth) {
-                    this.setState({ size: currentSize - 1 })
+                console.log(difference, oneTwelfth);
+                if (Math.abs(difference) > oneTwelfth) {
+                    if (difference > 0.5) {
+                        this.setState({
+                            size: currentSize + 1,
+                            dragStart: event.pageX,
+                        })
+                    } else if (difference < 0.5) {
+                        this.setState({
+                            size: currentSize - 1,
+                            dragStart: event.pageX
+                        });
+                    }
                 }
             } else if (event.type === "dragstart") {
                 this.setState({ dragStart: event.pageX})
