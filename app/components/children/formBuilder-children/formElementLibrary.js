@@ -1,8 +1,8 @@
 import React from 'react'
 
 // Components
-import TextareaElement from './formElement-children/TextareaElement'
-import InputTextElement from './formElement-children/InputTextElement'
+import TextareaElement from './formElement-children/formElementContent-children/TextareaElement'
+import InputTextElement from './formElement-children/formElementContent-children/InputTextElement'
 
 const formElementLibrary = {
     textarea: {

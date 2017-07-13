@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import FormElementContent from './formElement-children/FormElementContent'
+
 const horizontal = {
     width: "100%",
     height: "15px",
@@ -51,7 +53,7 @@ class FormElement extends Component {
         super(props);
         this.state = {
             active: false,
-            size: "6",
+            size: props.size,
             top: inactiveStyle,
             right: inactiveStyle,
             bottom: inactiveStyle,
@@ -73,7 +75,6 @@ class FormElement extends Component {
 
 
     hoverIn() {
-        console.log("in")
         this.setState({
             active: true
         })
@@ -86,68 +87,90 @@ class FormElement extends Component {
     }
 
     enter(event) {
-        console.log(event.target.dataset.position)
         const newState = {};
         newState[event.target.dataset.position] = activeStyle;
-        this.setState( newState );
+        this.setState(newState);
     }
 
     exit(event) {
         const newState = {};
         newState[event.target.dataset.position] = inactiveStyle;
-        this.setState( newState );
+        this.setState(newState);
     }
-    
+
     handleDrag(event) {
         const oneTwelfth = window.innerWidth * 10 / 12 / 12
         const currentSize = parseInt(this.state.size);
-        console.log(typeof currentSize, currentSize);
         if (event.target.dataset.position === "right") {
             if (event.type === "drag") {
                 const difference = event.pageX - this.state.dragStart;
-                console.log(difference, oneTwelfth);
-                if (Math.abs(difference) > oneTwelfth) {
-                    if (difference > 0) {
-                        this.setState({
-                            size: currentSize + 1,
-                            dragStart: event.pageX,
-                        })
-                    } else if (difference < 0) {
-                        this.setState({
-                            size: currentSize - 1,
-                            dragStart: event.pageX
-                        });
+                // Ignore last event, returning pageX to 0 after mouse release
+                if (event.pageX !== 0) {
+                    /* 
+                    ** If the drag distance is larger than 1/12 of the work area,
+                    ** then increase or decrease the number of columns that form element takes up
+                    ** and reset the distance to 0 for the next interval
+                    */
+                    if (Math.abs(difference) > oneTwelfth) {
+                        if (difference > 0) {
+                            const largerSize = currentSize + 1
+                            this.setState({
+                                size: largerSize.toString(),
+                                dragStart: event.pageX,
+                            })
+                            this.handleSizeChange(this.state.size);
+                        } else if (difference < 0) {
+                            const smallerSize = currentSize - 1
+                            this.setState({
+                                size: smallerSize.toString(),
+                                dragStart: event.pageX
+                            });
+                            this.handleSizeChange(this.state.size);
+                        }
                     }
                 }
             } else if (event.type === "dragstart") {
-                this.setState({ dragStart: event.pageX})
+                this.setState({ dragStart: event.pageX })
             }
-        }   
+        }
     }
 
-  
+    handleSizeChange(size) {
+        const elementContent = Object.assign({}, { size: size, elementType: this.props.elementType });
+        this.props.editElementInPlace(this.props.index, elementContent);
+    }
 
     render() {
         return (
-                <div className={`col-sm-12 col-md-${this.state.size}`} onMouseEnter={this.hoverIn} onMouseLeave={this.hoverOut}>
-                    <div style={container} className="row">
-                        <div data-position="top" style={Object.assign({}, horizontal, edge, this.state.top)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
-                            <div data-position="top" style={Object.assign({}, vertical, edge, this.state.left)}></div>
-                            <div data-position="top" style={content}></div>
-                            <div data-position="top" style={Object.assign({}, vertical, edge, this.state.right)}></div>
+            <div className={`col-sm-12 col-md-${this.state.size}`} onMouseEnter={this.hoverIn} onMouseLeave={this.hoverOut}>
+                <div style={container} className="row">
+                    <div data-position="top" style={Object.assign({}, horizontal, edge, this.state.top)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
+                        <div data-position="top" style={Object.assign({}, vertical, edge, this.state.left)}></div>
+                        <div data-position="top" style={content}></div>
+                        <div data-position="top" style={Object.assign({}, vertical, edge, this.state.right)}></div>
+                    </div>
+                    <div style={middle}>
+                        <div data-position="left" style={Object.assign({}, vertical, edge, this.state.left)} onMouseEnter={this.enter} onMouseLeave={this.exit}></div>
+                        <div style={content}>
+                            <FormElementContent
+                                elementType={this.props.elementType}
+                                size={this.state.size}
+                                index={this.props.index}
+                                newElementInPlace={this.props.newElementInPlace}
+                                editElementInPlace={this.props.editElementInPlace}
+                                elementTitle={this.props.elementTitle}
+                                elementPrompt={this.props.elementPrompt}
+                            />
                         </div>
-                        <div style={middle}>
-                            <div data-position="left" style={Object.assign({}, vertical, edge, this.state.left)} onMouseEnter={this.enter} onMouseLeave={this.exit}></div>
-                            <div style={content}>content</div>
-                            <div data-position="right" style={Object.assign({}, vertical, edge, this.state.right)} onMouseEnter={this.enter} onMouseLeave={this.exit} draggable="true" onDrag={this.handleDrag} onDragStart={this.handleDrag}></div>
-                        </div>
-                        <div data-position="bottom" style={Object.assign({}, horizontal, edge, this.state.bottom)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
-                            <div data-position="bottom" style={Object.assign({}, vertical, edge, this.state.left)}></div>
-                            <div data-position="bottom" style={content}></div>
-                            <div data-position="bottom" style={Object.assign({}, vertical, edge, this.state.right)}></div>
-                        </div>
+                        <div data-position="right" style={Object.assign({}, vertical, edge, this.state.right)} onMouseEnter={this.enter} onMouseLeave={this.exit} draggable="true" onDrag={this.handleDrag} onDragStart={this.handleDrag}></div>
+                    </div>
+                    <div data-position="bottom" style={Object.assign({}, horizontal, edge, this.state.bottom)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
+                        <div data-position="bottom" style={Object.assign({}, vertical, edge, this.state.left)}></div>
+                        <div data-position="bottom" style={content}></div>
+                        <div data-position="bottom" style={Object.assign({}, vertical, edge, this.state.right)}></div>
                     </div>
                 </div>
+            </div>
         );
     }
 }

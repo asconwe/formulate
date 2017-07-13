@@ -1,7 +1,7 @@
 import React from 'react'
 
 const textareaSytle = {
-    
+    minHeight: "60px"
 
 }
 
@@ -9,7 +9,7 @@ class TextAreaElement extends React.Component {
 
     render() {
         return (
-            <textarea className="col-sm-12" style={textareaSytle} disabled name={this.props.props.name} rows="10"></textarea>
+            <div className="col-sm-12 bordered" style={textareaSytle} name={this.props.props.name} rows="10"></div>
         )
     }
 }

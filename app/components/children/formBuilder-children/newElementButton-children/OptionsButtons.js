@@ -25,7 +25,6 @@ class OptionsButtons extends Component {
 
     handleSelect(event) {
         event.preventDefault();
-        console.log(event.target.dataset);
         this.props.newElementInPlace(event.target.dataset.index, event.target.dataset.element);
         this.props.handleClose();
     }

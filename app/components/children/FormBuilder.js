@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
+import axios from 'axios';
+
 import FormElement from './formBuilder-children/FormElement'
+import NewElementButton from './formBuilder-children/NewElementButton'
 
 class FormBuilder extends React.Component {
     constructor() {
@@ -9,10 +12,10 @@ class FormBuilder extends React.Component {
             formTitle: "Your form title",
             elements: []
         }
-        // this.handleChange = this.handleChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
         this.newElementInPlace = this.newElementInPlace.bind(this);
         this.editElementInPlace = this.editElementInPlace.bind(this);
-        // this.handleSave = this.handleSave.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +30,7 @@ class FormBuilder extends React.Component {
 
     newElementInPlace(index, element) {
         const newElementsArray = this.state.elements.slice(0, index)
-            .concat({ elementType: element })
+            .concat({ elementType: element, size: "6" })
             .concat(this.state.elements.slice(index));
         this.setState({
             elements: newElementsArray
@@ -46,13 +49,28 @@ class FormBuilder extends React.Component {
         this.setState({
             elements: newElementsArray
         });
-        console.log('after edit', console.log(this.state));
     }
 
     handleTitleChange(event) {
         this.setState({
-            formTitle: event.target.value
+            formTitle: event.target.innerText
         })
+    }
+
+    handleSave(event) {
+        event.preventDefault();
+        const { status, target } = this.props.match.params;
+        const url = `/api/${status}/${target}`;
+        const formToPost = this.state;
+        if (target !== 'form') {
+            formToPost.refId = target;
+        }
+        axios.post(url, formToPost).then((response) => {
+            this.props.getUserForms();   
+            this.props.history.push(`/form-builder/edit/${response.data.refId}/0`);
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 
     render() {
@@ -64,17 +82,33 @@ class FormBuilder extends React.Component {
                 <div style={whiteBackground} className="bordered rounded col-sm-12 col-md-10 col-md-offset-1">
                     <div className="row">
                         <div className="col-sm-12">
-                            <h1 contentEditable onChange={this.handleTitleChange}>{this.state.formTitle}</h1>
+                            <h1 contentEditable onBlur={this.handleTitleChange}>{this.state.formTitle}</h1>
+                            <button onClick={this.handleSave} >Save form</button>
                         </div>
                     </div>
                     <hr />
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="row">
-                                <FormElement size="6" />
-                                <FormElement size="6" />
+                                {this.state.elements.map((data, index) => {
+                                    return (
+                                        <FormElement
+                                            elementType={data.elementType}
+                                            size={data.size}
+                                            index={index}
+                                            newElementInPlace={this.newElementInPlace}
+                                            editElementInPlace={this.editElementInPlace}
+                                            elementTitle={data.elementTitle}
+                                            elementPrompt={data.elementPrompt}
+                                            key={index}
+                                        />
+                                    )
+                                })}
                             </div>
                         </div>
+                    </div>
+                    <div className="row">
+                        <NewElementButton index={this.state.elements.length} newElementInPlace={this.newElementInPlace} />
                     </div>
                 </div>
             </div>
