@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
-import OutsiderElement from './outsiderView-children/OutsiderElement'
+import OutsiderElement from './outsiderView-children/OutsiderElement';
+
+const whiteBackground = {
+    background: "white"
+};
 
 class OutsiderView extends Component {
     constructor() {
@@ -11,7 +15,7 @@ class OutsiderView extends Component {
             formTitle: '',
             elements: [],
             response: [],
-        }
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.setResponse = this.setResponse.bind(this);
     }
@@ -22,7 +26,7 @@ class OutsiderView extends Component {
             this.setState({
                 formTitle: response.data.formTitle,
                 elements: response.data.elements
-            })
+            });
         }).catch((err) => {
             console.log(err); 
         });
@@ -33,7 +37,7 @@ class OutsiderView extends Component {
         newResponse[index] = data;
         this.setState({
             response: newResponse
-        })
+        });
         console.log(this.state.response);
     }
 
@@ -44,25 +48,25 @@ class OutsiderView extends Component {
             console.log(response);
         }).catch((err) => { 
             console.log(err);
-        })
+        });
     }    
 
     render() {
         return (
-            <div>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <h2>{this.state.formTitle}</h2>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-12">
-                        {this.state.elements.length > 0 ?
-                            this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index} />) : <div></div>}
-                    </div>
+            <div className="row">
+                <div style={whiteBackground} className="col-sm-12 col-md-10 col-md-offset-1">
                     <div className="row">
                         <div className="col-sm-12">
-                            <button onClick={this.handleSubmit}>Submit!</button>
+                            <h2>{this.state.formTitle}</h2>
+                        </div>
+                    </div>
+                    <div className="row">
+                            {this.state.elements.length > 0 ?
+                                this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index} />) : <div></div>}
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <button onClick={this.handleSubmit}>Submit!</button>
+                            </div>
                         </div>
                     </div>
                 </div>

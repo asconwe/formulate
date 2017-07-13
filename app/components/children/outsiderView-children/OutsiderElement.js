@@ -26,9 +26,8 @@ class OutsiderElement extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={`col-sm-12 col-md-${this.props.form.size}`}>
                 <div>
-                    {console.log(this.props.form)}
                     <h3>{this.props.form.elementTitle}</h3>
                 </div>
                 <p>{this.props.form.elementPrompt}</p>
