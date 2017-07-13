@@ -1,10 +1,10 @@
 // Modules
 const passport = require('passport');
 const LocalLoginStrategy = require('./passport/login');
-const validateLoginForm = require('./passport/validateLogin')
+const validateLoginForm = require('./passport/validateLogin');
 
 // Model
-const User = require('../models/User')
+const User = require('../models/User');
 
 const localLogin = 'local-login';
 
@@ -35,13 +35,13 @@ module.exports = (app) => {
                 return res.status(409).json({
                     success: false,
                     message: 'There was an issue accessing the database, please try again later'
-                })
+                });
             }
             if (!user) {
                 return res.status(400).json({
                     success: false,
                     message: 'Username and password did not match an account in our database'
-                })
+                });
             }
             req.login(user, {}, (data) => {
                 return res.status(200).json({
@@ -51,5 +51,5 @@ module.exports = (app) => {
             });
         })(req, res, next);
     });
-}
+};
 
