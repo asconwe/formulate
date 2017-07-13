@@ -2,7 +2,7 @@ import React from 'react';
 
 import axios from 'axios';
 
-class BroadCastLink extends React.Component {
+class SpecificEmail extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -35,7 +35,7 @@ class BroadCastLink extends React.Component {
     
     handleClick() {
         /*
-        ** Post form _id and email to /api/sendFormEmail
+        ** Post form _id and email to /api/send
         */
     }
 
@@ -49,4 +49,4 @@ class BroadCastLink extends React.Component {
     }
 }
 
-export default BroadCastLink;
+export default SpecificEmail;
