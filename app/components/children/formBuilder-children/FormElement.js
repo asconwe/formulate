@@ -117,15 +117,17 @@ class FormElement extends Component {
                             this.setState({
                                 size: largerSize.toString(),
                                 dragStart: event.pageX,
-                            })
-                            this.handleSizeChange(this.state.size);
+                            }, () => {
+                                this.handleSizeChange(this.state.size);
+                            });
                         } else if (difference < 0) {
                             const smallerSize = currentSize - 1
                             this.setState({
                                 size: smallerSize.toString(),
                                 dragStart: event.pageX
+                            }, () => {
+                                this.handleSizeChange(this.state.size);
                             });
-                            this.handleSizeChange(this.state.size);
                         }
                     }
                 }
