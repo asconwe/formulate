@@ -1,38 +1,18 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-import { Router, Redirect } from 'react-router'
-
-import axios from 'axios'
+import axios from 'axios';
 
 import FormElement from './formBuilder-children/FormElement'
 import NewElementButton from './formBuilder-children/NewElementButton'
-
-const titleInput = {
-    background: 'white',
-    fontSize: '1em',
-    fontWeidth: 'normal',
-    paddingLeft: '10px',
-    border: 'none'
-}
-
-const whiteBackground = {
-    background: 'white'
-}
-
-const formBody = {
-    background: 'white'
-}
-
-const startingTitle = "My Form Title"
 
 class FormBuilder extends React.Component {
     constructor() {
         super();
         this.state = {
-            formTitle: startingTitle,
+            formTitle: "Your form title",
             elements: []
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
         this.newElementInPlace = this.newElementInPlace.bind(this);
         this.editElementInPlace = this.editElementInPlace.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -48,18 +28,10 @@ class FormBuilder extends React.Component {
         }
     }
 
-    handleChange(event) {
-        this.setState({
-            formTitle: event.target.value
-        })
-    }
-
-    handleFocus(event) {
-        event.target.select();
-    }
-
     newElementInPlace(index, element) {
-        const newElementsArray = this.state.elements.slice(0, index).concat({ elementType: element }).concat(this.state.elements.slice(index));
+        const newElementsArray = this.state.elements.slice(0, index)
+            .concat({ elementType: element, size: "6" })
+            .concat(this.state.elements.slice(index));
         this.setState({
             elements: newElementsArray
         });
@@ -68,20 +40,21 @@ class FormBuilder extends React.Component {
     editElementInPlace(index, elementContent) {
         const newElement = this.state.elements[index];
         const keys = Object.keys(elementContent);
-        keys.map((key) => { 
+        keys.map((key) => {
             newElement[key] = elementContent[key];
         })
-        const newElementsArray = this.state.elements.slice(0, index).concat(newElement).concat(this.state.elements.slice(index + 1));
+        const newElementsArray = this.state.elements.slice(0, index)
+            .concat(newElement)
+            .concat(this.state.elements.slice(index + 1));
         this.setState({
             elements: newElementsArray
         });
-        console.log('after edit', console.log(this.state));
     }
 
-    handlePencilClick(event) {
-        if (event.target.children.length > 0) {
-            event.target.children[0].focus();
-        }
+    handleTitleChange(event) {
+        this.setState({
+            formTitle: event.target.innerText
+        })
     }
 
     handleSave(event) {
@@ -89,7 +62,6 @@ class FormBuilder extends React.Component {
         const { status, target } = this.props.match.params;
         const url = `/api/${status}/${target}`;
         const formToPost = this.state;
-        console.log(target !== 'form');
         if (target !== 'form') {
             formToPost.refId = target;
         }
@@ -102,24 +74,27 @@ class FormBuilder extends React.Component {
     }
 
     render() {
+        const whiteBackground = {
+            background: "#fff"
+        }
         return (
-            <div>
-                <div className="row">
-                    <div className="col-xs-12 col-md-10 col-md-offset-1">
-                        <h1>FormBuilder</h1>
-                        <button onClick={this.handleSave} >Save form</button>
+            <div className="row">
+                <div style={whiteBackground} className="bordered rounded col-sm-12 col-md-10 col-md-offset-1">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <h1 contentEditable onBlur={this.handleTitleChange}>{this.state.formTitle}</h1>
+                            <button onClick={this.handleSave} >Save form</button>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12 col-md-10 col-md-offset-1 bordered rounded" style={whiteBackground}>
-                        <div>
-                            <h1 onClick={this.handlePencilClick} >&#x270e;<input style={titleInput} type="text" name="form-title" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.formTitle} /></h1>
-                            <form style={formBody}>
+                    <hr />
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="row">
                                 {this.state.elements.map((data, index) => {
-                                    {console.log(data.elementType)}    
                                     return (
                                         <FormElement
                                             elementType={data.elementType}
+                                            size={data.size}
                                             index={index}
                                             newElementInPlace={this.newElementInPlace}
                                             editElementInPlace={this.editElementInPlace}
@@ -129,16 +104,16 @@ class FormBuilder extends React.Component {
                                         />
                                     )
                                 })}
-                                <div className="row">
-                                    <NewElementButton index={this.state.elements.length} newElementInPlace={this.newElementInPlace} />
-                                </div>
-                            </form>
+                            </div>
                         </div>
+                    </div>
+                    <div className="row">
+                        <NewElementButton index={this.state.elements.length} newElementInPlace={this.newElementInPlace} />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default FormBuilder
+export default FormBuilder;
