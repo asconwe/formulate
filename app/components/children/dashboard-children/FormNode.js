@@ -1,16 +1,16 @@
-import React from 'react'
-import { HashRouter, Route, Link } from 'react-router-dom'
-import axios from 'axios'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import DeleteForm from './formNode-children/DeleteForm'
-import PublishForm from './formNode-children/PublishForm'
+import DeleteForm from './formNode-children/DeleteForm';
+import PublishForm from './formNode-children/PublishForm';
 
 class FormNode extends React.Component {
     constructor() {
         super();
         this.state = {
             primeDelete: false
-        }
+        };
         this.primeDelete = this.primeDelete.bind(this);
         this.cancelDelete = this.cancelDelete.bind(this);
         this.publish = this.publish.bind(this);
@@ -21,33 +21,31 @@ class FormNode extends React.Component {
         this.setState({
             primeDelete: true,
             publish: false
-        })
+        });
     }
 
     cancelDelete() {
         this.setState({
             primeDelete: false
-        })
+        });
     }
 
     publish() {
         // should check to see if a form is already published
         axios.get(`/api/publish/${this.props._id}`).then((response) => {
-            console.log('in publish callback');
             this.setState({
                 primeDelete: false,
                 publish: true
-            })
+            });
         }).catch((err) => {
             console.log(err);
         });
     }
 
     closePublished() {
-        console.log('in here')
         this.setState({
             publish: false
-        })
+        });
     }
 
     render() {
@@ -81,7 +79,7 @@ class FormNode extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

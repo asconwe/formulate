@@ -36,17 +36,17 @@ const middle = {
     xAlignItems: "stretch",
     maxWidth: "1200px",
     background: "#edecff",
-}
+};
 
 const container = Object.assign({}, middle, { marginBottom: "10px" });
 
 const activeStyle = {
     background: "grey"
-}
+};
 
 const inactiveStyle = {
     background: "none"
-}
+};
 
 class FormElement extends Component {
     constructor(props) {
@@ -59,7 +59,7 @@ class FormElement extends Component {
             bottom: inactiveStyle,
             left: inactiveStyle,
             dragStart: undefined
-        }
+        };
         this.hoverIn = this.hoverIn.bind(this);
         this.hoverOut = this.hoverOut.bind(this);
         this.enter = this.enter.bind(this);
@@ -70,20 +70,20 @@ class FormElement extends Component {
     componentDidMount() {
         this.setState({
             size: this.props.size
-        })
+        });
     }
 
 
     hoverIn() {
         this.setState({
             active: true
-        })
+        });
     }
 
     hoverOut() {
         this.setState({
             active: false
-        })
+        });
     }
 
     enter(event) {
@@ -99,8 +99,8 @@ class FormElement extends Component {
     }
 
     handleDrag(event) {
-        const oneTwelfth = window.innerWidth * 10 / 12 / 12
-        const currentSize = parseInt(this.state.size);
+        const oneTwelfth = window.innerWidth * 10 / 12 / 12;
+        const currentSize = parseInt(this.state.size, 10);
         if (event.target.dataset.position === "right") {
             if (event.type === "drag") {
                 const difference = event.pageX - this.state.dragStart;
@@ -113,7 +113,7 @@ class FormElement extends Component {
                     */
                     if (Math.abs(difference) > oneTwelfth) {
                         if (difference > 0) {
-                            const largerSize = currentSize + 1
+                            const largerSize = currentSize + 1;
                             this.setState({
                                 size: largerSize.toString(),
                                 dragStart: event.pageX,
@@ -121,7 +121,7 @@ class FormElement extends Component {
                                 this.handleSizeChange(this.state.size);
                             });
                         } else if (difference < 0) {
-                            const smallerSize = currentSize - 1
+                            const smallerSize = currentSize - 1;
                             this.setState({
                                 size: smallerSize.toString(),
                                 dragStart: event.pageX
@@ -132,7 +132,7 @@ class FormElement extends Component {
                     }
                 }
             } else if (event.type === "dragstart") {
-                this.setState({ dragStart: event.pageX })
+                this.setState({ dragStart: event.pageX });
             }
         }
     }
