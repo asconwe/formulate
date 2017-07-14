@@ -6,40 +6,61 @@ module.exports = (app) => {
         if (!req.user) {
             return res.status(401).json({ success: false });
         }
-        const { email, username, refId } = req.body;
-
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true, // secure:true for port 465, secure:false for port 587
-            auth: {
-                user: process.env.EMAIL_ADDRESS,
-                pass: process.env.EMAIL_PASSWORD
-            }
-        });
-
-        // setup email data with unicode symbols
-        let mailOptions = {
-            from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // sender address
-            to: 'august.conwell@gmail.com', // list of receivers
-            subject: `You've received a formulate form from ${username}`, // Subject line
-            text: `Email address: ${email}, usernmae: ${username}, & URL: http://localhost:300/#/pointed/${location}/${refId}`, // plain text body
-            html: `Email address: ${email}<br>
-                    username: ${username}<br> 
-                    URL: http://localhost:300/#/pointed/${location}/${refId} 
-                    <br>============================<br>
-                    Automated delivery` // html body
-        };
-
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                res.send("Error:::::" + error);
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-            res.send("Success:::::" + info);
+        User.findOne({ username: req.user.username }, (err, thisUser) => {
+            if (err) return res.status(500).json({
+                success: false,
+                message: 'There was an issue sending the email, please try again.'
+            });
+            PublishedForm.findOne({ refId: req.params.id }, (err, thisForm) => {
+                if (err) return res.status(500).json({
+                    success: false,
+                    message: 'There was an issue sending the email, please try again.'
+                });
+                const { email, refId } = req.body;
+                const { username } = req.user;
+                thisForm.PointedResponses.push({ email: email });
+                const saveId = thisForm.pointedResponses[thisForm.pointedResponses.length - 1]._id
+                thisForm.save((err) => {
+                    if (err) return res.status(500).json({
+                        success: false,
+                        message: 'There was an issue sending the email, please try again.'
+                    });
+                    
+                    // create reusable transporter object using the default SMTP transport
+                    let transporter = nodemailer.createTransport({
+                        host: 'smtp.gmail.com',
+                        port: 465,
+                        secure: true, // secure:true for port 465, secure:false for port 587
+                        auth: {
+                            user: process.env.EMAIL_ADDRESS,
+                            pass: process.env.EMAIL_PASSWORD
+                        }
+                    });
+                    
+                    // setup email data
+                    let mailOptions = {
+                        from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // sender address
+                        to: 'august.conwell@gmail.com', // list of receivers
+                        subject: `You've received a formulate form from ${username}`, // Subject line
+                        text: `Email address: ${email}, username: ${username}, & URL: http://localhost:300/#/pointed/${saveId}/${refId}`, // plain text body
+                        html: `Email address: ${email}<br>
+                        username: ${username}<br> 
+                        URL: <a href="http://localhost:3000/#/pointed/${saveId}/${refId}">Click here to access your form</a>
+                        <br>============================<br>
+                        Automated delivery` // html body
+                    };
+                    
+                    // send mail with defined transport object
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            res.send("Error:::::" + error);
+                            return console.log(error);
+                        }
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                        res.send("Success:::::" + info);
+                    });
+                });
+            });
         });
     });
 };
