@@ -20,7 +20,6 @@ class OutsiderTextAreaElement extends React.Component {
     handleChange(event) {
         const thisResponse = event.target.value;
         const index = this.props.props.index;
-        console.log(index);
         this.props.props.setResponse(index, thisResponse);
     }
 
@@ -31,4 +30,4 @@ class OutsiderTextAreaElement extends React.Component {
     }
 }
 
-export default OutsiderTextAreaElement
+export default OutsiderTextAreaElement;

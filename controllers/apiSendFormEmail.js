@@ -1,8 +1,11 @@
 'use strict';
 const nodemailer = require('nodemailer');
 
+const User = require('../models/User');
+const PublishedForm = require('../models/PublishedForm');
+
 module.exports = (app) => {
-    app.post('/api/send/:id', (req, res) => {
+    app.post('/api/send/:refId', (req, res) => {
         if (!req.user) {
             return res.status(401).json({ success: false });
         }
@@ -11,15 +14,16 @@ module.exports = (app) => {
                 success: false,
                 message: 'There was an issue sending the email, please try again.'
             });
-            PublishedForm.findOne({ refId: req.params.id }, (err, thisForm) => {
+            PublishedForm.findOne({ refId: req.params.refId }, (err, thisForm) => {
                 if (err) return res.status(500).json({
                     success: false,
                     message: 'There was an issue sending the email, please try again.'
                 });
-                const { email, refId } = req.body;
+                const { refId } = req.params;
+                const { email } = req.body;
                 const { username } = req.user;
-                thisForm.PointedResponses.push({ email: email });
-                const saveId = thisForm.pointedResponses[thisForm.pointedResponses.length - 1]._id
+                thisForm.pointedResponses.push({ email: email });
+                const saveId = thisForm.pointedResponses[thisForm.pointedResponses.length - 1]._id;
                 thisForm.save((err) => {
                     if (err) return res.status(500).json({
                         success: false,
@@ -27,6 +31,7 @@ module.exports = (app) => {
                     });
                     
                     // create reusable transporter object using the default SMTP transport
+                    console.log(process.env.EMAIL_ADDRESS, process.env.EMAIL_PASSWORD);
                     let transporter = nodemailer.createTransport({
                         host: 'smtp.gmail.com',
                         port: 465,
@@ -39,7 +44,7 @@ module.exports = (app) => {
                     
                     // setup email data
                     let mailOptions = {
-                        from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // sender address
+                        from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // Sender address
                         to: 'august.conwell@gmail.com', // list of receivers
                         subject: `You've received a formulate form from ${username}`, // Subject line
                         text: `Email address: ${email}, username: ${username}, & URL: http://localhost:300/#/pointed/${saveId}/${refId}`, // plain text body

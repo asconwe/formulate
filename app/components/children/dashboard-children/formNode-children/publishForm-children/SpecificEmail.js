@@ -12,7 +12,7 @@ class SpecificEmail extends React.Component {
         this.handleBlur = this.handleBlur.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
-        this.handleClicl = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleFocus(event) {
@@ -28,15 +28,17 @@ class SpecificEmail extends React.Component {
     }
     
     handleBlur() {
-        this.setState({
-            readySubmit: false
-        });
+        
     }
     
     handleClick() {
-        /*
-        ** Post form _id and email to /api/send
-        */
+        axios.post(`/api/send/${this.props._id}`, { email: this.state.email }).then((response) => {
+            this.setState({
+                email: ''
+            })
+        }).catch((err) => {
+            console.log(err); 
+        })
     }
 
     render() {

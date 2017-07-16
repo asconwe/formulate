@@ -1,3 +1,5 @@
+if (process.env.NODE_ENV === 'development') require('dotenv').config()
+console.log(process.env.NODE_ENV);
 // Modules
 const express = require('express');
 const path = require('path');
@@ -20,6 +22,8 @@ const apiPublishForm = require('./controllers/apiPublishForm');
 const apiOutsider = require('./controllers/apiOutsider');
 const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
 const apiViewResponses = require('./controllers/apiViewResponses');
+const apiSendFormEmail = require('./controllers/apiSendFormEmail');
+const apiPointedOutsider = require('./controllers/apiPointedOutsider');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -71,6 +75,8 @@ apiPublishForm(app);
 apiOutsider(app);
 apiOutsiderSubmit(app);
 apiViewResponses(app);
+apiSendFormEmail(app);
+apiPointedOutsider(app);
 
 // Connection to PORT
 app.listen(PORT, function () {
