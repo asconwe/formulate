@@ -41,16 +41,16 @@ module.exports = (app) => {
                             pass: process.env.EMAIL_PASSWORD
                         }
                     });
-                    
+                    const base = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
                     // setup email data
                     let mailOptions = {
                         from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // Sender address
                         to: 'august.conwell@gmail.com', // list of receivers
                         subject: `You've received a formulate form from ${username}`, // Subject line
-                        text: `Email address: ${email}, username: ${username}, & URL: http://localhost:300/#/pointed/${saveId}/${refId}`, // plain text body
+                        text: `Email address: ${email}, username: ${username}, & URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
                         html: `Email address: ${email}<br>
                         username: ${username}<br> 
-                        URL: <a href="http://localhost:3000/#/pointed/${saveId}/${refId}">Click here to access your form</a>
+                        URL: <a href="${base}/#/pointed/${saveId}/${refId}">Click here to access your form</a>
                         <br>============================<br>
                         Automated delivery` // html body
                     };
