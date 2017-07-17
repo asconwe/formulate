@@ -1,5 +1,7 @@
 import React from 'react';
 
+const base = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
+
 class BroadcastLink extends React.Component {
     constructor() {
         super();
@@ -9,10 +11,10 @@ class BroadcastLink extends React.Component {
     handleFocus(event) {
         event.target.select();
     }
-
+    // testing
     render() {
         return (
-            <input type="text" onFocus={this.handleFocus} value={`http://localhost:3000/#/published/${this.props._id}`} />
+            <input type="text" onFocus={this.handleFocus} value={`${base}/#/published/${this.props._id}`} />
         );
     }
 }
