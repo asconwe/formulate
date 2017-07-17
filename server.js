@@ -24,6 +24,7 @@ const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
 const apiViewResponses = require('./controllers/apiViewResponses');
 const apiSendFormEmail = require('./controllers/apiSendFormEmail');
 const apiPointedOutsider = require('./controllers/apiPointedOutsider');
+const apiPointedSubmit = require('./controllers/apiPointedSubmit');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -41,15 +42,15 @@ app.use(session({
     secret: 'striped-shirt',
     resave: false,
     saveUninitialized: true
-}))
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Database configuration
 if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI)
+    mongoose.connect(process.env.MONGODB_URI);
 } else {
-    mongoose.connect("mongodb://localhost/formulate")
+    mongoose.connect("mongodb://localhost/formulate");
 }
 const db = mongoose.connection;
 
@@ -77,6 +78,7 @@ apiOutsiderSubmit(app);
 apiViewResponses(app);
 apiSendFormEmail(app);
 apiPointedOutsider(app);
+apiPointedSubmit(app);
 
 // Connection to PORT
 app.listen(PORT, function () {

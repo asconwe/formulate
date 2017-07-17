@@ -28,7 +28,8 @@ class PointedOutsiderView extends Component {
             console.log(response);
             this.setState({
                 formTitle: response.data.formTitle,
-                elements: response.data.elements
+                elements: response.data.elements,
+                response: response.data.responses
             });
         }).catch((err) => {
             console.log(err); 
@@ -40,6 +41,8 @@ class PointedOutsiderView extends Component {
         newResponse[index] = data;
         this.setState({
             response: newResponse
+        }, () => {
+            this.autoSave();
         });
     }
 
@@ -68,7 +71,7 @@ class PointedOutsiderView extends Component {
                     </div>
                     <div className="row">
                             {this.state.elements.length > 0 ?
-                                this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index} />) : <div></div>}
+                                this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} response={this.state.response[index]} index={index} key={index} />) : <div></div>}
                         <div className="row">
                             <div className="col-sm-12">
                                 <button onClick={this.handleSubmit}>Submit!</button>

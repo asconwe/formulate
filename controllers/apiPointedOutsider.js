@@ -9,13 +9,15 @@ module.exports = (app) => {
                 message: 'Sorry, there was an issue finding this form. Please try again'
             });
             const save_id = mongoose.Types.ObjectId(req.params.saveId);
-            const responses = thisForm.pointedResponses.id(save_id).responses;
+            const responseObj = thisForm.pointedResponses.id(save_id) || { response: [] };
+            console.log('=================', thisForm.pointedResponses);
+            console.log('-------------------', req.params.saveId);
             const responseForm = Object.assign({}, {
                 formTitle: thisForm.formTitle,
                 elements: thisForm.elements,
-                responses: responses
-            })
+                responses: responseObj.response
+            });
             return res.status(200).json(responseForm);
-        })
+        });
     });
-}
+};

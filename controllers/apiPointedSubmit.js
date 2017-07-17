@@ -8,11 +8,13 @@ module.exports = (app) => {
             if (err) res.status(500).json({
                 success: false,
                 message: 'Sorry, there was an issue finding this form. Please try again.'
-            })
-            const save_id = mongoose.Types.ObjectId(req.paras.saveId);
-            const responseToUpdate = thisForm.PointedResponses(save_id).remove();
-            const updatedResponse = Object.assign({}, responseToUpdate, { response: req.body.responses })
-            thisForm.PointedResponses.push(updatedResponse);
+            });
+            const save_id = mongoose.Types.ObjectId(req.params.saveId);
+            const responseToUpdate = thisForm.pointedResponses.id(save_id);
+            // const updatedResponse = Object.assign({}, responseToUpdate[0], { response: req.body });
+            responseToUpdate.response = req.body;
+            responseToUpdate.remove();
+            thisForm.pointedResponses.push(responseToUpdate);
             thisForm.save((err) => {
                 if (err) return res.status(500).json({
                     success: false,
@@ -22,4 +24,4 @@ module.exports = (app) => {
             });
         });
     });
-}
+};
