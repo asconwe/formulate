@@ -8,8 +8,11 @@ module.exports = (app) => {
                 success: false,
                 message: 'Sorry, there was an issue finding this form. Please try again'
             });
-            console.log('==============================================', thisForm);
-            return res.status(200).json(thisForm);
+            const responseForm = Object.assign({}, {
+                formTitle: thisForm.formTitle,
+                elements: thisForm.elements
+            })
+            return res.status(200).json(responseForm);
         })
     });
 }

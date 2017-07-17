@@ -10,6 +10,7 @@ import Home from './children/Home';
 import Dashboard from './children/Dashboard';
 import FormBuilder from './children/FormBuilder';
 import OutsiderView from './children/OutsiderView';
+import PointedOutsiderView from './children//PointedOutsiderView';
 import ResponseViewer from './children/ResponseViewer';
 
 // Create Main component
@@ -131,6 +132,7 @@ class Main extends React.Component {
                             <Redirect to='/' />
                         )} />
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />
+                        <Route path='/pointed/:saveId/:refId' component={({ match }) => <PointedOutsiderView match={match} pointed />} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
                 </div>
             </HashRouter>

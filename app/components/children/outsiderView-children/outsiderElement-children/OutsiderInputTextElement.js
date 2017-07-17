@@ -14,7 +14,7 @@ class OutsiderInputTExtElement extends React.Component {
     }
     render() {
         return (
-            <input onChange={this.handleChange} type="text" name={this.props.props.form.name} />
+            <input onChange={this.handleChange} type="text" name={this.props.props.form.name} value={this.props.props.response}/>
         )
     }
 }

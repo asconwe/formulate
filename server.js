@@ -1,3 +1,5 @@
+if (process.env.NODE_ENV === 'development') require('dotenv').config()
+console.log(process.env.NODE_ENV);
 // Modules
 const express = require('express');
 const path = require('path');
@@ -20,6 +22,9 @@ const apiPublishForm = require('./controllers/apiPublishForm');
 const apiOutsider = require('./controllers/apiOutsider');
 const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
 const apiViewResponses = require('./controllers/apiViewResponses');
+const apiSendFormEmail = require('./controllers/apiSendFormEmail');
+const apiPointedOutsider = require('./controllers/apiPointedOutsider');
+const apiPointedSubmit = require('./controllers/apiPointedSubmit');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -37,15 +42,15 @@ app.use(session({
     secret: 'striped-shirt',
     resave: false,
     saveUninitialized: true
-}))
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Database configuration
 if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI)
+    mongoose.connect(process.env.MONGODB_URI);
 } else {
-    mongoose.connect("mongodb://localhost/formulate")
+    mongoose.connect("mongodb://localhost/formulate");
 }
 const db = mongoose.connection;
 
@@ -71,6 +76,9 @@ apiPublishForm(app);
 apiOutsider(app);
 apiOutsiderSubmit(app);
 apiViewResponses(app);
+apiSendFormEmail(app);
+apiPointedOutsider(app);
+apiPointedSubmit(app);
 
 // Connection to PORT
 app.listen(PORT, function () {

@@ -9,7 +9,7 @@ const textareaSytle = {
     MozBoxSizing: "border-box",
     boxSizing: "border-box",
     width: "100%"
-}
+};
 
 class OutsiderTextAreaElement extends React.Component {
     constructor() {
@@ -20,15 +20,14 @@ class OutsiderTextAreaElement extends React.Component {
     handleChange(event) {
         const thisResponse = event.target.value;
         const index = this.props.props.index;
-        console.log(index);
         this.props.props.setResponse(index, thisResponse);
     }
 
     render() {
         return (
-            <textarea onChange={this.handleChange} className="col-xs-12" style={textareaSytle} name={this.props.props.form.name} cols="30" rows="10"></textarea>
-        )
+            <textarea onChange={this.handleChange} className="col-xs-12" style={textareaSytle} name={this.props.props.form.name} cols="30" rows="10">{this.props.props.response}</textarea>
+        );
     }
 }
 
-export default OutsiderTextAreaElement
+export default OutsiderTextAreaElement;
