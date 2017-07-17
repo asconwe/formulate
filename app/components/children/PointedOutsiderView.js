@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import OutsiderElement from './outsiderView-children/OutsiderElement';
 
-import debounce from '../../../util/debounce';
+import debounce from '../../util/debounce';
 
 const whiteBackground = {
     background: "white"
@@ -44,7 +44,7 @@ class PointedOutsiderView extends Component {
     }
 
     handleSubmit() {
-        const url = `api/outsiderSubmit/${this.props.match.params.id}`;
+        const url = `/api/pointedSubmit/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
         const submittedResponse = this.state.response;
         axios.post(url, submittedResponse).then((response) => {
             console.log(response);

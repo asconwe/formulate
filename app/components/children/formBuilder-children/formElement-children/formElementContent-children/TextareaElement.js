@@ -1,7 +1,7 @@
 import React from 'react'
 
 const textareaSytle = {
-    minHeight: "60px"
+    minHeight: "100px"
 
 }
 
