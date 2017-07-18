@@ -1,6 +1,6 @@
 // Include React and React-Router
 import React from 'react';
-import { HashRouter, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 // Import components
@@ -97,8 +97,17 @@ class Main extends React.Component {
                 <div>
                     <header>
                         <div className="container">
-                            <a href="#" className="logo">Formulate</a>
-                            {this.state.loggedIn ? <a href="#" className="button" onClick={this.handleLogout}>Logout</a> : <div />}
+                            <div className="row">
+                                <div className="col-sm-12 col-md-10 col-md-offset-1">
+                                    <a href="#" className="logo">Formulate</a>
+                                    {this.state.loggedIn ? (
+                                    <span>
+                                    <Link to="/dashboard" className="button">Dashboard</Link>
+                                    <a href="#" className="button" style={{float: 'right'}} onClick={this.handleLogout}>Logout</a>
+                                    </span>
+                                    ) : <div />}
+                                </div>
+                            </div>
                         </div>
                     </header>
                     {/*Once we have checked to see if the user is authenticated*/}
