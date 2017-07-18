@@ -13,7 +13,7 @@ const whiteBackground = {
 const saveStyle = {
     float: 'right',
     color: 'grey'
-}
+};
 
 class PointedOutsiderView extends Component {
     constructor() {
@@ -22,7 +22,8 @@ class PointedOutsiderView extends Component {
             formTitle: '',
             elements: [],
             response: [],
-            save: ''
+            save: '',
+            submitted: false
         };
         this.handleSave = this.handleSave.bind(this);
         this.setResponse = this.setResponse.bind(this);
@@ -52,7 +53,7 @@ class PointedOutsiderView extends Component {
         });
     }
 
-    handleSave() {
+    handleSave(callback = () => {/*do nothing*/}) {
         const url = `/api/pointedSave/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
         const submittedResponse = this.state.response;
         this.setState({
@@ -65,7 +66,7 @@ class PointedOutsiderView extends Component {
             console.log(`Saved at ${hour}:${minute}`);
             this.setState({
                 save: `Saved at ${hour}:${minute}`
-            });
+            }, callback);
         }).catch((err) => { 
             console.log(err);
         });
@@ -76,7 +77,16 @@ class PointedOutsiderView extends Component {
     }
     
     handleSubmit() {
-        
+        this.handleSave(() => {
+            const url = `/api/pointedSubmit/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
+            axios.post(url, {}).then((response) => {
+                this.setState({
+                    submitted: true
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
     }
 
     render() {

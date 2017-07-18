@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const pointedResponseSchema = new mongoose.Schema({
     email: String,
-    response: Array
+    response: Array,
+    submitted: Boolean
 });
 
 module.exports = pointedResponseSchema;

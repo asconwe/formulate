@@ -8,14 +8,21 @@ module.exports = (app) => {
             if (err) res.status(500).json({
                 success: false,
                 message: 'Sorry, there was an issue finding this form. Please try again.'
-            })
-            thisForm.responses.push(req.body);
+            });
+            const toSave = { 
+                user: 'anonymous',
+                response: req.body
+            };
+            thisForm.responses.push(toSave);
             thisForm.save((err) => {
                 if (err) return res.status(500).json({
                     success: false,
                     message: 'Sorry, there was an issue saving this form. Please try again.'
                 });
-                return res.status(200).json(thisForm);
+                return res.status(200).json({
+                    success: true,
+                    message: 'Thank you for submitting your response.'
+                });
             });
         });
     });
