@@ -2,7 +2,7 @@ const PublishedForm = require('../models/PublishedForm');
 const mongoose = require('mongoose');
 
 module.exports = (app) => {
-    app.post('/api/pointedSubmit/:id/:saveId', (req, res) => {
+    app.post('/api/pointedSave/:id/:saveId', (req, res) => {
         console.log(req.params.id);
         PublishedForm.findOne({ refId: req.params.id }, (err, thisForm) => {
             if (err) res.status(500).json({

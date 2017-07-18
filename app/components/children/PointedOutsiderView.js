@@ -24,7 +24,7 @@ class PointedOutsiderView extends Component {
             response: [],
             save: ''
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSave = this.handleSave.bind(this);
         this.setResponse = this.setResponse.bind(this);
         this.autoSave = debounce(this.autoSave.bind(this), 3000);
     }
@@ -52,8 +52,8 @@ class PointedOutsiderView extends Component {
         });
     }
 
-    handleSubmit() {
-        const url = `/api/pointedSubmit/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
+    handleSave() {
+        const url = `/api/pointedSave/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
         const submittedResponse = this.state.response;
         this.setState({
             save: 'Saving'
@@ -72,7 +72,11 @@ class PointedOutsiderView extends Component {
     }    
 
     autoSave() {
-        this.handleSubmit();
+        this.handleSave();
+    }
+    
+    handleSubmit() {
+        
     }
 
     render() {
@@ -90,7 +94,7 @@ class PointedOutsiderView extends Component {
                                 this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} response={this.state.response[index]} index={index} key={index} />) : <div></div>}
                         <div className="row">
                             <div className="col-sm-12">
-                                <button onClick={this.handleSubmit}>Save</button>
+                                <button onClick={this.handleSubmit}>Submit!</button>
                             </div>
                         </div>
                     </div>

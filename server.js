@@ -24,7 +24,7 @@ const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
 const apiViewResponses = require('./controllers/apiViewResponses');
 const apiSendFormEmail = require('./controllers/apiSendFormEmail');
 const apiPointedOutsider = require('./controllers/apiPointedOutsider');
-const apiPointedSubmit = require('./controllers/apiPointedSubmit');
+const apiPointedSave = require('./controllers/apiPointedSave');
 
 // Express Port/App Declaration
 const PORT = process.env.PORT || 3000;
@@ -78,7 +78,7 @@ apiOutsiderSubmit(app);
 apiViewResponses(app);
 apiSendFormEmail(app);
 apiPointedOutsider(app);
-apiPointedSubmit(app);
+apiPointedSave(app);
 
 // Connection to PORT
 app.listen(PORT, function () {
