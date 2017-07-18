@@ -1,5 +1,7 @@
 const PublishedForm = require('../models/PublishedForm');
 
+const { separateWords, countWords } = require('./helpers/analyzeResponse');
+
 module.exports = (app) => {
     app.get('/api/responses/:id', (req, res) => {
         if (!req.user) {
@@ -11,6 +13,8 @@ module.exports = (app) => {
                 success: false,
                 message: `Sorry, we couldn't find that form. Please try again.`
             });
+            const wordArr = separateWords(response.responses);
+            const wordCounts = countWords(wordArr);
             return res.status(200).json({
                 success: true,
                 outsiderResponses: response
