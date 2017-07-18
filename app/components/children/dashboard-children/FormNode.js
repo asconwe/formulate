@@ -51,7 +51,7 @@ class FormNode extends React.Component {
     render() {
         return (
             <div className="col-sm-6 col-md-4 col-lg-3" >
-                <div className="bordered">
+                <div className="bordered" style={{ background: 'white', marginBottom: '10px'}}>
                     <div className="row">
                         <div className="col-xs-12">
                             <h3 style={{ "margin": "0.75rem" }} >{this.props.formTitle}</h3>
