@@ -13,7 +13,7 @@ const whiteBackground = {
 const saveStyle = {
     float: 'right',
     color: 'grey'
-}
+};
 
 class PointedOutsiderView extends Component {
     constructor() {
@@ -22,9 +22,10 @@ class PointedOutsiderView extends Component {
             formTitle: '',
             elements: [],
             response: [],
-            save: ''
+            save: '',
+            submitted: false
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSave = this.handleSave.bind(this);
         this.setResponse = this.setResponse.bind(this);
         this.autoSave = debounce(this.autoSave.bind(this), 3000);
     }
@@ -52,8 +53,8 @@ class PointedOutsiderView extends Component {
         });
     }
 
-    handleSubmit() {
-        const url = `/api/pointedSubmit/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
+    handleSave(callback = () => {/*do nothing*/}) {
+        const url = `/api/pointedSave/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
         const submittedResponse = this.state.response;
         this.setState({
             save: 'Saving'
@@ -65,14 +66,27 @@ class PointedOutsiderView extends Component {
             console.log(`Saved at ${hour}:${minute}`);
             this.setState({
                 save: `Saved at ${hour}:${minute}`
-            });
+            }, callback);
         }).catch((err) => { 
             console.log(err);
         });
     }    
 
     autoSave() {
-        this.handleSubmit();
+        this.handleSave();
+    }
+    
+    handleSubmit() {
+        this.handleSave(() => {
+            const url = `/api/pointedSubmit/${this.props.match.params.refId}/${this.props.match.params.saveId}`;
+            axios.post(url, {}).then((response) => {
+                this.setState({
+                    submitted: true
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
     }
 
     render() {
@@ -90,7 +104,7 @@ class PointedOutsiderView extends Component {
                                 this.state.elements.map((form, index) => <OutsiderElement setResponse={this.setResponse} form={form} response={this.state.response[index]} index={index} key={index} />) : <div></div>}
                         <div className="row">
                             <div className="col-sm-12">
-                                <button onClick={this.handleSubmit}>Save</button>
+                                <button onClick={this.handleSubmit}>Submit!</button>
                             </div>
                         </div>
                     </div>

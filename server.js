@@ -1,8 +1,7 @@
-if (process.env.NODE_ENV === 'development') require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 console.log(process.env.NODE_ENV);
 // Modules
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -10,7 +9,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 
 // Controllers
-const htmlRoot = require('./controllers/htmlRoot');
 const authSignup = require('./controllers/authSignup');
 const authLogin = require('./controllers/authLogin');
 const authLogout = require('./controllers/authLogout');
@@ -24,6 +22,7 @@ const apiOutsiderSubmit = require('./controllers/apiOutsiderSubmit');
 const apiViewResponses = require('./controllers/apiViewResponses');
 const apiSendFormEmail = require('./controllers/apiSendFormEmail');
 const apiPointedOutsider = require('./controllers/apiPointedOutsider');
+const apiPointedSave = require('./controllers/apiPointedSave');
 const apiPointedSubmit = require('./controllers/apiPointedSubmit');
 
 // Express Port/App Declaration
@@ -78,6 +77,7 @@ apiOutsiderSubmit(app);
 apiViewResponses(app);
 apiSendFormEmail(app);
 apiPointedOutsider(app);
+apiPointedSave(app);
 apiPointedSubmit(app);
 
 // Connection to PORT
