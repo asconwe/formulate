@@ -25,7 +25,7 @@ const Modal = ({content, elements, closeModal}) => {
                                     <h3>{elements[index].elementTitle}
                                         <small>{elements[index].elementPrompt}</small>
                                     </h3>
-                                    <p style={{borderLeft: 'solid 1px black', paddingLeft: '10px'}}>{response}</p>
+                                    <p style={{borderLeft: 'solid 1px black', paddingLeft: '10px', background: '#eef'}}>{response}</p>
                                 </span>
                             )
                             })}

@@ -59,7 +59,7 @@ class FormNode extends React.Component {
                         <div className="col-sm-12">
                             <div className="button-group">
                                 <Link to={`/responses/${this.props._id}/${this.props.index}`}>
-                                    <span>View Responses</span>
+                                    <span>Responses</span>
                                 </Link>
                                 <button onClick={this.share}>Share</button>
                                 <button onClick={this.primeDelete} data-_id={this.props._id}>
