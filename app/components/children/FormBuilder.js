@@ -30,7 +30,12 @@ class FormBuilder extends React.Component {
 
     newElementInPlace(index, element) {
         const newElementsArray = this.state.elements.slice(0, index)
-            .concat({ elementType: element, size: "6" })
+            .concat({
+                elementType: element,
+                size: "6",
+                elementTitle: 'Prompt',
+                elementPrompt: 'Subprompt'
+            })
             .concat(this.state.elements.slice(index));
         this.setState({
             elements: newElementsArray

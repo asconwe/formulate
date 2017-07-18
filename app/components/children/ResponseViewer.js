@@ -23,7 +23,7 @@ class ResponseViewer extends Component {
             this.setState({
                 title: response.data.outsiderResponses.formTitle,
                 elements: response.data.outsiderResponses.elements,
-                responses: response.data.outsiderResponses.responses,
+                responses: response.data.outsiderResponses.responses.concat(response.data.outsiderResponses.pointedResponses),
                 ready: true
             })
         }).catch((err) => {
@@ -51,12 +51,21 @@ class ResponseViewer extends Component {
                         <tbody>
                             {this.state.elements.map((element, index) => {
                                 return (
-                                    <tr key={index}>
-                                        <td data-label="prompt">{element.elementTitle}</td>
-                                        {this.state.responses.map((response, responseIndex) => {
-                                            return <td key={responseIndex}>{response[index]}</td>
-                                        })}
-                                    </tr>
+                                    <div className="col-sm-12 col-md-10 col-md-offset-1">
+                                        <h2>Responses:</h2>
+                                        <tr key={index}>
+                                            <td data-label="prompt">{element.elementTitle}</td>
+                                            {this.state.responses.map((response, responseIndex) => {
+                                                return <td key={responseIndex}>{response[index]}</td>
+                                            })}
+                                        </tr>
+                                        <h3>Stats:</h3>
+                                        {/* Put some charts here!
+                                        *** submitted responses/completed responses - complete responses
+                                        *** word counts - common words
+                                        *** 
+                                        */}
+                                    </div>
                                 )
                             })}
                         </tbody>
