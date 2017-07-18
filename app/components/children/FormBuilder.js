@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
-import FormElement from './formBuilder-children/FormElement'
-import NewElementButton from './formBuilder-children/NewElementButton'
+import NewElementButton from './formBuilder-children/elementContainer-children/NewElementButton'
+import ElementContainer from './formBuilder-children/ElementContainer'
 
 class FormBuilder extends React.Component {
     constructor() {
@@ -28,11 +28,12 @@ class FormBuilder extends React.Component {
         }
     }
 
-    newElementInPlace(index, element) {
+    newElementInPlace(index, element, size) {
+        console.log('size:', size);
         const newElementsArray = this.state.elements.slice(0, index)
             .concat({
                 elementType: element,
-                size: "6",
+                size: size,
                 elementTitle: 'Prompt',
                 elementPrompt: 'Subprompt'
             })
@@ -71,7 +72,7 @@ class FormBuilder extends React.Component {
             formToPost.refId = target;
         }
         axios.post(url, formToPost).then((response) => {
-            this.props.getUserForms();   
+            this.props.getUserForms();
             this.props.history.push(`/form-builder/edit/${response.data.refId}/0`);
         }).catch((error) => {
             console.log(error)
@@ -94,22 +95,7 @@ class FormBuilder extends React.Component {
                     <hr />
                     <div className="row">
                         <div className="col-sm-12">
-                            <div className="row">
-                                {this.state.elements.map((data, index) => {
-                                    return (
-                                        <FormElement
-                                            elementType={data.elementType}
-                                            size={data.size}
-                                            index={index}
-                                            newElementInPlace={this.newElementInPlace}
-                                            editElementInPlace={this.editElementInPlace}
-                                            elementTitle={data.elementTitle}
-                                            elementPrompt={data.elementPrompt}
-                                            key={index}
-                                        />
-                                    )
-                                })}
-                            </div>
+                            <ElementContainer elements={this.state.elements} newElementInPlace={this.newElementInPlace} editElementInPlace={this.editElementInPlace} />
                         </div>
                     </div>
                     <div className="row">

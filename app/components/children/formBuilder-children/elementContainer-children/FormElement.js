@@ -68,6 +68,7 @@ class FormElement extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.size);
         this.setState({
             size: this.props.size
         });
@@ -144,7 +145,7 @@ class FormElement extends Component {
 
     render() {
         return (
-            <div className={`col-sm-12 col-md-${this.state.size}`} onMouseEnter={this.hoverIn} onMouseLeave={this.hoverOut}>
+            <div className={`col-sm-12 col-md-${this.props.size}`} onMouseEnter={this.hoverIn} onMouseLeave={this.hoverOut}>
                 <div style={container} className="row">
                     <div data-position="top" style={Object.assign({}, horizontal, edge, this.state.top)} onMouseEnter={this.enter} onMouseLeave={this.exit} className="col-sm-12">
                         <div data-position="top" style={Object.assign({}, vertical, edge, this.state.left)}></div>
