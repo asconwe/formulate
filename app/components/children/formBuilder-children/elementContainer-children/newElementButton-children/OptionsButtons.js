@@ -25,12 +25,14 @@ class OptionsButtons extends Component {
 
     handleSelect(event) {
         event.preventDefault();
-        this.props.newElementInPlace(event.target.dataset.index, event.target.dataset.element);
+        const { index, element, size } = event.target.dataset
+        console.log(index, element, size)
+        this.props.newElementInPlace(index, element, size);
         this.props.handleClose();
     }
 
-    getFormElementNames() {
-        return Object.keys(formElementLibrary);
+    getFormElements() {
+        return Object.values(formElementLibrary)
     }
 
     render() {
@@ -38,7 +40,7 @@ class OptionsButtons extends Component {
             <div style={optionsDivStyle}>
                 <div className="row">
                     <div>
-                        {this.getFormElementNames().map((element, index) => {
+                        {this.getFormElements().map((element, index) => {
                             return (
                                 <button
                                     style={optionsStyle}
@@ -46,9 +48,10 @@ class OptionsButtons extends Component {
                                     onClick={this.handleSelect}
                                     data-type="options"
                                     data-index={this.props.index}
-                                    data-element={element}
+                                    data-element={element.name}
+                                    data-size={element.size}
                                     key={index}>
-                                    New {element} +
+                                    New {element.nickName} +
                                 </button>
                             )
                         })}
