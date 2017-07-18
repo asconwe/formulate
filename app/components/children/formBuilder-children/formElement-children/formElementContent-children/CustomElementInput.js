@@ -1,29 +1,43 @@
 import React from 'react';
+
 class SectionPrompt extends React.Component {
     constructor() {
         super();
         this.handleBlur = this.handleBlur.bind(this);
     }
-    
+
     handleBlur(event) {
         this.props.handleBlur(event);
     }
 
+    getTypeInput(type) {
+        const types = {
+            h2: (<h2
+                contentEditable="true"
+                suppressContentEditableWarning
+                className="col-sm-12"
+                data-name={this.props.name}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}>
+                {this.props.customContent}
+            </h2>),
+            p: (<p
+                contentEditable="true"
+                suppressContentEditableWarning
+                className="col-sm-12"
+                data-name={this.props.name}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}>
+                {this.props.customContent}
+            </p>)
+        }
+        return types[type];
+    }
+
     render() {
-        const style = {
-            display: "inherit",
-            width: "100%",
-            background: "inherit",
-            fontFamily: "inherit",
-            fontSize: "inherit",
-            padding: 0,
-            border: "none",
-            overflow: "hidden",
-            resize: "none",
-        };
         return (
-            <span style={style}>
-                <span contentEditable="true" style={style} className="col-sm-12 col-md-4 col-lg-3" data-name={this.props.name} onFocus={this.handleFocus} onBlur={this.handleBlur}>{this.props.customContent}</span>
+            <span>
+                {this.getTypeInput(this.props.type)}
             </span>
         );
     }

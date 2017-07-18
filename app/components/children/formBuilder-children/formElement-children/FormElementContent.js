@@ -47,9 +47,9 @@ class FormElementContent extends React.Component {
                     <NewElementButton index={this.props.index} newElementInPlace={this.props.newElementInPlace} />
                 </div>
                 <div>
-                    <h3><CustomElementInput name="elementTitle" handleBlur={this.handleBlur} customContent={this.props.elementTitle} /></h3>
+                    <CustomElementInput type={"h2"} name="elementTitle" handleBlur={this.handleBlur} customContent={this.props.elementTitle} />
                 </div>
-                <p><CustomElementInput name="elementPrompt" handleBlur={this.handleBlur} customContent={this.props.elementPrompt} /></p>
+            <CustomElementInput type={"p"} name="elementPrompt" handleBlur={this.handleBlur} customContent={this.props.elementPrompt} />
                 <div className="row">
                     {this.getComponent(this.props.elementType)}
                 </div>
