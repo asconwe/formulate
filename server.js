@@ -47,9 +47,9 @@ app.use(passport.session());
 
 // Database configuration
 if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
+    mongoose.connect(process.env.MONGODB_URI);
 } else {
-    mongoose.connect("mongodb://localhost/formulate", { useMongoClient: true });
+    mongoose.connect("mongodb://localhost/formulate");
 }
 const db = mongoose.connection;
 
