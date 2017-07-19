@@ -73,10 +73,10 @@ class ResponseViewer extends Component {
                             <tbody>
                             {this.state.responses.map((response, index) => {
                                 return (
-                                    <tr key={index} data-index={index} onClick={this.handleRowClick}>
+                                    <tr key={index} data-index={index} style={{ cursor: 'pointer'}} onClick={this.handleRowClick}>
                                         <td>{response.user}</td>
-                                        {response.response.map((content) => {
-                                            return <td>{content.length > 20 ? content.slice(0, 17) + '...' : content}</td>
+                                        {response.response.map((content, index2) => {
+                                            return <td key={index2}>{content.length > 20 ? content.slice(0, 17) + ' ...' : content}</td>
                                         })}
                                     </tr>
                                 );

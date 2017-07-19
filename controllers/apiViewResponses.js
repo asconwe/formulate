@@ -1,6 +1,6 @@
 const PublishedForm = require('../models/PublishedForm');
 
-const countWords = require('./helpers/analyzeResponse');
+const { countWords, makeArrayOfWords } = require('./helpers/analyzeResponse');
 
 module.exports = (app) => {
     app.get('/api/responses/:id', (req, res) => {
@@ -13,16 +13,31 @@ module.exports = (app) => {
                 success: false,
                 message: `Sorry, we couldn't find that form. Please try again.`
             });
-            const wordArr = form.responses.reduce((a, b) => {
-                return a.concat(b);
-            });
-            console.log(wordArr);
-            const wordCounts = countWords(wordArr);
-            const aggregateResponse = Object.assign({}, form, wordCounts);
-            return res.status(200).json({
-                success: true,
-                outsiderResponses: aggregateResponse
-            });
+            if (form.responses.length > 0) {
+                const wordArr = form.responses.map((form, index) => {
+                    return form.response.reduce((a, b) => {
+                        if (typeof a === typeof 'String') {
+                            return [a].concat(makeArrayOfWords(b));
+                        }
+                        return a.concat(makeArrayOfWords(b));
+                    });
+                }).reduce((a, b) => a.concat(b));
+                const wordCounts = countWords(wordArr);
+                const aggregateResponse = Object.assign({}, {
+                    elements: form.elements,
+                    formTitle: form.formTitle,
+                    responses: form.responses
+                }, { wordCounts: wordCounts });
+                console.log(aggregateResponse);
+                return res.status(200).json({
+                    success: true,
+                    outsiderResponses: aggregateResponse
+                });
+            }
+            return res.status(404).json({
+                success: false,
+                message: 'No responses received yet'
+            })
         });
     });
 };
