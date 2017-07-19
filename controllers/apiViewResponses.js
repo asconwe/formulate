@@ -28,7 +28,6 @@ module.exports = (app) => {
                     formTitle: form.formTitle,
                     responses: form.responses
                 }, { wordCounts: wordCounts });
-                console.log(aggregateResponse);
                 return res.status(200).json({
                     success: true,
                     outsiderResponses: aggregateResponse

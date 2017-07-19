@@ -28,6 +28,7 @@ class PointedOutsiderView extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.setResponse = this.setResponse.bind(this);
         this.autoSave = debounce(this.autoSave.bind(this), 3000);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
