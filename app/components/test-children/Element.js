@@ -23,7 +23,7 @@ class Element extends React.Component {
     render() {
         const { connectDragSource, isDragging } = this.props;
         return connectDragSource(
-            <div style={{background: isDragging ? 'black': 'white'}}>
+            <div style={{background: 'white'}}>
               {this.props.content}
             </div>
         );

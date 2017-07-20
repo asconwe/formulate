@@ -11,7 +11,7 @@ class ResponseViewer extends Component {
         this.state = {
             ready: false,
             responses: [],
-        }
+        };
         this.getFormResponses = this.getFormResponses.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleRowClick = this.handleRowClick.bind(this);
@@ -24,22 +24,21 @@ class ResponseViewer extends Component {
     getFormResponses() {
         axios.get(`/api/responses/${this.props.match.params.id}`).then((response) => {
             const getDateData = () => {
-                const dates = {}
+                const dates = {};
                 response.data.outsiderResponses.responses.map(({ response }) => {
                     console.log(response);
                     const date = response.date.slice(0, 10);
                     if (dates[date]) {
                         dates[date].value += 1;
                     } else {
-                        dates[date] = { date: date, value: 1 }
+                        dates[date] = { date: date, value: 1 };
                     }
-                    return console.log('dates', dates)
+                    return console.log('dates', dates);
                 });
                 const dateArr = Object.values(dates);
                 console.log('dateArr', dateArr);
                 return dateArr;
-            }
-            console.log('=======================', response);
+            };
             this.setState({
                 title: response.data.outsiderResponses.formTitle,
                 elements: response.data.outsiderResponses.elements,
