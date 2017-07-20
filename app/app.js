@@ -4,4 +4,4 @@ import Main from './components/Main.js'
 import Test from './components/Test'
 // const appRoot = document.getElementById('app');
 
-ReactDOM.render(<Test />, document.querySelector("#app"));
+ReactDOM.render(<Main />, document.querySelector("#app"));
