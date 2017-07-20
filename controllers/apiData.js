@@ -5,11 +5,10 @@ module.exports = (app) => {
         if (!req.user) {
             return res.status(401).json({ success: false });
         }
-        console.log(req.user);
         return res.status(200).json({
             success: true,
             user: req.user.username,
             forms: req.user.forms
-        })
+        });
     });
-}
+};

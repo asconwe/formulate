@@ -88,7 +88,7 @@ class FormBuilder extends React.Component {
                 <div style={whiteBackground} className="bordered rounded col-sm-12 col-md-10 col-md-offset-1">
                     <div className="row">
                         <div className="col-sm-12">
-                            <h1 contentEditable onBlur={this.handleTitleChange}>{this.state.formTitle}</h1>
+                            <h1 contentEditable suppressContentEditableWarning onBlur={this.handleTitleChange}>{this.state.formTitle}</h1>
                             <button onClick={this.handleSave}>Save form</button>
                         </div>
                     </div>

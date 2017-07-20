@@ -1,12 +1,12 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
-console.log(process.env.NODE_ENV);
+require('dotenv').config();
+
 // Modules
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const session = require('express-session');
+const session = require('cookie-session');
 
 // Controllers
 const authSignup = require('./controllers/authSignup');
@@ -26,12 +26,12 @@ const apiPointedSave = require('./controllers/apiPointedSave');
 const apiPointedSubmit = require('./controllers/apiPointedSubmit');
 
 // Express Port/App Declaration
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 // Middleware
 app.use(express.static(__dirname + "/public"));
-app.use('/minicss', express.static(__dirname + '/node_modules/mini.css/dist'))
+app.use('/minicss', express.static(__dirname + '/node_modules/mini.css/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());

@@ -12,7 +12,6 @@ module.exports = (app) => {
                 success: false,
                 message: 'There was an issue deleting your form, please try again.'
             });
-            console.log(req.params.id);
             const id = mongoose.Types.ObjectId(req.params.id);
             if (!thisUser.forms.id(id)) {
                 return res.status(500).json({
