@@ -23,14 +23,9 @@ class ResponseViewer extends Component {
 
     getFormResponses() {
         axios.get(`/api/responses/${this.props.match.params.id}`).then((response) => {
-            console.log('=======================', response);
-            const dates = {}
-            this.setState({
-                title: response.data.outsiderResponses.formTitle,
-                elements: response.data.outsiderResponses.elements,
-                responses: response.data.outsiderResponses.responses,
-                wordCount: response.data.outsiderResponses.wordCounts,
-                responseByDate: response.data.outsiderResponses.responses.map(({ response }) => {
+            const getDateData = () => {
+                const dates = {}
+                response.data.outsiderResponses.responses.map(({ response }) => {
                     console.log(response);
                     const date = response.date.slice(0, 10);
                     if (dates[date]) {
@@ -38,11 +33,19 @@ class ResponseViewer extends Component {
                     } else {
                         dates[date] = { date: date, value: 1 }
                     }
-                    console.log('dates', dates)
-                    const dateArr = Object.values(dates);
-                    console.log(dateArr);
-                    return dateArr;
-                }),
+                    return console.log('dates', dates)
+                });
+                const dateArr = Object.values(dates);
+                console.log('dateArr', dateArr);
+                return dateArr;
+            }
+            console.log('=======================', response);
+            this.setState({
+                title: response.data.outsiderResponses.formTitle,
+                elements: response.data.outsiderResponses.elements,
+                responses: response.data.outsiderResponses.responses,
+                wordCount: response.data.outsiderResponses.wordCounts,
+                responseByDate: getDateData(),
                 ready: true
             });
         }).catch((err) => {
