@@ -19,7 +19,7 @@ const Modal = ({content, elements, closeModal}) => {
                         <div className="col-sm-10 col-sm-offset-1 bordered rounded" style={{background: 'white', paddingBottom: '50px'}}>
                             <p style={{ textAlign: 'center', color: 'grey' }}><small>click anywhere to close</small></p>
                             <h2>{content.user}</h2>
-                            {content.response.map((response, index) => {
+                            {content.response.content.map((response, index) => {
                             return (
                                 <span key={index}>
                                     <h3>{elements[index].elementTitle}
