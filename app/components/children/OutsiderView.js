@@ -43,7 +43,7 @@ class OutsiderView extends Component {
     handleSubmit(event) {
         const date = new Date();
         const url = `api/outsiderSubmit/${this.props.match.params.id}`;
-        const submittedResponse = Object.assign({}, this.state.response, { date: date });
+        const submittedResponse = Object.assign({}, { content: this.state.response }, { date: date });
         axios.post(url, submittedResponse).then((response) => {
             this.setState({
                 submitted: true

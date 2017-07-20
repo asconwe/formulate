@@ -14,8 +14,10 @@ module.exports = (app) => {
                 message: `Sorry, we couldn't find that form. Please try again.`
             });
             if (form.responses.length > 0) {
-                const wordArr = form.responses.map((form, index) => {
-                    return form.response.reduce((a, b) => {
+                console.log(form.responses);
+                // Count words
+                const wordArr = form.responses.map((uniqueForm, index) => {
+                    return uniqueForm.response.content.reduce((a, b) => {
                         if (typeof a === typeof 'String') {
                             return [a].concat(makeArrayOfWords(b));
                         }
@@ -23,11 +25,14 @@ module.exports = (app) => {
                     });
                 }).reduce((a, b) => a.concat(b));
                 const wordCounts = countWords(wordArr);
+                const sortedWordCountArr = wordCounts.sort((a, b) => {
+                    return b.value - a.value;
+                })
                 const aggregateResponse = Object.assign({}, {
                     elements: form.elements,
                     formTitle: form.formTitle,
                     responses: form.responses
-                }, { wordCounts: wordCounts });
+                }, { wordCounts: sortedWordCountArr });
                 return res.status(200).json({
                     success: true,
                     outsiderResponses: aggregateResponse

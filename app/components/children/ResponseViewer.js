@@ -1,67 +1,9 @@
 import React, { Component } from 'react';
 
 import axios from 'axios'
-import { LineChart, Line } from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis } from 'recharts';
 
 import Modal from './responseViewer-children/Modal';
-
-const width = 700
-const height = 300
-const margins = { left: 100, right: 100, top: 50, bottom: 50 }
-const title = "User sample"
-// chart series,
-// field: is what field your data want to be selected
-// name: the name of the field that display in legend
-// color: what color is the line
-const chartSeries = [
-    {
-        field: 'BMI',
-        name: 'BMI',
-        color: '#ff7f0e'
-    }
-]
-// your x accessor
-const x = function (d) {
-    return d.index;
-}
-const data = [
-    {
-        name: "Lavon Hilll I",
-        BMI: 20.57,
-        age: 12,
-        birthday: "1994-10-26T00:00:00.000Z",
-        city: "Annatown",
-        married: true,
-        index: 1
-    },
-    {
-        name: "Clovis Pagac",
-        BMI: 24.28,
-        age: 26,
-        birthday: "1995-11-10T00:00:00.000Z",
-        city: "South Eldredtown",
-        married: false,
-        index: 3
-    },
-    {
-        name: "Gaylord Paucek",
-        BMI: 24.41,
-        age: 30,
-        birthday: "1975-06-12T00:00:00.000Z",
-        city: "Koeppchester",
-        married: true,
-        index: 5
-    },
-    {
-        name: "Ashlynn Kuhn MD",
-        BMI: 23.77,
-        age: 32,
-        birthday: "1985-08-09T00:00:00.000Z",
-        city: "West Josiemouth",
-        married: false,
-        index: 6
-    }
-]
 
 class ResponseViewer extends Component {
     constructor() {
@@ -79,14 +21,28 @@ class ResponseViewer extends Component {
         this.getFormResponses();
     }
 
-
     getFormResponses() {
         axios.get(`/api/responses/${this.props.match.params.id}`).then((response) => {
-            console.log(response);
+            console.log('=======================', response);
+            const dates = {}
             this.setState({
                 title: response.data.outsiderResponses.formTitle,
                 elements: response.data.outsiderResponses.elements,
                 responses: response.data.outsiderResponses.responses,
+                wordCount: response.data.outsiderResponses.wordCounts,
+                responseByDate: response.data.outsiderResponses.responses.map(({ response }) => {
+                    console.log(response);
+                    const date = response.date.slice(0, 10);
+                    if (dates[date]) {
+                        dates[date].value += 1;
+                    } else {
+                        dates[date] = { date: date, value: 1 }
+                    }
+                    console.log('dates', dates)
+                    const dateArr = Object.values(dates);
+                    console.log(dateArr);
+                    return dateArr;
+                }),
                 ready: true
             });
         }).catch((err) => {
@@ -100,7 +56,6 @@ class ResponseViewer extends Component {
 
     handleRowClick(event) {
         const index = event.target.parentNode.dataset.index;
-        console.log('===============', index, this.state.responses[index]);
         this.setState({
             modalContent: this.state.responses[index],
             showModal: true
@@ -135,7 +90,7 @@ class ResponseViewer extends Component {
                                         return (
                                             <tr key={index} data-index={index} style={{ cursor: 'pointer' }} onClick={this.handleRowClick}>
                                                 <td>{response.user}</td>
-                                                {response.response.map((content, index2) => {
+                                                {response.response.content.map((content, index2) => {
                                                     return <td key={index2}>{content.length > 20 ? content.slice(0, 17) + ' ...' : content}</td>
                                                 })}
                                             </tr>
@@ -150,11 +105,29 @@ class ResponseViewer extends Component {
                         *** word counts - common words
                         */}
                             {this.state.ready ? (
-
-                                <LineChart width={400} height={400} data={[{ uv: 5 }, { uv: 100 }, { uv: 40 }, { uv: 60 }]}>
-                                    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                </LineChart>) : <div />}
-                            <h3>Hello</h3>
+                                <div className="row">
+                                    <div className="col-sm-12 col-md-6">
+                                        <h3>Frequently used words</h3>
+                                        <BarChart width={400} height={400} margin={{ left: 10 }} layout="vertical" data={this.state.wordCount.slice(0, 5)}>
+                                            <XAxis type="number" orientation="top" />
+                                            <YAxis type="category" dataKey="key" />
+                                            <Bar type="monotone" dataKey="value" stroke="#8884d8" />
+                                        </BarChart>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-12 col-md-6">
+                                            <h3>Frequently used words</h3>
+                                            {console.log(this.state.responseByDate)}
+                                            <LineChart width={730} height={250} data={this.state.responseByDate} 
+                                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                                <XAxis dataKey="date" />
+                                                <YAxis />
+                                                <Line dataKey="value"/>
+                                            </LineChart>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : <div />}
                             {this.state.showModal ? <Modal content={this.state.modalContent} elements={this.state.elements} closeModal={this.closeModal} /> : <div></div>}
                         </div>
                     ) :

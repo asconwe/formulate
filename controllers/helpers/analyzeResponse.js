@@ -18,9 +18,20 @@ const countUniqueWords = (wordArray, filter = [], counts = {}) => {
     return newWordArray.length > 0 ? countUniqueWords(newWordArray, filter, counts) : counts;
 };
 
+// Converts an object of 
+const convertToSortableArr = (countObj) => {
+    const countArr = Object.keys(countObj).map((key, index) => {
+        return { 
+            key: key,
+            value: countObj[key]
+        };
+    });
+    return countArr;
+};
+
 module.exports = {
     makeArrayOfWords,
     countWords: (wordArray) => {
-        return countUniqueWords(wordArray);
+        return convertToSortableArr(countUniqueWords(wordArray));
     }
 }
