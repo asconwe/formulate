@@ -8,20 +8,16 @@ class SectionPrompt extends React.Component {
     }
 
     handleBlur(event) {
-        console.log('=============', event.target.dataset)
         const content = { [event.target.dataset.contentkey]: event.target.textContent }
-        console.log(content);
         this.props.editElement(this.props.index, content);
     }
 
     clear(event) {
-        console.log('hey')
         this.props.editElement(this.props.index, { [this.props.contentKey]: "" })
     }
 
     focus(event) {
         if (event.target.children.length > 1) {
-            console.log(event.target);
             event.target.children[0].focus();
         }
     }
@@ -34,7 +30,6 @@ class SectionPrompt extends React.Component {
         return (
             <span style={inheritOuter} onClick={this.focus} >
                 <span contentEditable suppressContentEditableWarning style={inherit} data-contentKey={this.props.contentKey} onBlur={this.handleBlur}>
-                    {console.log(this.props.value)}
                     {this.props.value}
                 </span><button className="close small" style={{
                     fontSize: "17px",

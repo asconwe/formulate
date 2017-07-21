@@ -7,7 +7,6 @@ class ElementBody extends Component {
         super();
     }
     renderElementFromLibrary() {
-        console.log('=========', this.props);
         return formElementLibrary[this.props.type].getter(this.props)
     }
     render() {

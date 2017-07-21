@@ -25,6 +25,7 @@ class FormBuilder extends React.Component {
         this.editElementInPlace = this.editElementInPlace.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
     }
 
     componentDidMount() {
@@ -40,8 +41,6 @@ class FormBuilder extends React.Component {
     setElementArr(arr) {
         this.setState({
             elements: arr
-        }, () => {
-            console.log(this.state);
         });
     }
 
@@ -54,6 +53,18 @@ class FormBuilder extends React.Component {
                     index={index}
                     setDragObj={this.setDragObj}>
                     <div>
+                        <div
+                            draggable
+                            onDragStart={(event) => (this.handleDrag(event, index))}
+                            onDrag={(event) => (this.handleDrag(event, index))}
+                            style={{
+                                width: "3px",
+                                height: '30px',
+                                float: 'right',
+                                marginRight: '32px',
+                                fontSize: "1.3em",
+                                cursor: 'ew-resize'
+                            }}>⇔</div>
                         <h3 style={{ marginBottom: "0px" }}>
                             <CustomElementInput
                                 value={element.elementTitle}
@@ -76,7 +87,7 @@ class FormBuilder extends React.Component {
             )
         };
         return (
-            <div className="col-sm-12 col-md-6" key={index}>
+            <div className={`col-sm-12 col-md-${element.size}`} key={index}>
                 <ElementContainer
                     index={index}
                     dragObj={this.state.dragObj}
@@ -103,10 +114,50 @@ class FormBuilder extends React.Component {
         });
     }
 
+    handleDrag(event, index) {
+        event.stopPropagation();
+        const oneTwelfth = window.innerWidth * 10 / 12 / 12;
+        console.log(index);
+        const currentSize = parseInt(this.state.elements[index].size, 10);
+        if (event.type === "drag") {
+            const difference = event.pageX - this.state.dragStart;
+            // Ignore last event, returning pageX to 0 after mouse release
+            if (event.pageX !== 0) {
+                /* 
+                ** If the drag distance is larger than 1/12 of the work area,
+                ** then increase or decrease the number of columns that form element takes up
+                ** and reset the distance to 0 for the next interval
+                */
+                if (Math.abs(difference) > oneTwelfth) {
+                    if (difference > 0) {
+                        const largerSize = currentSize + 1;
+                        this.handleSizeChange(largerSize.toString(), index)
+                        return this.setState({
+                            dragStart: event.pageX
+                        })
+                    } else if (difference < 0) {
+                        const smallerSize = currentSize - 1;
+                        this.handleSizeChange(smallerSize.toString(), index);
+                        return this.setState({
+                            dragStart: event.pageX
+                        })
+                    }
+                }
+            }
+        } else if (event.type === "dragstart") {
+            return this.setState({ dragStart: event.pageX });
+        }
+    }
+
+    handleSizeChange(size, index) {
+        console.log(size, index);
+        const elementContent = Object.assign({}, { size: size });
+        this.editElementInPlace(index, elementContent);
+    }
+
     editElementInPlace(index, elementContent) {
         const newElement = this.state.elements[index];
         const keys = Object.keys(elementContent);
-        console.log(keys);
         keys.map((key) => {
             newElement[key] = elementContent[key];
         })
@@ -115,7 +166,7 @@ class FormBuilder extends React.Component {
             .concat(this.state.elements.slice(index + 1));
         this.setState({
             elements: newElementsArray
-        }, () => console.log(this.state));
+        });
     }
 
     newElement() {
@@ -139,7 +190,6 @@ class FormBuilder extends React.Component {
     }
 
     handleTitleChange(a, content) {
-        console.log(event.target);
         this.setState(content)
     }
 
