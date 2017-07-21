@@ -1,6 +1,6 @@
 export const getElements = (props, callback) => {
     if (props.match.params.index) {
-        const { formTitle, elements } = props.getFormToEdit(this.props.match.params.index);
+        const { formTitle, elements } = props.getFormToEdit(props.match.params.index);
         const returnObj = { formTitle, ready: true };
         if (elements.length > 0) returnObj.elements = elements;
         console.log(returnObj);
