@@ -67,12 +67,13 @@ class FormBuilder extends React.Component {
                                 editElement={this.editElementInPlace}
                             />
                         </p>
+                        <h5 style={{float: 'right', cursor: 'pointer'}}>Edit</h5>
                     </div>
                 </Element>
             )
         };
         return (
-            <div key={index}>
+            <div className="col-sm-12 col-md-6" key={index}>
                 <ElementContainer
                     index={index}
                     dragObj={this.state.dragObj}
@@ -134,7 +135,9 @@ class FormBuilder extends React.Component {
                         <hr />
                         <div className="row">
                             <div className="col-sm-12">
+                                <div className="row">
                                 {this.state.elements.length > 0 ? this.state.elements.map(this.renderElementContainer) : <div />}
+                                </div>
                             </div>
                         </div>
                         <div className="row">

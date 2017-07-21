@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
-import {insertElement} from './formManager';
+import { insertElement } from './formManager';
 
 
 const elementTarget = {
@@ -23,7 +23,7 @@ class ElementContainer extends React.Component {
     render() {
         const { connectDropTarget, isOver } = this.props;
         return connectDropTarget(
-            <div style={{ width: '100px', height: '100px', background: isOver ? 'grey' : 'white' }} className="bordered">
+            <div style={{ background: isOver ? '#fcfcff' : 'none' }} className="bordered">
                 {this.props.children}
             </div>
         );
