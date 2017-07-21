@@ -23,9 +23,8 @@ class ElementContainer extends React.Component {
     render() {
         const { connectDropTarget, isOver } = this.props;
         return connectDropTarget(
-            <div style={{ width: '100px', height: '100px', background: isOver ? 'grey' : 'white'}} 
-            className="bordered">
-             {this.props.children}
+            <div style={{ width: '100px', height: '100px', background: isOver ? 'grey' : 'white' }} className="bordered">
+                {this.props.children}
             </div>
         );
     }

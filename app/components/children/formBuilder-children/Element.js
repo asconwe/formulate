@@ -4,6 +4,7 @@ import { DragSource } from 'react-dnd';
 import { ItemTypes } from './Constants';
 import { removeElement } from './formManager';
 
+
 const elementSource = {
     beginDrag(props) {
         const obj = removeElement(props.elements, props.index);
@@ -23,8 +24,8 @@ class Element extends React.Component {
     render() {
         const { connectDragSource, isDragging } = this.props;
         return connectDragSource(
-            <div style={{background: 'white'}}>
-              {this.props.content}
+            <div style={{ background: 'white' }}>
+                {this.props.children}
             </div>
         );
     }
