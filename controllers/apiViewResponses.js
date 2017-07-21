@@ -22,8 +22,8 @@ module.exports = (app) => {
                             return [a].concat(makeArrayOfWords(b));
                         }
                         return a.concat(makeArrayOfWords(b));
-                    });
-                }).reduce((a, b) => a.concat(b));
+                    }, []);
+                }).reduce((a, b) => a.concat(b), []);
                 const wordCounts = countWords(wordArr);
                 const sortedWordCountArr = wordCounts.sort((a, b) => {
                     return b.value - a.value;
