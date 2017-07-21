@@ -16,20 +16,21 @@ class SectionPrompt extends React.Component {
 
     clear(event) {
         console.log('hey')
-        this.props.editElement(this.props.index, {[this.props.contentKey]: ""})
+        this.props.editElement(this.props.index, { [this.props.contentKey]: "" })
     }
 
     focus(event) {
-        event.stopPropagation();
-        console.log(event.target);
-        event.target.children[0].focus();
+        if (event.target.children.length > 1) {
+            console.log(event.target);
+            event.target.children[0].focus();
+        }
     }
 
     render() {
         const inherit = {
             fontSize: 'inherit',
         }
-        const inheritOuter = Object.assign({}, inherit, {borderBottom: "solid 1px grey", cursor: 'text'})
+        const inheritOuter = Object.assign({}, inherit, { borderBottom: "solid 1px grey", cursor: 'text' })
         return (
             <span style={inheritOuter} onClick={this.focus} >
                 <span contentEditable suppressContentEditableWarning style={inherit} data-contentKey={this.props.contentKey} onBlur={this.handleBlur}>
@@ -44,7 +45,7 @@ class SectionPrompt extends React.Component {
                     height: '25px',
                     verticalAlign: 'middle',
                     cursor: 'pointer'
-                }} onClick={this.clear}/>
+                }} onClick={this.clear} />
             </span>
         );
     }
