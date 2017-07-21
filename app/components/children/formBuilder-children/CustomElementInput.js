@@ -39,7 +39,8 @@ class SectionPrompt extends React.Component {
                     width: '25px',
                     height: '25px',
                     verticalAlign: 'middle',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    marginRight: "-7px"
                 }} onClick={this.clear} />
             </span>
         );

@@ -26,6 +26,7 @@ class FormBuilder extends React.Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -94,13 +95,21 @@ class FormBuilder extends React.Component {
                     setElementArr={this.setElementArr}>
                     {getCurrentElement()}
                 </ElementContainer>
-                <h5 style={{ float: 'right', cursor: 'pointer', marginTop: '3px' }}>Edit</h5>
+                <h5 style={{ float: 'right', cursor: 'pointer', marginTop: '3px' }}>
+                    <span>Edit </span>/
+                    <span onClick={() => (this.handleDelete(index))}> Delete</span></h5>
             </div>
         );
     }
 
+    handleDelete(index) {
+        const newArr = this.state.elements.slice(0, index).concat(this.state.elements.slice(index + 1));
+        this.setState({
+            elements: newArr
+        })
+    }
+
     newElementInPlace(index, element, size) {
-        console.log('size:', size);
         const newElementsArray = this.state.elements.slice(0, index)
             .concat({
                 elementType: element,
