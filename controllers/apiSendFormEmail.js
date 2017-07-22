@@ -41,7 +41,7 @@ module.exports = (app) => {
                             pass: process.env.EMAIL_PASSWORD
                         }
                     });
-                    const base = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
+                    const base = 'https://formulate-174212.appspot.com' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
                     // setup email data
                     let mailOptions = {
                         from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // Sender address

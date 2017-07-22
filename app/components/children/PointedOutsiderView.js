@@ -106,7 +106,7 @@ class PointedOutsiderView extends Component {
 
     renderOutsiderElement(form, index) {
         console.log('=============state===========', this.state)
-        const content = this.state.response;
+        const content = this.state.response[index];
         return (
             <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index}> 
                 {this.getComponent(form.elementType, index, content)}

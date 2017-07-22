@@ -1,6 +1,6 @@
 import React from 'react';
 
-const base = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
+const base = 'https://formulate-174212' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
 
 class BroadcastLink extends React.Component {
     constructor() {
