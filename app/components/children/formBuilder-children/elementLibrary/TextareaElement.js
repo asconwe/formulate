@@ -25,7 +25,7 @@ class TextAreaElement extends React.Component {
                 onBlur={this.handleBlur}
                 className="col-sm-12 bordered" 
                 style={textareaSytle} 
-                name={this.props.props.name}>
+                name={this.props.props.name}>{this.props.props.value}
             </div>
         );
     }

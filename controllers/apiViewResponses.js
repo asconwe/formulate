@@ -22,7 +22,7 @@ module.exports = (app) => {
                             return [a].concat(makeArrayOfWords(b));
                         }
                         return a.concat(makeArrayOfWords(b));
-                    }, []);
+                    }, ['']);
                 }).reduce((a, b) => a.concat(b), []);
                 const wordCounts = countWords(wordArr);
                 const sortedWordCountArr = wordCounts.sort((a, b) => {
@@ -41,7 +41,7 @@ module.exports = (app) => {
             return res.status(404).json({
                 success: false,
                 message: 'No responses received yet'
-            })
+            });
         });
     });
 };

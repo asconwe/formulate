@@ -29,7 +29,11 @@ class SectionPrompt extends React.Component {
         const inheritOuter = Object.assign({}, inherit, { borderBottom: "solid 1px grey", cursor: 'text' })
         return (
             <span style={inheritOuter} onClick={this.focus} >
-                <span contentEditable suppressContentEditableWarning style={inherit} data-contentKey={this.props.contentKey} onBlur={this.handleBlur}>
+                <span contentEditable
+                    suppressContentEditableWarning
+                    style={inherit}
+                    data-contentKey={this.props.contentKey}
+                    onBlur={this.handleBlur}>
                     {this.props.value}
                 </span><button className="close small" style={{
                     fontSize: "17px",
