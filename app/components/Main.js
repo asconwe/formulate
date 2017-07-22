@@ -4,6 +4,7 @@ import { HashRouter, Route, Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 // Import components
+import Heading from './children/Heading'
 import Login from './children/Login';
 import SignUp from './children/SignUp';
 import Home from './children/Home';
@@ -78,7 +79,8 @@ class Main extends React.Component {
         this.getUserData();
     }
 
-    handleLogout() {
+    handleLogout(event) {
+        console.log('in logout')
         axios.get('/auth/logout').then((response) => {
             this.setState({ loggedIn: false });
         });
@@ -92,23 +94,27 @@ class Main extends React.Component {
         return (
             <HashRouter>
                 <div>
-                    <header>
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-sm-12 col-md-10 col-md-offset-1">
-                                    <a href="#" className="logo">Formulate</a>
-                                    {this.state.loggedIn ? (
-                                    <span>
-                                    <Link to="/dashboard" className="button">Dashboard</Link>
-                                    <a href="#" className="button" style={{float: 'right'}} onClick={this.handleLogout}>Logout</a>
-                                    </span>
-                                    ) : <div />}
+                    {this.state.loggedIn ?
+                        (
+                            <Heading loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
+                        ) :
+                        (
+                            <header>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-sm-12 col-md-10 col-md-offset-1">
+                                            <span className="logo" style={{ marginLeft: '20px'}}>Formulate</span>
+                                            <span>
+                                                <Link to='/login' className="button">Login</Link>
+                                                <Link to='/signup' className="button">Sign up</Link>
+                                            </span>    
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </header>
+                            </header>
+                        )}
                     {/*Once we have checked to see if the user is authenticated*/}
-                    {this.state.ready ? (<div className="container">
+                    {this.state.ready ? (<div className="container" style={{ marginBottom: '60px'}}>
                         {/*If they are looged in, redirect to dashboard. Else, show home page*/}
                         <Route exact path='/' component={() => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
@@ -140,6 +146,15 @@ class Main extends React.Component {
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />
                         <Route path='/pointed/:saveId/:refId' component={({ match }) => <PointedOutsiderView match={match} pointed />} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
+                    <footer style={{height: '50px', color: '#dde', padding: '1px', position: 'fixed', bottom: '0', width: '100%'}}>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-sm-12 col-md-10 col-md-offset-1">
+                                    <p>&copy; 2017 a.conwell</p>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </HashRouter>
         );

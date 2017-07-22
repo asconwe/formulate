@@ -1,29 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import FormElement from './elementContainer-children/FormElement';
+import { ItemTypes } from './Constants';
+import { DropTarget } from 'react-dnd';
+import { insertElement } from './formManager';
 
-class ElementContainer extends Component {
+
+const elementTarget = {
+    drop(props, monitor) {
+        const arr = insertElement(props.dragObj, props.index);
+        props.setElementArr(arr);
+    }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
+
+class ElementContainer extends React.Component {
     render() {
-        return (
-            <div className="row">
-                {this.props.elements.map((data, index) => {
-                    console.log(data.size);
-                    return (
-                        <FormElement
-                            elementType={data.elementType}
-                            size={data.size}
-                            index={index}
-                            newElementInPlace={this.props.newElementInPlace}
-                            editElementInPlace={this.props.editElementInPlace}
-                            elementTitle={data.elementTitle}
-                            elementPrompt={data.elementPrompt}
-                            key={index}
-                        />
-                    )
-                })}
+        const { connectDropTarget, isOver } = this.props;
+        return connectDropTarget(
+            <div style={{ background: isOver ? '#fcfcff' : 'none' }} className="bordered">
+                {this.props.children}
             </div>
         );
     }
 }
 
-export default ElementContainer;
+export default DropTarget(ItemTypes.ELEMENT, elementTarget, collect)(ElementContainer);
