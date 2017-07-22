@@ -51,8 +51,8 @@ class Home extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-md-4 col-md-offset-1" style={{borderLeft: 'solid 1px #ddf'}}>
                                     <h2>No more mail-merge<small>Let Formulate send forms for you</small></h2>
-                                    <h2>Don't let your applicants work double<small>No last data with auto saving responses</small></h2>
-                                    <h2>Dont worry about your image <small>Formulate forms are handsome and professional</small></h2>
+                                    <h2>Don't let your applicants work double<small>No lost data with auto saving responses</small></h2>
+                                    <h2>Dont worry about your image <small>Formulate forms are neat and professional</small></h2>
                                 </div>
                             </div>
                         </div>
