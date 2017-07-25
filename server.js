@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const session = require('cookie-session');
+const requireHTTPS = require('./requireHTTPS');
 
 // Controllers
 const authSignup = require('./controllers/authSignup');
@@ -30,7 +31,9 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 // Middleware
+app.use(requireHTTPS);
 app.use(express.static(__dirname + "/public"));
+app.use('/.well-known/acme-challenge/', express.static(__dirname + "/cert"));
 app.use('/minicss', express.static(__dirname + '/node_modules/mini.css/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
