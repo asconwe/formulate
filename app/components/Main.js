@@ -13,6 +13,7 @@ import FormBuilder from './children/FormBuilder';
 import OutsiderView from './children/OutsiderView';
 import PointedOutsiderView from './children//PointedOutsiderView';
 import ResponseViewer from './children/ResponseViewer';
+import HomeHeading from './children/HomeHeading';
 
 // Create Main component
 class Main extends React.Component {
@@ -99,19 +100,7 @@ class Main extends React.Component {
                             <Heading loggedIn={this.state.loggedIn} handleLogout={this.handleLogout} />
                         ) :
                         (
-                            <header>
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-sm-12 col-md-10 col-md-offset-1">
-                                            <span className="logo" style={{ marginLeft: '20px'}}>Formulate</span>
-                                            <span>
-                                                <Link to='/login' className="button">Login</Link>
-                                                <Link to='/signup' className="button">Sign up</Link>
-                                            </span>    
-                                        </div>
-                                    </div>
-                                </div>
-                            </header>
+                            <HomeHeading />
                         )}
                     {/*Once we have checked to see if the user is authenticated*/}
                     {this.state.ready ? (<div className="container" style={{ marginBottom: '60px'}}>
