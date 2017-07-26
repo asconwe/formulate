@@ -15,9 +15,9 @@ class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        const username = event.target.username.value
+        const email = event.target.email.value
         const password = event.target.password.value
-        axios.post('/auth/login', { username, password }).then(this.handleResponse)
+        axios.post('/auth/login', { email, password }).then(this.handleResponse)
     }
 
     handleResponse(response) {
@@ -31,8 +31,8 @@ class Login extends React.Component {
                     <form onSubmit={this.handleSubmit}>
                         <h2>Login:</h2>
                         <div className="input-group vertical">
-                            <label htmlFor="username">Username:</label>
-                            <input type="text" name="username" />
+                            <label htmlFor="email">Email:</label>
+                            <input type="text" name="email" />
                             <label htmlFor="password">Password:</label>
                             <input type="password" name="password" />
                             <button type="submit">login</button>
