@@ -8,6 +8,7 @@ import ElementContainer from './formBuilder-children/ElementContainer';
 import formManager from './formBuilder-children/formManager';
 import CustomElementInput from './formBuilder-children/CustomElementInput';
 import ElementBody from './formBuilder-children/ElementBody';
+import ElementOptions from './formBuilder-children/ElementOptions';
 
 class FormBuilder extends React.Component {
     constructor(props) {
@@ -27,6 +28,8 @@ class FormBuilder extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.closeOptions = this.closeOptions.bind(this);
+        this.openOptions = this.openOptions.bind(this);
     }
 
     componentDidMount() {
@@ -202,6 +205,17 @@ class FormBuilder extends React.Component {
         this.setState(content)
     }
 
+    openOptions() {
+        this.setState({
+            options: true
+        })
+    }
+
+    closeOptions() {
+        this.setState({
+            options: false
+        })
+    }
 
     render() {
         const whiteBackground = {
@@ -232,11 +246,12 @@ class FormBuilder extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-sm-12">
-                                <h2 style={{ cursor: 'pointer' }} onClick={this.newElement}>+</h2>
+                                <h2 style={{ cursor: 'pointer' }} onClick={this.openOptions}>+</h2>
                             </div>
                         </div>
                     </div>
                 </div>
+                {this.state.options ? <ElementOptions newElementInPlace={this.newElementInPlace} close={this.closeOptions}/> : <div />}
             </div>
         );
     }
