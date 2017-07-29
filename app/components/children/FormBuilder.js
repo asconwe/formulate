@@ -112,13 +112,13 @@ class FormBuilder extends React.Component {
         })
     }
 
-    newElementInPlace(index, element, size) {
+    newElementInPlace(index, element, size, title = '', prompt = '') {
         const newElementsArray = this.state.elements.slice(0, index)
             .concat({
                 elementType: element,
                 size: size,
-                elementTitle: 'Prompt',
-                elementPrompt: 'Subprompt'
+                elementTitle: title,
+                elementPrompt: prompt
             })
             .concat(this.state.elements.slice(index));
         this.setState({
@@ -251,7 +251,7 @@ class FormBuilder extends React.Component {
                         </div>
                     </div>
                 </div>
-                {this.state.options ? <ElementOptions newElementInPlace={this.newElementInPlace} close={this.closeOptions}/> : <div />}
+                {this.state.options ? <ElementOptions newElementInPlace={this.newElementInPlace} index={this.state.index} close={this.closeOptions}/> : <div />}
             </div>
         );
     }

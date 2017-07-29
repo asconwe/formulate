@@ -4,6 +4,7 @@ import CustomElementInput from './CustomElementInput';
 import ElementButton from './elementOptions-children/ElementButton';
 import IsRequired from './elementOptions-children/IsRequired';
 import Done from './elementOptions-children/Done';
+import formElementLibrary from './formElementLibrary';
 
 const modalStyle = {
     position: 'fixed',
@@ -22,12 +23,25 @@ class ElementOptions extends Component {
             stage: 0,
         };
         this.handleChoice = this.handleChoice.bind(this);
-
+        this.editTitle = this.editTitle.bind(this);
+        this.editPrompt = this.editPrompt.bind(this);
     }
 
     handleChoice(name) {
         this.setState({
             name: name
+        })
+    }
+
+    editTitle(title) {
+        this.setState({
+            title
+        })
+    }
+    
+    editPrompt(prompt) {
+        this.setState({
+            prompt
         })
     }
 
@@ -39,7 +53,7 @@ class ElementOptions extends Component {
                     value={this.props.elementTitle}
                     index={this.props.index}
                     contentKey="elementTitle"
-                    editElement={this.props.editElement}
+                    editElement={this.editTitle}
                 />
             </h3>,
             <p>
@@ -47,7 +61,7 @@ class ElementOptions extends Component {
                     value={this.props.elementPrompt}
                     index={this.props.index}
                     contentKey="elementPrompt"
-                    editElement={this.props.editElement}
+                    editElement={this.editPrompt}
                 />
             </p>,
             <Done />
@@ -63,19 +77,18 @@ class ElementOptions extends Component {
             this.setState({stage})
         }
 
-        const finish = () => {
-            // const { name, elementTitle, elementPrompt}
-            // const elementContent = {
-            //     name,
-            // }
-            // this.props.newElementInPlace(elementContent)
+        const finish = (event) => {
+            console.log('in finish funciton')
+            const { name, title, prompt } = this.state;
+            this.props.newElementInPlace(this.props.index, name, formElementLibrary[name].size, title, prompt);
+            this.props.close();
         }
 
         return (
             <div>
                 {contentArr[this.state.stage]}
-                {this.state.stage > 1 ? <button onClick={previous}>Previous</button> : <span />}
-                {this.state.stage < contentArr.length - 1 ? <button onClick={next}>Next</button> : <button onClick={this.finish}>Add to form!</button>}
+                {this.state.stage > 0 ? <button onClick={previous}>Previous</button> : <span />}
+                {this.state.stage < contentArr.length - 1 ? <button onClick={next}>Next</button> : <button onClick={finish}>Add to form!</button>}
             </div>
         )
     }

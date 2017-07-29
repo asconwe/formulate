@@ -2,8 +2,8 @@ import React from 'react'
 
 // Components
 import TextareaElement from './elementLibrary/TextareaElement'
-import Spacer from './formElement-children/formElementContent-children/Spacer'
-import NumberElement from './formElement-children/formElementContent-children/Number'
+import Spacer from './elementLibrary/Spacer'
+import NumberElement from './elementLibrary/Number'
 
 const formElementLibrary = {
     textarea: {
