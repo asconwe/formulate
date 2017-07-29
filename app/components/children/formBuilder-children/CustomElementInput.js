@@ -8,7 +8,7 @@ class SectionPrompt extends React.Component {
     }
 
     handleBlur(event) {
-        const content = { [event.target.dataset.contentkey]: event.target.textContent }
+        const content = { [event.target.dataset.contentkey]: event.target.innerHTML }
         this.props.editElement(this.props.index, content);
     }
 
