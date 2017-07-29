@@ -2,7 +2,8 @@ import React from 'react'
 
 // Components
 import TextareaElement from './elementLibrary/TextareaElement'
-// import InputTextElement from './formElement-children/formElementContent-children/InputTextElement'
+import Spacer from './formElement-children/formElementContent-children/Spacer'
+import NumberElement from './formElement-children/formElementContent-children/Number'
 
 const formElementLibrary = {
     textarea: {
@@ -13,14 +14,22 @@ const formElementLibrary = {
         nickName: "Big Text",
         size: "6"
     },
-    // text: {
-    //     getter: (props) => {
-    //         return <InputTextElement props={props} />
-    //     },
-    //     name: 'text',
-    //     nickName: "Small Text",
-    //     size: "2"
-    // }    
+    spacer: {
+        getter: (props) => {
+            return <Spacer props={props} />
+        },
+        name: 'spacer',
+        nickName: "Spacer",
+        size: "2"
+    },
+    number: {
+        getter: (props) => {
+            return <Spacer props={props} />
+        },
+        name: 'number',
+        nickName: "Number",
+        size: "2"
+    }, 
 }
 
 export default formElementLibrary
