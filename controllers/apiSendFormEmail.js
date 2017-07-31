@@ -44,7 +44,11 @@ module.exports = (app) => {
                     };
                     
 
-                    return sendEmail(req, res, mailOptions, () => {
+                    return sendEmail(mailOptions, (error, info) => {
+                        if (error) return res.status(500).json({
+                            success: false,
+                            message: 'Failed to send verification email. Verification email should resend'
+                        })
                         res.send("Success:::::" + info);
                     });
                 });

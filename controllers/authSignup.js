@@ -2,13 +2,14 @@
 const passport = require('passport');
 const localSignupStrategy = require('./passport/signup');
 const validateSignupForm = require('./passport/validateSignup');
-
+const sendEmail = require('./helpers/sendEmail');
 const localSignup = 'local-signup'
 
 passport.use(localSignup, localSignupStrategy);
 
 module.exports = (app) => {
     app.post('/auth/signup', (req, res, next) => {
+        console.log('in auth signup')
         const validationResult = validateSignupForm(req.body);
         if (!validationResult.success) {
             return res.status(400).json({
@@ -17,8 +18,9 @@ module.exports = (app) => {
                 errors: validationResult.errors
             });
         }
-
-        return passport.authenticate(localSignup, (err) => {
+        
+        return passport.authenticate(localSignup, (err, user, info) => {
+            console.log('user::::', user, info);
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
                     // the 11000 Mongo code is for a duplication email error
@@ -38,24 +40,34 @@ module.exports = (app) => {
                 });
             } 
             // setup email data
+            const _id = user._id.toString();
+            const base = 'http://localhost:8080';
             let mailOptions = {
-                from: `"${username} -- formulate" <${username}>`, // Sender address
-                to: `${email}`, // list of receivers
-                subject: `You've received a formulate form from ${username}`, // Subject line
-                text: `Email address: ${email}, username: ${username}, & URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
-                html: `Email address: ${email}<br>
-                username: ${username}<br> 
-                URL: <a href="${base}/#/pointed/${saveId}/${refId}">Click here to verify your email address</a>
-                <br>============================<br>
-                Automated delivery` // html body
+                from: `"formulate" <formulatefyi@gmail.com>`, // Sender address
+                to: `${req.body.email}`, // list of receivers
+                subject: `Verifiy your formulate account!`, // Subject line
+                text: `Email address: ${req.body.email}, & URL: ${base}/auth/verify/${_id}`, // plain text body
+                html: `Email address: ${req.body.email}<br>
+                    URL: <a href="${base}/auth/verify/${_id}">Click here to verify your email address, and start building forms!</a>
+                    <br>============================<br>
+                    Automated delivery` // html body
             };
             // send email then in call back send response
-            sendEmail(req, res, mailOptions, () => {
+            sendEmail(mailOptions, (error, info) => {
+                console.log('sendEmail callback');
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Could not send verification email.'
+                    });
+                }
+                console.log('success?');
                 return res.status(200).json({
                     success: true,
                     message: 'You have successfully signed up! Now you should be able to log in.'
                 });
-            })
+            });
         })(req, res, next);
     });
 }

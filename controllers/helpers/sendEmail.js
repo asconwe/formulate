@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 const nodemailer = require('nodemailer');
 
-module.exports = function (req, res, mailOptions, callback) {
+module.exports = function (mailOptions, callback) {
     // create reusable transporter object using the default SMTP transport
     console.log(process.env.EMAIL_ADDRESS, process.env.EMAIL_PASSWORD);
     let transporter = nodemailer.createTransport({
@@ -17,9 +17,10 @@ module.exports = function (req, res, mailOptions, callback) {
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            res.send("Error:::::" + error);
-            return console.log(error);
+            console.log(error);
+            return callback(error);
         }
         console.log('Message %s sent: %s', info.messageId, info.response);
-        callback();
-}
+        return callback(null, info);
+    });
+};
