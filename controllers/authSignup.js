@@ -36,12 +36,26 @@ module.exports = (app) => {
                     success: false,
                     message: 'Could not process the form.'
                 });
-            }
-
-            return res.status(200).json({
-                success: true,
-                message: 'You have successfully signed up! Now you should be able to log in.'
-            });
+            } 
+            // setup email data
+            let mailOptions = {
+                from: `"${username} -- formulate" <${username}>`, // Sender address
+                to: `${email}`, // list of receivers
+                subject: `You've received a formulate form from ${username}`, // Subject line
+                text: `Email address: ${email}, username: ${username}, & URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
+                html: `Email address: ${email}<br>
+                username: ${username}<br> 
+                URL: <a href="${base}/#/pointed/${saveId}/${refId}">Click here to verify your email address</a>
+                <br>============================<br>
+                Automated delivery` // html body
+            };
+            // send email then in call back send response
+            sendEmail(req, res, mailOptions, () => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'You have successfully signed up! Now you should be able to log in.'
+                });
+            })
         })(req, res, next);
     });
 }

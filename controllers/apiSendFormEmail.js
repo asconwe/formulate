@@ -1,6 +1,5 @@
 'use strict';
-const nodemailer = require('nodemailer');
-
+const sendEmail = require('./helpers/sendEmail')
 const User = require('../models/User');
 const PublishedForm = require('../models/PublishedForm');
 
@@ -30,22 +29,11 @@ module.exports = (app) => {
                         message: 'There was an issue sending the email, please try again.'
                     });
                     
-                    // create reusable transporter object using the default SMTP transport
-                    console.log(process.env.EMAIL_ADDRESS, process.env.EMAIL_PASSWORD);
-                    let transporter = nodemailer.createTransport({
-                        host: 'smtp.gmail.com',
-                        port: 465,
-                        secure: true, // secure:true for port 465, secure:false for port 587
-                        auth: {
-                            user: process.env.EMAIL_ADDRESS,
-                            pass: process.env.EMAIL_PASSWORD
-                        }
-                    });
                     const base = 'https://formulate-174212.appspot.com' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
                     // setup email data
                     let mailOptions = {
-                        from: `"${username} -- formulate" <aconwellportfolio@gmail.com>`, // Sender address
-                        to: 'august.conwell@gmail.com', // list of receivers
+                        from: `"${username} -- formulate" <${username}>`, // Sender address
+                        to: `${email}`, // list of receivers
                         subject: `You've received a formulate form from ${username}`, // Subject line
                         text: `Email address: ${email}, username: ${username}, & URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
                         html: `Email address: ${email}<br>
@@ -55,13 +43,8 @@ module.exports = (app) => {
                         Automated delivery` // html body
                     };
                     
-                    // send mail with defined transport object
-                    transporter.sendMail(mailOptions, (error, info) => {
-                        if (error) {
-                            res.send("Error:::::" + error);
-                            return console.log(error);
-                        }
-                        console.log('Message %s sent: %s', info.messageId, info.response);
+
+                    return sendEmail(req, res, mailOptions, () => {
                         res.send("Success:::::" + info);
                     });
                 });

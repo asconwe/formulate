@@ -103,7 +103,7 @@ class Main extends React.Component {
                             <HomeHeading />
                         )}
                     {/*Once we have checked to see if the user is authenticated*/}
-                    {this.state.ready ? (<div className="container" style={{ marginBottom: '60px'}}>
+                    {this.state.ready ? (<div className="container" style={{ marginBottom: '60px' }}>
                         {/*If they are looged in, redirect to dashboard. Else, show home page*/}
                         <Route exact path='/' component={() => (this.state.loggedIn ?
                             <Redirect to="/dashboard" /> :
@@ -120,22 +120,25 @@ class Main extends React.Component {
                             <SignUp history={history} handleResponse={this.handleSignup} />
                         )} />
                         {/*If logged in, go to dashboard, else return to home page*/}
-                        <Route path='/dashboard' component={() => (this.state.loggedIn ?
-                            <Dashboard getUserForms={this.getUserForms} forms={this.state.forms} /> :
-                            <Redirect to='/' />
+                        <Route path='/dashboard' component={() => (this.state.loggedIn && this.state.verified ?
+                            <Dashboard getUserForms={this.getUserForms} forms={this.state.forms} /> : this.state.loggedIn ?
+                                <Verification /> :
+                                <Redirect to='/' />
                         )} />
-                        <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn ?
-                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getSpecificForm} match={match} history={history} /> :
-                            <Redirect to='/' />
+                        <Route path='/form-builder/:status/:target/:index?' component={({ match, history }) => (this.state.loggedIn && this.state.verified ?
+                            <FormBuilder getUserForms={this.getUserForms} getFormToEdit={this.getSpecificForm} match={match} history={history} /> : this.state.loggedIn ?
+                                <Verification /> :
+                                <Redirect to='/' />
                         )} />
-                        <Route path='/responses/:id/:index' component={({ match, history }) => (this.state.loggedIn ?
-                            <ResponseViewer getForm={this.getSpecificForm} match={match} history={history} /> :
-                            <Redirect to='/' />
+                        <Route path='/responses/:id/:index' component={({ match, history }) => (this.state.loggedIn && this.state.verified ?
+                            <ResponseViewer getForm={this.getSpecificForm} match={match} history={history} /> : this.state.loggedIn ?
+                                <Verification /> :
+                                <Redirect to='/' />
                         )} />
                         <Route path='/published/:id' component={({ match }) => <OutsiderView match={match} />} />
                         <Route path='/pointed/:saveId/:refId' component={({ match }) => <PointedOutsiderView match={match} pointed />} />
                     </div>) : <div>{/*If we havent heard from the server yet, show an empty div*/}</div>}
-                    <footer style={{height: '50px', color: '#dde', padding: '1px', position: 'fixed', bottom: '0', width: '100%'}}>
+                    <footer style={{ height: '50px', color: '#dde', padding: '1px', position: 'fixed', bottom: '0', width: '100%' }}>
                         <div className="container">
                             <div className="row">
                                 <div className="col-sm-12 col-md-10 col-md-offset-1">
