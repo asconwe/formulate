@@ -14,6 +14,7 @@ import OutsiderView from './children/OutsiderView';
 import PointedOutsiderView from './children//PointedOutsiderView';
 import ResponseViewer from './children/ResponseViewer';
 import HomeHeading from './children/HomeHeading';
+import Verification from './children/Verification';
 
 // Create Main component
 class Main extends React.Component {
@@ -23,6 +24,7 @@ class Main extends React.Component {
             ready: false,
             signedUp: undefined,
             loggedIn: undefined,
+            verified: undefined,
             forms: []
         };
         this.handleSignup = this.handleSignup.bind(this);
@@ -39,7 +41,19 @@ class Main extends React.Component {
 
     getUserData() {
         axios.get('/api/data').then((response) => {
-            this.getUserForms();
+            console.log(response);
+            if (response.data.verified) {
+                return this.setState({
+                    verified: true
+                }, () => {
+                    this.getUserForms();
+                });
+            } 
+            return this.setState({
+                verified: false,
+                loggedIn: response.data.success,
+                ready: true
+            })
         }).catch((err) => {
             if (err) console.log(err);
             this.setState({

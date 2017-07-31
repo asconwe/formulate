@@ -13,6 +13,7 @@ const requireHTTPS = require('./requireHTTPS');
 const authSignup = require('./controllers/authSignup');
 const authLogin = require('./controllers/authLogin');
 const authLogout = require('./controllers/authLogout');
+const authVerification = require('./controllers/authVerification');
 const apiData = require('./controllers/apiData');
 const apiNewForm = require('./controllers/apiNewForm');
 const apiEditForm = require('./controllers/apiEditForm');
@@ -70,6 +71,7 @@ db.once("open", function () {
 authLogin(app);
 authSignup(app);
 authLogout(app);
+authVerification(app);
 apiData(app);
 apiNewForm(app);
 apiEditForm(app);

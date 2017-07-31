@@ -9,7 +9,7 @@ module.exports = (app) => {
             thisUser.verified = true;
             thisUser.save((err) => {
                 if (err) return res.status(500).send('could not verify user');
-                res.redirect('/');
+                return res.redirect('/');
             });
         });
     });
