@@ -6,7 +6,7 @@ module.exports = (app) => {
             return res.status(401).json({ success: false });
         }
         const _id = req.user._id;
-        const base = 'http://localhost:8080';
+        const base = 'http://www.formulate.fyi';
         let mailOptions = {
             from: `"formulate" <formulatefyi@gmail.com>`, // Sender address
             to: `${req.user.email}`, // list of receivers

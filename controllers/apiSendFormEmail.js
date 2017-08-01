@@ -29,7 +29,7 @@ module.exports = (app) => {
                         message: 'There was an issue sending the email, please try again.'
                     });
                     
-                    const base = 'https://formulate-174212.appspot.com' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
+                    const base = 'https://www.formulate.fyi' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
                     // setup email data
                     let mailOptions = {
                         from: `"${username} -- formulate" <${username}>`, // Sender address

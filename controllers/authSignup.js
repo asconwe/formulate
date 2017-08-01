@@ -39,7 +39,7 @@ module.exports = (app) => {
             } 
             // setup email data
             const _id = user._id.toString();
-            const base = 'http://localhost:8080';
+            const base = 'http://www.formulate.fyi';
             let mailOptions = {
                 from: `"formulate" <formulatefyi@gmail.com>`, // Sender address
                 to: `${req.body.email}`, // list of receivers
