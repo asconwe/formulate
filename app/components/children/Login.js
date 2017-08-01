@@ -32,7 +32,7 @@ class Login extends React.Component {
                         <h2>Login:</h2>
                         <div className="input-group vertical">
                             <label htmlFor="email">Email:</label>
-                            <input type="text" name="email" />
+                            <input type="email" name="email" />
                             <label htmlFor="password">Password:</label>
                             <input type="password" name="password" />
                             <button type="submit">login</button>
