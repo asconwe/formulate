@@ -1,6 +1,0 @@
-runtime: nodejs
-env: flex
-env_variables:
-  EMAIL_ADDRESS: 'formulatefyi@gmail.com'
-  EMAIL_PASSWORD: 'anibel4ever'
-  MONGODB_URI: 'mongodb://asconwe:anibel4ever@ds111103.mlab.com:11103/formulate'
