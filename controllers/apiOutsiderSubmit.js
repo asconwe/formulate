@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 module.exports = (app) => {
     app.post('/api/outsiderSubmit/:id', (req, res) => {
-        console.log(req.params.id);
         PublishedForm.findOne({ refId: req.params.id }, (err, thisForm) => {
             if (err) res.status(500).json({
                 success: false,

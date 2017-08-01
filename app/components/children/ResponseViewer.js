@@ -26,17 +26,14 @@ class ResponseViewer extends Component {
             const getDateData = () => {
                 const dates = {};
                 response.data.outsiderResponses.responses.map(({ response }) => {
-                    console.log(response);
                     const date = response.date.slice(0, 10);
                     if (dates[date]) {
-                        dates[date].value += 1;
+                        return dates[date].value += 1;
                     } else {
-                        dates[date] = { date: date, value: 1 };
+                        return dates[date] = { date: date, value: 1 };
                     }
-                    return console.log('dates', dates);
                 });
                 const dateArr = Object.values(dates);
-                console.log('dateArr', dateArr);
                 return dateArr;
             };
             this.setState({
@@ -73,7 +70,6 @@ class ResponseViewer extends Component {
     render() {
         return (
             <div className="col-sm-12 col-md-10 col-md-offset-1">
-                {console.log(`Ready?${this.state.ready}`)}
                 {this.state.ready ?
                     (
                         <div>
@@ -119,7 +115,6 @@ class ResponseViewer extends Component {
                                     <div className="row">
                                         <div className="col-sm-12 col-md-6">
                                             <h3>Frequently used words</h3>
-                                            {console.log(this.state.responseByDate)}
                                             <LineChart width={730} height={250} data={this.state.responseByDate} 
                                                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                                 <XAxis dataKey="date" />

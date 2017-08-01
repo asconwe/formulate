@@ -34,7 +34,6 @@ class PointedOutsiderView extends Component {
 
     componentDidMount() {
         axios.get(`/api/pointedOutsiderForm/${this.props.match.params.refId}/${this.props.match.params.saveId}`).then((response) => {
-            console.log('response===========', response);
             let content = [];
             if (response.data.responses !== undefined) {
                 content = response.data.responses.content
@@ -43,7 +42,7 @@ class PointedOutsiderView extends Component {
                 formTitle: response.data.formTitle,
                 elements: response.data.elements,
                 response: content
-            }, () => (console.log(this.state)));
+            });
         }).catch((err) => {
             console.log(err);
         });
@@ -97,7 +96,6 @@ class PointedOutsiderView extends Component {
     }
     
     getComponent(elementType, index, value = "") {
-        console.log(elementType);
         const setResponse = (data) => {
             this.setResponse(index, data);
         }
@@ -105,7 +103,6 @@ class PointedOutsiderView extends Component {
     }
 
     renderOutsiderElement(form, index) {
-        console.log('=============state===========', this.state)
         const content = this.state.response[index];
         return (
             <OutsiderElement setResponse={this.setResponse} form={form} index={index} key={index}> 

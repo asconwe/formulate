@@ -19,7 +19,6 @@ class Dashboard extends React.Component {
                         <Link to='/form-builder/new/form'><button>+ New Form</button></Link>
                     </div>
                     {this.props.forms.map((form, index) => {
-                        console.log('Form published?', form.published)
                         return (
                             !form.published ?
                             <FormNode

@@ -14,7 +14,6 @@ module.exports = (app) => {
                 message: `Sorry, we couldn't find that form. Please try again.`
             });
             if (form.responses.length > 0) {
-                console.log(form.responses);
                 // Count words
                 const wordArr = form.responses.map((uniqueForm, index) => {
                     return uniqueForm.response.content.reduce((a, b) => {

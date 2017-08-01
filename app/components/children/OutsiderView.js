@@ -24,7 +24,6 @@ class OutsiderView extends Component {
 
     componentDidMount() {
         axios.get(`/api/outsiderForm/${this.props.match.params.id}`).then((response) => {
-            console.log(response);
             this.setState({
                 formTitle: response.data.formTitle,
                 elements: response.data.elements
@@ -56,7 +55,6 @@ class OutsiderView extends Component {
     }
     
     getComponent(elementType, index) {
-        console.log(elementType);
         const setResponse = (data) => {
             this.setResponse(index, data);
         }
