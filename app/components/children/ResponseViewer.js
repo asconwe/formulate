@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import axios from 'axios'
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 import Modal from './responseViewer-children/Modal';
 
@@ -40,7 +40,7 @@ class ResponseViewer extends Component {
                 title: response.data.outsiderResponses.formTitle,
                 elements: response.data.outsiderResponses.elements,
                 responses: response.data.outsiderResponses.responses,
-                wordCount: response.data.outsiderResponses.wordCounts,
+                wordCount: response.data.outsiderResponses.wordCounts.filter((wordCount) => wordCount.key.length > 2),
                 responseByDate: getDateData(),
                 ready: true
             });
@@ -79,7 +79,7 @@ class ResponseViewer extends Component {
                                     <tr>
                                         <th>User</th>
                                         {this.state.elements.map((element, index) => {
-                                            return <th>{element.elementTitle}</th>
+                                            return <th key={index}>{element.elementTitle}</th>
                                         })}
                                     </tr>
                                 </thead>
@@ -89,7 +89,7 @@ class ResponseViewer extends Component {
                                             <tr key={index} data-index={index} style={{ cursor: 'pointer' }} onClick={this.handleRowClick}>
                                                 <td>{response.user}</td>
                                                 {response.response.content.map((content, index2) => {
-                                                    return <td key={index2}>{content.length > 20 ? content.slice(0, 17) + ' ...' : content}</td>
+                                                    return <td key={index2 + 1000}>{content.length > 20 ? content.slice(0, 17) + '...' : content}</td>
                                                 })}
                                             </tr>
                                         );
@@ -97,30 +97,33 @@ class ResponseViewer extends Component {
                                 </tbody>
                             </table>
                             <h3>Stats:</h3>
-                            {/* Put some charts here!
-                        *** 
-                        *** submitted responses/completed responses - complete responses
-                        *** word counts - common words
-                        */}
                             {this.state.ready ? (
                                 <div className="row">
                                     <div className="col-sm-12 col-md-6">
                                         <h3>Frequently used words</h3>
-                                        <BarChart width={400} height={400} margin={{ left: 10 }} layout="vertical" data={this.state.wordCount.slice(0, 5)}>
-                                            <XAxis type="number" orientation="top" />
-                                            <YAxis type="category" dataKey="key" />
-                                            <Bar type="monotone" dataKey="value" stroke="#8884d8" />
-                                        </BarChart>
+                                        <ResponsiveContainer width="100%" height={200}>
+                                            <BarChart width={400} height={400} margin={{ left: 10 }} layout="vertical" data={this.state.wordCount.slice(0, 5)}>
+                                                <XAxis type="number" allowDecimals={false} orientation="top" />
+                                                <YAxis type="category" dataKey="key" mirror/>
+                                                <Tooltip wrapperStyle={{ backgroundColor: '#ccc' }} />
+                                                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                                                <Bar type="monotone" dataKey="value" stroke="#8884d8" fill="rgba(255, 255, 255, 0.0)" /> />
+                                            </BarChart>
+                                        </ResponsiveContainer>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12 col-md-6">
-                                            <h3>Frequently used words</h3>
-                                            <LineChart width={730} height={250} data={this.state.responseByDate} 
-                                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                                <XAxis dataKey="date" />
-                                                <YAxis />
-                                                <Line dataKey="value"/>
-                                            </LineChart>
+                                            <h3>Responses by date</h3>
+                                            <ResponsiveContainer width="100%" height={200}>
+                                                <LineChart width={730} height={250} data={this.state.responseByDate} 
+                                                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                                    <XAxis dataKey="date" />
+                                                    <YAxis />
+                                                    <Tooltip wrapperStyle={{ width: 100, backgroundColor: '#ccc' }} />
+                                                    <CartesianGrid stroke="#ccc" fill="#8884d8" strokeDasharray="5 5" />
+                                                    <Line dataKey="value"/>
+                                                </LineChart>
+                                            </ResponsiveContainer>
                                         </div>
                                     </div>
                                 </div>

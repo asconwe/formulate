@@ -33,7 +33,8 @@ module.exports = (app) => {
         if (!req.user) {
             return res.status(401).json({ success: false });
         }
-        User.findOne({ username: req.user.username }, (err, thisUser) => {
+        
+        User.findOne({ email: req.user.email }, (err, thisUser) => {
             if (err) return res.status(500).json({
                 success: false,
                 message: 'There was an issue publishing your form, please try again.'

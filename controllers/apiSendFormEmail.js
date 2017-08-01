@@ -20,7 +20,7 @@ module.exports = (app) => {
                 });
                 const { refId } = req.params;
                 const { email } = req.body;
-                const { username } = req.user;
+                const userEmail = req.user.email;
                 thisForm.pointedResponses.push({ email: email });
                 const saveId = thisForm.pointedResponses[thisForm.pointedResponses.length - 1]._id;
                 thisForm.save((err) => {
@@ -32,12 +32,11 @@ module.exports = (app) => {
                     const base = 'https://www.formulate.fyi' // 'http://localhost:3000' : 'https://formulate-fyi.herokuapp.com';
                     // setup email data
                     let mailOptions = {
-                        from: `"${username} -- formulate" <${username}>`, // Sender address
-                        to: `${email}`, // list of receivers
-                        subject: `You've received a formulate form from ${username}`, // Subject line
-                        text: `Email address: ${email}, username: ${username}, & URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
-                        html: `Email address: ${email}<br>
-                        username: ${username}<br> 
+                        from: `<${userEmail}>`, // Sender address
+                        to: `<${email}>`, // list of receivers
+                        subject: `You've received a formulate form from ${userEmail}`, // Subject line
+                        text: `Email address: ${userEmail}, URL: ${base}/#/pointed/${saveId}/${refId}`, // plain text body
+                        html: `Email address: ${userEmail}<br>
                         URL: <a href="${base}/#/pointed/${saveId}/${refId}">Click here to access your form</a>
                         <br>============================<br>
                         Automated delivery` // html body
