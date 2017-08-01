@@ -26,11 +26,11 @@ class SignUp extends React.Component {
             <div className="row">
                 <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
                     <form onSubmit={this.handleSubmit}>
-                        <h2>Sign up</h2>
+                        <h2>Sign up:</h2>
                         <div className="input-group vertical">
-                            <label htmlFor="email">Email</label>
-                            <input type="text" name="email" />
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" name="email" />
+                            <label htmlFor="password">Password:</label>
                             <input type="password" name="password" />
                             <button type="submit">Sign up</button>
                         </div>

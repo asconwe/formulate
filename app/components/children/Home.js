@@ -44,15 +44,23 @@ class Home extends React.Component {
                                 <div className="col-sm-12">
                                     <br />
                                 </div>
-                                <div className="col-sm-6">
-                                    <h2>Send better forms --> Get better answers</h2>
-                                    <p>Formulate is a streamlined form-builder and response-manager, designed to make the process of sharing surveys or soliciting applications a breeze for everyone involved. Organizations can easily build custom forms and view, manage, and analyze responses, while, on the other end, users just fill out and click submit. Gone are the days of the emailed PDF that the user forgot to save before they sent back.</p>
-                                    <h2>Get Started today! <button>Sign up</button></h2>
+                                <div className="col-sm-12 col-md-6">
+                                <div className="row">
+                                        <div className="col-sm-10 col-sm-offset-1">
+                                            <h2>Send better forms --> Get better answers</h2>
+                                            <p>Formulate is a streamlined form-builder and response-manager, designed to make the process of sharing surveys or soliciting applications a breeze for everyone involved. Organizations can easily build custom forms and view, manage, and analyze responses, while, on the other end, users just fill out and click submit. Gone are the days of the emailed PDF that the user forgot to save before they sent back.</p>
+                                            <h2>Get Started today! <button>Sign up</button></h2>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="col-sm-6 col-md-4 col-md-offset-1" style={{borderLeft: 'solid 1px #ddf'}}>
-                                    <h2>No more mail-merge<small>Let Formulate send forms for you</small></h2>
-                                    <h2>Don't let your applicants work double<small>No lost data with auto saving responses</small></h2>
-                                    <h2>Dont worry about your image <small>Formulate forms are neat and professional</small></h2>
+                                <div className="col-sm-12 col-md-6" style={{borderLeft: 'solid 1px #ddf'}}>
+                                    <div className="row">
+                                        <div className="col-sm-10 col-sm-offset-1">
+                                            <h2>No more mail-merge<small>Let Formulate send forms for you</small></h2>
+                                            <h2>Don't let your applicants work double<small>No lost data with auto saving responses</small></h2>
+                                            <h2>Dont worry about your image <small>Formulate forms are neat and professional</small></h2>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
