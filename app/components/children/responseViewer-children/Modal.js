@@ -6,17 +6,33 @@ const modalStyle = {
     height: '100%',
     left: 0,
     top: 0,
-    background: 'rgba(0, 0, 0, 0.5)',
-    paddingTop: '100px'
+    background: 'rgba(50, 50, 50, 0.9)',
+}
+
+const fullHeight = {
+    height: '100%'
+};
+
+const innerModal = {
+    position: 'relative', 
+    margin: '50px auto',
+    background: 'white', 
+    paddingBottom: '50px', 
+    overflowY: 'auto'
+}
+
+const handleScroll = (event) => {
+     console.log(event);
+     event.stopPropagation();
 }
 
 const Modal = ({content, elements, closeModal}) => {
     return (
-        <div style={modalStyle} onClick={closeModal}>
-            <div style={{position: 'relative'}}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1 bordered rounded" style={{background: 'white', paddingBottom: '50px'}}>
+        <div style={modalStyle} onScroll={handleScroll} onClick={closeModal}>
+            <div style={fullHeight}>
+                <div style={fullHeight} className="container">
+                    <div style={fullHeight} className="row">
+                        <div className="col-sm-10 col-sm-offset-1 bordered rounded" style={innerModal}>
                             <p style={{ textAlign: 'center', color: 'grey' }}><small>click anywhere to close</small></p>
                             <h2>{content.user}</h2>
                             {content.response.content.map((response, index) => {

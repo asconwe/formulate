@@ -26,7 +26,7 @@ module.exports = (app) => {
                 const wordCounts = countWords(wordArr);
                 const sortedWordCountArr = wordCounts.sort((a, b) => {
                     return b.value - a.value;
-                })
+                });
                 const aggregateResponse = Object.assign({}, {
                     elements: form.elements,
                     formTitle: form.formTitle,
