@@ -126,7 +126,6 @@ class FormBuilder extends React.Component {
     handleDrag(event, index) {
         event.stopPropagation();
         const oneTwelfth = window.innerWidth * 10 / 12 / 12;
-        console.log(index);
         const currentSize = parseInt(this.state.elements[index].size, 10);
         if (event.type === "drag") {
             const difference = event.pageX - this.state.dragStart;
@@ -159,7 +158,6 @@ class FormBuilder extends React.Component {
     }
 
     handleSizeChange(size, index) {
-        console.log(size, index);
         const elementContent = Object.assign({}, { size: size });
         this.editElementInPlace(index, elementContent);
     }

@@ -17,7 +17,6 @@ module.exports = (app) => {
             const refId = thisUser.forms[0]._id;
             thisUser.save((err) => {
                 if (err) {
-                    console.log('thisUser.save error', err)
                     return res.status(500).json({
                         success: false,
                         message: 'There was an issue saving your form, please try again.'

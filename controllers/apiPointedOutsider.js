@@ -10,8 +10,6 @@ module.exports = (app) => {
             });
             const save_id = mongoose.Types.ObjectId(req.params.saveId);
             const responseObj = thisForm.pointedResponses.id(save_id) || { response: [] };
-            console.log('=================', thisForm.pointedResponses);
-            console.log('-------------------', req.params.saveId);
             const responseForm = Object.assign({}, {
                 formTitle: thisForm.formTitle,
                 elements: thisForm.elements,

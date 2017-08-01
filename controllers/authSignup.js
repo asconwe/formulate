@@ -9,7 +9,6 @@ passport.use(localSignup, localSignupStrategy);
 
 module.exports = (app) => {
     app.post('/auth/signup', (req, res, next) => {
-        console.log('in auth signup')
         const validationResult = validateSignupForm(req.body);
         if (!validationResult.success) {
             return res.status(400).json({
@@ -20,7 +19,6 @@ module.exports = (app) => {
         }
         
         return passport.authenticate(localSignup, (err, user, info) => {
-            console.log('user::::', user, info);
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
                     // the 11000 Mongo code is for a duplication email error
@@ -54,15 +52,12 @@ module.exports = (app) => {
             };
             // send email then in call back send response
             sendEmail(mailOptions, (error, info) => {
-                console.log('sendEmail callback');
                 if (error) {
-                    console.log(error);
                     return res.status(500).json({
                         success: false,
                         message: 'Could not send verification email.'
                     });
                 }
-                console.log('success?');
                 return res.status(200).json({
                     success: true,
                     message: 'You have successfully signed up! Now you should be able to log in.'
