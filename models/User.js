@@ -3,12 +3,13 @@ const bcrypt = require("bcrypt");
 const formSchema = require('./formSchema');
 
 const userSchema = mongoose.Schema({
-    username: {
+    email: {
         type: String,
         index: { unique: true }
     },
     password: String,
-    forms: [formSchema]
+    forms: [formSchema],
+    verified: Boolean
 });
 
 userSchema.methods.validatePassword = function comparePassword(password, callback) {

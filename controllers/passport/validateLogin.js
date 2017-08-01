@@ -5,9 +5,9 @@ const validateLoginForm = (payload) => {
     let isFormValid = true;
     let message = '';
 
-    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
+    if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
         isFormValid = false;
-        errors.username = 'Please provide your email address.';
+        errors.email = 'Please provide your email address.';
     }
 
     if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {

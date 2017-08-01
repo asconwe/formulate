@@ -5,9 +5,9 @@ function validateSignupForm(payload) {
     let isFormValid = true;
     let message = '';
 
-    if (!payload || typeof payload.username !== 'string') {
+    if (!payload || typeof payload.email !== 'string') {
         isFormValid = false;
-        errors.username = 'Please provide a correct email address.';
+        errors.email = 'Please provide a correct email address.';
     }
 
     if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8) {
