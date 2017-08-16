@@ -9,7 +9,7 @@ Formulate is a streamlined form-builder and response-manager, designed to make t
 ### Form customization is made easy with drag-and-drop reordering and resizing - 
 ![alt text](./gif/formulate.gif "Formbuilder demo")
 
-### Plus your form will look good on any device with automatic mobile responsiveness -
+### Plus, your form will look good on any device with automatic mobile responsiveness -
 ![alt text](./gif/responsive-form.gif "Responsiveness demo")
  
- Try formulate now - [formulate.fyi](https://www.formualate.fyi)
+ Try formulate now - [formulate.fyi](https://www.formulate.fyi)
